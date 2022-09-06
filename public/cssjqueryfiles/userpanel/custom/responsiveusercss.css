@@ -1,0 +1,39 @@
+@media only screen and (max-width: 1140px){
+	
+	
+	.header-top-two .top-right .links li{
+		margin-left:15px;
+	}
+	
+}
+
+
+@media only screen and (max-width: 767px){
+
+	.topbar{
+		position: static;
+		width: 100%;
+		left: 0;
+		top: 0;
+	}
+
+	.topbar-nav{
+		font-size: 12px;
+		float: none;
+		display: table;
+		margin-left: auto;
+		margin-right: auto;
+		text-align: center;
+	}
+	
+}
+
+
+@media only screen and (max-width: 479px) {
+
+	.property-block .inner-box .lower-content .lower-box{
+		padding:10px 12px 8px;
+	}
+}
+
+

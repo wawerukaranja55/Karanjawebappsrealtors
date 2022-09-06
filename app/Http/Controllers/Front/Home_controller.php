@@ -1,0 +1,89 @@
+<?php
+
+namespace App\Http\Controllers\Front;
+
+use App\Models\Room_name;
+use App\Models\Subscriber;
+use Illuminate\Http\Request;
+use Spatie\Newsletter\Newsletter;
+use App\Http\Controllers\Controller;
+use App\Models\Property;
+use App\Models\Rental_category;
+use App\Models\Rental_tags;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
+use App\Models\Rental_house;
+
+class Home_controller extends Controller
+{
+    public function index()
+    {
+        $showcommercialhses=Rental_house::where(['rentalcat_id'=>2,'is_rentable'=>1])->latest()->take(4)->get();
+        $showlatestbedsitters=Rental_tags::where('id',6)->with(['tagshouse'])->latest()->take(4)->get();
+        $showlatestproperties=Property::where('property_isactive',1)->latest()->take(4)->get();
+        return view('Front.homepage',compact('showcommercialhses','showlatestbedsitters','showlatestproperties'));
+    }
+
+    public function contactus()
+    {
+        return view('Front.contact');
+    }
+
+    // show the rooms for a house on the register modal and page
+    public function getroomsforahouse(Request $request)
+    {
+        $roomsforahouse=Room_name::where(['rentalhouse_id'=>$request->id,'status'=>1,'is_occupied'=>0])->select('room_name','id')->get();
+
+        return response()->json($roomsforahouse);
+
+    }
+
+    // store subscribers into the db
+    public function newslettersubscribe(Request $request)
+    {
+        $data=$request->all();
+        $checksubscriber=Subscriber::where('email',$data['email'])->count();
+        if($checksubscriber>0){
+            $message="You have already subscribed to the Subscription List.";
+            return response()->json(['status'=>400,
+                                    'message'=>$message]);
+        }else{
+
+            $data=$request->all();
+
+            Subscriber::create([
+                'email'=>$data['email']
+            ]);
+
+            $message="Thank You For Subscribing to Our List.We'll be Sending You Updates On Rental Houses";
+            return response()->json([
+                'success'=>200,
+                'message'=>$message
+            ]);
+        }
+        
+    }
+
+    // write to the admin in the contact us page
+    public function contactadmin(Request $request)
+    {
+        $data=$request->all();
+        // send email admin to inform them to login
+        $email="stephewaweru@gmail.com";
+
+        $contactemail=$data['contact_email'];
+        $contactname=$data['contact_name'];
+        $contactphone=$data['contact_phone'];
+        $contactmsg=$data['contact_details'];
+        $messagedata=['contactphone'=>$contactphone,'contactemail'=>$contactemail,'contactmsg'=>$contactmsg,'contactname'=>$contactname,'contactmsg'=>$contactmsg];
+
+        Mail::send('emails.contactadmin', $messagedata, function ($message) use($email) {
+            $message->to($email)->subject('Message/Request from a User');
+        });
+
+        return response()->json([
+            'status'=>200,
+            'message'=>'Your Message has been successfully sent.We will get back to You Very Soon!'
+        ]);
+    }
+}
