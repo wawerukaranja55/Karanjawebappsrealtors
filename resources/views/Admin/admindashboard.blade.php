@@ -61,7 +61,7 @@
                                  {{-- <span class='tenanticon mr-3 text-danger'></span> --}}
                                  <img class="tenanticon" src="{{ asset ('imagesforthewebsite/icons/tenant.png') }}">
                                  <div class="d-flex flex-column justify-content-around">
-                                    <small class="mb-1 font-weight-bold" style="color:rgb(8, 2, 2); font-size: 14px;">All Tenants</small>
+                                    <small class="mb-1 font-weight-bold" style="color:rgb(8, 2, 2); font-size: 14px;">All Registered Users</small>
                                     <h5 class="mr-2 mb-0 detailsnumber">{{ $tenants }}</h5>
                                  </div>
                               </div>
@@ -113,7 +113,7 @@
                      <div class="event-feed latest" style="border: 1px solid;
                      padding: 5px;
                      box-shadow: 5px 5px 5px 5px #888888;">
-                           <img src="{{asset('imagesforthewebsite/rentalhouses/rentalimages/medium/'.$hse->rental_image) }}"  alt="{{ $hse->rental_name }}" style="width:100%; height:200px;">
+                           <img src="{{ asset('imagesforthewebsite/rentalhouses/rentalimages/medium/'.$hse->rental_image) }}"  alt="{{ $hse->rental_name }}" style="width:100%; height:200px;">
                            
                            <h4>{{ $hse->rental_name }}</h4>
                            <ul style="list-style-type: none;">

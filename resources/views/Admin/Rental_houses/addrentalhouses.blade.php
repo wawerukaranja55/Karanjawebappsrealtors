@@ -3,22 +3,22 @@
 @section('content')
 {{-- Add A Rental House --}}
 <div class="content-wrapper">
-    <div class="row" style="margin: 18px 0;">
-        <div class="col-lg-6" style="
-        display: flex;
-        justify-content: center;">
-            <div class="pull-left p-10">
-                <a class="btn btn-success" href="{{ url('admin/rental_houses') }}">All Rental Houses</a>
-            </div>
+    <div class="row" style="
+    display: flex;
+    justify-content: center;">
+        <div class="col-md-4">
+            <a class="btn btn-dark" href="{{ url('admin/inactiverentals') }}">Inactive Rental Houses</a>
         </div>
-        <div class="col-lg-6" style="
-        display: flex;
-        justify-content: center;">
-            <div class="pull-right p-10">
-                <a class="btn btn-success" href="#" data-target="#categorymodal" data-toggle="modal">Add A New Category</a>
-            </div>
+        <div class="col-md-4">
+            <a class="btn btn-dark" href="{{ url('admin/activerentals') }}">Activated Rental Houses</a>
         </div>
-    </div>
+        {{-- <div class="col-md-4">
+            <a class="btn btn-dark" href="{{ route('addrentalhse') }}">Add a New Rental House</a>
+        </div> --}}
+        <div class="col-md-4">
+            <a class="btn btn-dark" href="{{ route('alllocations.index') }}">Add a New Location</a>
+        </div>
+    </div
     <div class="row" style="margin-bottom: 100px;">    
         <div class="col-lg-8 col-md-8 mx-auto">
             <div class="panel-heading mt-5" style="text-align: center; font-size:18px; background-color:black;"> 
@@ -38,7 +38,7 @@
     
                             <div class="form-group inputdetails col-sm-6">
                                 <label>Rental Monthly Price<span class="text-danger inputrequired">*</span></label>
-                                <input type="text" class="form-control text-white bg-dark" required name="monthly_rent" id="monthly_rent" placeholder="Write The Monthly Rent Price">
+                                <input type="number" class="form-control text-white bg-dark" required name="monthly_rent" id="monthly_rent" placeholder="Write The Monthly Rent Price">
                             </div>
                         </div>
 
@@ -57,8 +57,8 @@
                         <div class="row section-groups">
                             <div class="form-group inputdetails col-sm-6">
                                 <label>Rental Location<span class="text-danger inputrequired">*</span></label><br>
-                                <select name="rentalhouselocation" class="adminselect2 form-control text-white bg-dark" required style="width: 100%;">
-                                    <option>Choose a Rental Location</option>
+                                <select name="location_id" class="adminselect2 form-control text-white bg-dark" required style="width: 100%;">
+                                    <option value=" ">Choose a Rental Location</option>
                                     @foreach($allrentallocations as $location)
                                         <option value="{{ $location['id'] }}"
                                             @if (!empty (@old('location_id')) && $location->id==@old('location_id'))
@@ -69,12 +69,14 @@
                             </div>
     
                             <div class="form-group inputdetails col-sm-6">
-                                <label>Vacancy Status
-                                </label><br>
-                                <select name="rentalhousevacancy" class="adminselect2 form-control text-white bg-dark" style="width: 100%;" required>
-                                    <option>Choose a Vacancy</option>
-                                    @foreach($allvacancystatus as $vacancy)
-                                        <option value="{{ $vacancy['id'] }}">{{ $vacancy->vacancystatus_title }}</option>
+                                <label>Rental category<span class="text-danger inputrequired">*</span></label><br>
+                                <select name="rentalcat_id" class="adminselect2 form-control text-white bg-dark" style="width: 100%;" required>
+                                    <option value=" ">Choose a Rental Category</option>
+                                    @foreach($allrentalcategories as $category)
+                                        <option value="{{ $category['id'] }}"
+                                            @if (!empty (@old('category_id')) && $category->id==@old('category_id'))
+                                                selected=""    
+                                            @endif>{{ $category->rentalcat_title }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -93,25 +95,11 @@
                         </div>
     
                         <div class="row section-groups">
-                            <div class="form-group inputdetails col-sm-4">
+                            <div class="form-group inputdetails col-sm-6">
                                 <label>Total No. of houses/rooms<span class="text-danger inputrequired">*</span></label>
                                 <input type="number" class="form-control text-white bg-dark" required name="total_rooms" placeholder="Write The total number of houses in that rental house">
                             </div>
-    
-                            <div class="form-group inputdetails col-sm-4">
-                                <label>Rental category<span class="text-danger inputrequired">*</span></label><br>
-                                <select name="rentalhousecategory" class="adminselect2 form-control text-white bg-dark" style="width: 100%;" required>
-                                    <option>Choose a Rental Category</option>
-                                    @foreach($allrentalcategories as $category)
-                                        <option value="{{ $category['id'] }}"
-                                            @if (!empty (@old('category_id')) && $category->id==@old('category_id'))
-                                                selected=""    
-                                            @endif>{{ $category->rentalcat_title }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <div class="form-group inputdetails col-sm-4">
+                            <div class="form-group inputdetails col-sm-6">
                                 <div class="custom-control custom-checkbox" style="margin-top: 10px;">
                                     <input type="checkbox" class="custom-control-input" name="is_featured" value="yes" id="osahan-checkbox6">
                                     <label class="custom-control-label" for="osahan-checkbox6">Featured</label>
@@ -130,10 +118,19 @@
                                 <input type="file" name="rental_image" accept="image/*" required>
                                 <span class="font-italic">Recommended size:width  1040px by height 1200px</span>
                             </div>
-                            <div class="col-md-6 inputdetails">
+                            <div class="form-group inputdetails col-sm-6">
+                                <label>House Owner(Landlord)<span class="text-danger inputrequired">*</span></label><br>
+                                <select name="landlord_id" class="adminselect2 form-control text-white bg-dark" style="width: 100%;" required>
+                                    <option value=" "disabled selected>Choose The House Owner(Landlord)</option>
+                                    @foreach($alllandlords as $landlord)
+                                        <option value="{{ $landlord['id'] }}">{{ $landlord->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            {{-- <div class="col-md-6 inputdetails">
                                 <h5 class="card-title mb-4">Rental House Profile Video</h5>
                                 <input type="file" name="rental_video" accept="video/*">
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </div>
@@ -176,11 +173,20 @@
                 </div>
                 
                 <button type="submit" class="btn btn-success">ADD RENTAL HOUSE</button>
+
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
             </form>
         </div>
     </div>       
 </div>
 @endsection
-
 
 

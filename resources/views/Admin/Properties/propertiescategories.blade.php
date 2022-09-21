@@ -47,7 +47,7 @@
                     <th>Name</th>
                     <th>Slug</th>
                     <th>Status</th>
-                    <th>Delete</th>
+                    <th>Edit</th>
                 </tr>
             </thead>
             <tbody></tbody>
@@ -59,6 +59,29 @@
 
 @section('propertycategoriesscripts')
     <script>
+        $(document).ready(function(){
+
+            var url = '{{ route("storepropertycat") }}';
+                    
+            $("#addapropertycategory").on("submit",function(e){
+                e.preventDefault();
+                $.ajax({
+                    url:url,
+                    type:"POST",
+                    data:$("#addapropertycategory").serialize(),
+                    success:function(response){
+                        console.log(response)
+                        if (response.status==200)
+                        {
+                            propertycategoriestable.ajax.reload();
+                            alertify.set('notifier','position', 'top-right');
+                            alertify.success(response.message);
+                        }
+                    }
+                });
+            })
+        });
+
         // show all property categories in a datatable
         var propertycategoriestable = $('#propertycategories').DataTable({
           processing:true,
@@ -70,15 +93,21 @@
               { data: 'id' },
               { data: 'propertycat_title' },
               { data: 'propertycat_url' },
-              { data: 'status',name:'status',orderable:false,searchable:false },
-              { data: 'action',name:'action',orderable:false,searchable:false },
-          ],
-
-          "fnDrawCallback": function( row ) {
-            $('.propertycats_status')
-            .prop( 'checked', row.status !== 1 )
-            .bootstrapToggle();
-          }
+              { data: 'status',
+                    render: function ( data, type, row ) {
+                        if ( type === 'display' ) {
+                            return '<input class="toggle-class propertycats_status" type="checkbox" checked data-toggle="toggle" data-id="' + row.id + '" data-on="Active" data-off="Not Active" data-onstyle="success" data-offstyle="danger">';
+                        }
+                        return data;
+                    }
+                },
+                { data: 'edit',name:'edit',orderable:false,searchable:false },
+            ],
+            rowCallback: function ( row, data ) {
+                $('input.propertycats_status', row)
+                .prop( 'checked', data.status == 1 )
+                .bootstrapToggle();
+            }
         });
 
         //  update property category status from active to inactive
@@ -103,125 +132,80 @@
             });
         });
 
-                // add a new tag for the rental houses
-        $(document).ready(function(){
-            var url = '{{ route("addrentaltag") }}';        
-            $("#addatag").on("submit",function(e){
-                e.preventDefault();
-                $.ajax({
-                    url:url,
-                    type:"POST",
-                    data:$("#addatag").serialize(),
-                    success:function(response){
-                        console.log(response.message);
-                        rentalhousestable.ajax.reload();
-                        alertify.set('notifier','position', 'top-right');
-                        alertify.success(response.message);
-                    },
-                    error:function(response){
-                        console.log(response);
-                        if(error){
-                            alertify.set('notifier','position', 'top-right');
-                            alertify.success(response.message);
-                        }
-                    }
-                });
+        // edit and update property category details
+        $(document).on('click','.editpropcatbutton',function(e){
+            e.preventDefault();
+            var propertycatid=$(this).data('id');
+            console.log(propertycatid);
+
+            $.ajax({
+                url:'{{ url("admin/propertycategories",'') }}' + '/' + propertycatid + '/edit',
+                method:'GET',
+                success:function(response){
+                    console.log(response);
+                    $('#rentalhsecategorymodal').modal('show');
+                    
+                    $('#rentalhsecat_id').html('');
+                    
+                    
+
+                    $('#property_category').html('');
+                    $('#rental_tagname').html('');
+                    $('#roomsize_name').html('');
+                    $('#room_name').html('');
+                    $('#role_name').html('');
+
+
+                    $('.modal-title').html('Edit Property Category Details');
+                    $('.catlabel').html('Property Category Title');
+                    $('.catsluglabel').html('Property Category Slug');
+                    $('#propertycategory_id').val(response.id);
+                    $('.catinput').val(response.propertycat_title);
+                    $('#rentalcategory_slug').val(response.propertycat_url);
+                    $('.update_button').html('Update Property Category');
+                }
             })
         });
 
-        // show modal for editin rental tag
-        $('body').on('click','.editrentaltag',function(){
-            var rentaltagid=$(this).data('id');
+            //   update location details
+        $(document).on('click','.update_button',function(e){
+            e.preventDefault();
+            
+            $propertycategoryid=$('#propertycategory_id').val();
+
+            var url = '{{ route("update.propertycategory", ":id") }}';
+            updatepropertycaturl = url.replace(':id', $propertycategoryid);
+
+            var form = $('.updatepropertcat_form')[0];
+            var formdata=new FormData(form);
 
             $.ajax({
-                url:'{{ url("admin/rentaltag",'') }}' + '/' + rentaltagid + '/edit',
-                method:'GET',
-                success:function(response){
-                console.log(response);
-                $('.propertycategory').modal('show');
-                $('.modal-title').html('Edit Rental Tag');
-                $('.catlabel').html('Rental Tag');
-                $('.save_button').html('Update Rental Tag');
-                $('#property_category').hide('');
-                $('#rental_tagname').show();
-                $('.taginput').val(response.rentaltag_title);
-
-                $('#rentaltag_id').val(response.id);
-
-                }
-            })
-
-            //   update rental tags details
-            $('.save_button').click(function(){
-
-                var url = '{{ route("updaterentaltag", ":id") }}';
-                updatetagurl = url.replace(':id', rentaltagid);
-
-                var form = $('.propertcat_form')[0];
-                var formdata=new FormData(form);
-                
-                $.ajax({
-                    url:updatetagurl,
-                    method:'POST',
-                    processData:false,
-                    contentType:false,
-                    data:formdata,
-                    success:function(response)
-                    {
-                        console.log(response.status);
-                        if (response.status==400)
-                        {
-                            alertify.set('notifier','position', 'top-right');
-                            alertify.success(response.message);
-                            $('.propertycategory').modal('hide');
-                            
-                            $('.catinput').val('');
-                            $('#propertycat_id').val('');
-
-                        } else if (response.status==200)
-                        {
-                            alertify.set('notifier','position', 'top-right');
-                            alertify.success(response.message);
-                            rentalhousestagstable.ajax.reload();
-                            $('.propertycategory').modal('hide'); 
-                            $('.catinput').val('');
-                            $('#propertycat_id').val('');
-                        }
-
-                    }
-                });
-            })
-        })
-        
-        // Delete rental tag from the db
-        $(document).on('click','#deleterentaltag',function(){
-
-            var deletetagid=$(this).data('id');
-
-            $('.removepropertycategory').modal('show');
-            $('.modal-title').html('Delete Rental Tag');
-            $('#propertycategory_id').val(deletetagid);
-
-        })
-
-        $(document).on('click','#deletepropertycategory',function()
-        {
-            var deletetagid=$('#propertycategory_id').val();
-
-            $.ajax({
-                type:"DELETE",
-                url:'{{ url("admin/delete_rentaltag",'') }}' + '/' + deletetagid,
-                dataType:"json",
+                url:updatepropertycaturl,
+                method:'POST',
+                processData:false,
+                contentType:false,
+                data:formdata,
                 success:function(response)
                 {
-                    alertify.set('notifier','position', 'top-right');
-                    alertify.success(response.message);
-                    rentalhousestagstable.ajax.reload();
-                    $('.removepropertycategory').modal('hide');
-                    $('#propertycategory_id').val('');
+                    console.log(response);
+                    if (response.status==200)
+                    {
+                        alertify.set('notifier','position', 'top-right');
+                        alertify.success(response.message);
+                        propertycategoriestable.ajax.reload();
+                        $('#rentalhsecategorymodal').modal('hide');
+                    }
+                    else if (response.status==400)
+                    {
+                        alertify.set('notifier','position', 'top-right');
+                        alertify.success(response.message);
+                        propertycategoriestable.ajax.reload();
+                        $('#rentalhsecategorymodal').modal('hide');
+                    } 
+
                 }
-            })
-        })
+            });
+        });
     </script>
 @stop
 

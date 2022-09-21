@@ -22,7 +22,7 @@
              </ul>
           </div>
           <div class="logo-element">
-             Jamar+
+              W.KaranjaApps+
           </div>
        </li>
        
@@ -66,9 +66,9 @@
       </li>
 
       {{-- rental spaces link --}}
-      @if (Session::get('page')=="activerentals" && 
-            Session::get('page')=="inactiverentals" &&
-            Session::get('page')=="tagscatmngt")
+      @if (Session::get('page')=="activerentals" || 
+            Session::get('page')=="inactiverentals" ||
+            Session::get('page')=="addrental_house")
          <?php $active="active";?>
       @else
          <?php $active="";?>
@@ -109,11 +109,10 @@
       </li>
 
       {{-- admin properties to sell --}}
-      @if (Session::get('page')=="propertiescategories" && 
-           Session::get('page')=="inactiveproperties" && 
-           Session::get('page')=="activeproperties" && 
-           Session::get('page')=="addaproperty" &&
-           Session::get('page')=="editaproperty") &&
+      @if (Session::get('page')=="propertiescategories" || 
+           Session::get('page')=="inactiveproperties" || 
+           Session::get('page')=="activeproperties" || 
+           Session::get('page')=="addproperty")
          <?php $active="active";?>
       @else
          <?php $active="";?>
@@ -161,7 +160,7 @@
             </li>
 
             {{-- Add a new Property --}}
-            @if (Session::get('page')=="addaproperty")
+            @if (Session::get('page')=="addproperty")
                <?php $active="active";?>
             @else
                <?php $active="";?>
@@ -175,8 +174,8 @@
       </li>
 
       {{-- manage Registered users --}}
-      @if (Session::get('page')=="companyadmins" && 
-            Session::get('page')=="user_roles" && 
+      @if (Session::get('page')=="assignuser_roles" || 
+            Session::get('page')=="user_roles" || 
             Session::get('page')=="house_requests")
          <?php $active="active";?>
       @else
@@ -256,7 +255,7 @@
          @endif
          <li class="{{ $active }}">
             <a href="{{ url('admin/show_allmemos') }}">
-               <i class="fa fa-sticky-note-o" aria-hidden="true"></i>
+               <i class="fa fa-sticky-note" aria-hidden="true"></i>
                <span class="nav-label">Manage Memos Sent to Admin and Tenants</span>
             </a>
          </li>

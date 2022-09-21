@@ -14,23 +14,23 @@ use Yajra\DataTables\Facades\DataTables;
 
 class Activerentals_controller extends Controller
 {
-    // Inactive Rental Hses management
+    // Active Rental Hses management
     public function activerentalhses()
     {
-        $allrentaltags=Rental_tags::where('status',1)->get();
+        // $allrentaltags=Rental_tags::where('status',1)->get();
         
 
-        $allrentalcategories=Rental_category::where('status',1)->get();
+        // $allrentalcategories=Rental_category::where('status',1)->get();
 
-        $allvacancystatus=Vacancy_status::where('status',1)->get();
+        // $allvacancystatus=Vacancy_status::where('status',1)->get();
 
-        // $rentaldata=Rental_house::with('rentalalternateimages')->find($id);
+        // // $rentaldata=Rental_house::with('rentalalternateimages')->find($id);
         
-        $allrentallocations=Location::where('status',1)->get();
+        // $allrentallocations=Location::where('status',1)->get();
 
         Session::put('page','activerentals');
 
-        return view('Admin.Rental_houses.activehouses',compact('allrentaltags','allrentalcategories','allvacancystatus','allrentallocations','allrentallocations'));
+        return view('Admin.Rental_houses.activehouses');
     }
 
     // show active rental houses

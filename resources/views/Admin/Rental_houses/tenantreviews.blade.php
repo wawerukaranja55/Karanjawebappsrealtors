@@ -1,19 +1,21 @@
 @extends('Admin.adminmaster')
 @section('title','Tenants Reviews and Ratings Management')
 @section('content')
-<div class="row" style="margin-top: 50px;">
-    <div class="col-md-3" style="margin: 3px;">
-        <a class="btn btn-success" href="{{ url('admin/rental_houses') }}">All Rental Houses</a>  
-    </div>
-    <div class="col-md-3" style="margin: 3px;">
-        <a class="btn btn-success" href="{{ url('admin/properties') }}">All Properties to Sell</a> 
-    </div>
-    <div class="col-md-3" style="margin: 3px;">
-        <a class="btn btn-success" href="{{ url('admin/mpesa_payments') }}">All Mpesa Payments</a> 
-    </div>
-    <div class="col-md-3" style="margin: 3px;">
-        <a class="btn btn-success" href="{{ url('admin/registered_users') }}">All Registered Tenants</a> 
-    </div>
+<div class="row" style="
+    display: flex;
+    justify-content: center;">
+   <div class="col-md-3">
+      <a class="btn btn-dark" href="{{ route('active.properties') }}">Actived Properties</a>
+   </div>
+   <div class="col-md-3">
+      <a class="btn btn-dark" href="{{ url('admin/assign_userroles') }}">All Registered Users</a>
+   </div>
+   <div class="col-md-3">
+      <a class="btn btn-dark" href="{{ url('admin/mpesa_payments') }}">All Mpesa Payments</a>
+   </div>
+   <div class="col-md-3">
+      <a class="btn btn-dark" href="{{ url('admin/activerentals') }}">Activated Rental Houses</a>
+   </div>
 </div>
 <div class="row" style="margin-top: 50px;">
     <div class="col-md-12">

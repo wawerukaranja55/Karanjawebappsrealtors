@@ -86,6 +86,7 @@ class Admindashboard_controller extends Controller
 
     public function allmemospage()
     {  
+        Session::put('page','allmemos');
         return view('Admin.companymemos');
     }
 
@@ -104,7 +105,7 @@ class Admindashboard_controller extends Controller
 
             ->addColumn ('viewmemo',function($row){
                 return 
-                    '<a href="/viewmmemo/'.$row->id.'" target="_blank" title="View The Memo" class="btn btn-success viewmemo"><i class="fa fa-eye" aria-hidden="true"></i></a>';
+                    '<a href="/admin/show_memo/'.$row->id.'" target="_blank" title="View The Memo" class="btn btn-success viewmemo"><i class="fa fa-eye" aria-hidden="true"></i></a>';
             })
             ->rawColumns(['created_at','viewmemo'])
             ->make(true);
@@ -116,12 +117,11 @@ class Admindashboard_controller extends Controller
     }
     
     // view the memo sent to the admin/tenant
-    public function viewsentmemo($id)
+    public function showmemo($id)
     {
-        $mpesadetails=Mpesapayment::where('id',$id)->first();
-        $userdetails=User::where('id',$mpesadetails['user_id'])->with(['rentalhses','hserooms'])->first();
+        $memodetails=Company_memo::where('id',$id)->first();
 
-        return view('Front.Tenant.mpesareceipt',compact('mpesadetails','userdetails'));
+        return view('Admin.memodetails',compact('memodetails'));
     }
 
     // send memo to the tenants/admins
@@ -168,7 +168,7 @@ class Admindashboard_controller extends Controller
             $messagedata=['memotitle'=>$memotitle,'memomsg'=>$memomsg];
 
             Mail::send('emails.memotemplate', $messagedata, function ($message) use($email) {
-                $message->to('theceodave@gmail.com')->cc($email)->subject('Memo From Jamar Real Estate Realtors');
+                $message->to('theceodave@gmail.com')->cc($email)->subject('Memo From W.karanja Apps');
             });
 
             return response()->json([

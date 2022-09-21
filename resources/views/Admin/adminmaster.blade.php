@@ -113,7 +113,7 @@
          }
 
          .modal-lg{
-            max-width: 80% !important;
+            max-width: 90% !important;
          }
      </style>
      @yield('customcssstyles')
@@ -149,6 +149,10 @@
 
       <?php use App\Models\Propertycategory; 
          $allpropertycategories=Propertycategory::where('status',1)->get();
+      ?>
+
+      <?php use App\Models\User;
+          $alllandlords=User::where(['is_landlord'=>1,'is_approved'=>1])->get();
       ?>
 
       <?php use App\Models\Rental_house; ?>
@@ -245,12 +249,12 @@
               </div> 
             </div>
          </div>
-     </div> 
+     </div>
 
-            {{--edit details to the db--}}
+     {{--edit details to the db--}}
       <div class="modal fade adminedit" id="admineditmodal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
          <div class="modal-dialog">
-             <div class="modal-content">
+            <div class="modal-content">
                <div class="modal-body">
                   <div class="modal-header">
                      <h4 class="modal-title text-center" id="custom-width-modalLabel"></h4>
@@ -259,8 +263,9 @@
                      {{-- @csrf --}}
                      <input type="hidden" name="propertycat_id" id="propertycat_id">
                      <input type="hidden" name="rentaltag_id" id="rentaltag_id">
-                     <input type="hidden" name="locationid" id="location_id">
+                     <input type="hidden" name="location_id" id="location_id">
                      <input type="hidden" name="roomid" id="room_id">
+                     <input type="hidden" name="rolenameid" class="rolename_id">
 
                      <div class="modal-body">
                         <div class="form-group">
@@ -278,10 +283,48 @@
                         <button type="button" class="save_button btn btn-danger waves-effect"></button>
                      </div>
                   </form>
+            </div> 
+            </div>
+         </div>
+      </div> 
+
+            {{--edit details to the db--}}
+      {{-- <div class="modal fade adminedit" id="admineditmodal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+         <div class="modal-dialog">
+             <div class="modal-content">
+               <div class="modal-body">
+                  <div class="modal-header">
+                     <h4 class="modal-title text-center" id="custom-width-modalLabel"></h4>
+                  </div>
+                  <form action="javascript(0)" role="form" method="POST" class="adminedit_form">
+                           @csrf
+                     <input type="hidden" name="propertycat_id" class="propertycat_id">
+                     <input type="hidden" name="rentaltag_id" class="rentaltag_id">
+                     <input type="hidden" name="location_id" class="location_id">
+                     <input type="hidden" name="roomid" class="room_id">
+                     <input type="hidden" name="rolenameid" class="rolename_id">
+
+                     <div class="modal-body">
+                        <div class="form-group">
+                           <label for="property_category" class="catlabel h4"></label>
+                           <input type="text" class="form-control text-white bg-dark catinput" name="property_category" id="property_category" required>
+                           <input type="text" class="form-control text-white bg-dark" name="rentaltagname" id="rental_tagname" required>
+                           <input type="text" class="form-control text-white bg-dark" name="locationname" id="location_name" required>
+                           <input type="text" class="form-control text-white bg-dark" name="roomname" id="room_name" required>
+                           <input type="text" class="form-control text-white bg-dark" name="rolename" id="role_name" required>
+                           <input type="text" class="form-control text-white bg-dark" name="roomsizename" id="roomsize_name">
+                        </div>
+                     </div>
+                     <ul class="alert alert-warning d-none" id="edit_list"></ul>
+                     <div class="modal-footer">
+                        <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+                        <button type="submit" class="save_button btn btn-danger waves-effect"></button>
+                     </div>
+                  </form>
               </div> 
             </div>
          </div>
-     </div> 
+     </div>  --}}
 
          {{-- Modal For Editing the house details --}}
       <div class="modal fade editrentalhse" id="editrentalhsedetailsmodal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true" >
@@ -311,7 +354,7 @@
 
                                        <div class="form-group inputdetails col-sm-4">
                                              <label>Rental Monthly Price<span class="text-danger inputrequired">*</span></label>
-                                             <input type="text" class="form-control text-white bg-dark" required name="monthly_rent" id="monthly_rent">
+                                             <input type="number" class="form-control text-white bg-dark" required name="monthly_rent" id="monthly_rent">
                                        </div>
 
                                        <div class="form-group inputdetails col-sm-4">
@@ -325,10 +368,6 @@
                                        <div id="rental_details_ck" style="border:2px solid black;">
                                        </div>
                                     </div>
-                                    {{-- <div class="form-group inputdetails">
-                                       <label>Rental Details<span class="text-danger inputrequired">*</span></label>
-                                       <textarea class="form-control text-white bg-dark ckdescription" id="property-details" name="property_details" placeholder="Describe the Rental property here.explain it with as more details as possible" rows="4"></textarea>
-                                   </div> --}}
 
                                     <div class="row section-groups">
                                        <div class="form-group inputdetails col-sm-6">
@@ -342,14 +381,13 @@
                                        </div>
 
                                        <div class="form-group inputdetails col-sm-6">
-                                             <label>Vacancy Status
-                                             </label>
-                                             <select name="rentalhousevacancy" class="rentalhsevacancy form-control text-white bg-dark" required style="width:100%;">
-                                                @foreach($allvacancystatus as $vacancy)
-                                                   <option value="{{ $vacancy->id }}">{{ $vacancy->vacancystatus_title }}
-                                                   </option>
-                                                @endforeach  
-                                             </select>
+                                          <label>Rental category<span class="text-danger inputrequired">*</span></label>
+                                          <select name="rentalhousecategory" class="rentalselectcat form-control text-white bg-dark" style="width:100%;"> 
+                                             @foreach($allrentalcategories as $category)
+                                                <option value="{{ $category->id }}">{{ $category->rentalcat_title }}
+                                                </option>
+                                             @endforeach  
+                                          </select>
                                        </div>
                                     </div>
 
@@ -368,26 +406,27 @@
                                     </div>
 
                                     <div class="row section-groups">
-                                       <div class="form-group inputdetails col-sm-4">
+                                       <div class="form-group inputdetails col-sm-3">
                                              <label>Total No. of houses/rooms<span class="text-danger inputrequired">*</span></label>
                                              <input type="number" id="totalrooms" class="form-control text-white bg-dark" required name="total_rooms">
                                        </div>
 
-                                       <div class="form-group inputdetails col-sm-4">
-                                             <label>Rental category<span class="text-danger inputrequired">*</span></label>
-                                             <select name="rentalhousecategory" class="rentalselectcat form-control text-white bg-dark" required style="width:100%;"> 
-                                                @foreach($allrentalcategories as $category)
-                                                   <option value="{{ $category->id }}">{{ $category->rentalcat_title }}
-                                                   </option>
-                                                @endforeach  
-                                             </select>
-                                       </div>
-                                       <div class="form-group inputdetails col-sm-4">
+                                       <div class="form-group inputdetails col-sm-3">
                                           <div class="custom-control custom-checkbox" style="margin-top: 10px;">
                                               <input type="checkbox" class="custom-control-input editcheckbox" name="edit_is_featured" value="yes" id="osahan-checkbox">
                                               <label class="custom-control-label" for="osahan-checkbox">Featured</label>
                                           </div>
                                       </div>
+
+                                      <div class="form-group inputdetails col-sm-6">
+                                       <label>House Owner(Landlord/Landlady)<span class="text-danger inputrequired">*</span></label>
+                                       <select name="landlord_id" class="hseownerselect form-control text-white bg-dark" style="width:100%;"> 
+                                          @foreach($alllandlords as $landlord)
+                                             <option value="{{ $landlord->id }}">{{ $landlord->name }}
+                                             </option>
+                                          @endforeach  
+                                       </select>
+                                    </div>
                                     </div>
                                  </div>
                            </div>
@@ -404,14 +443,6 @@
                                                 <input type="file" name="rental_image" accept="image/*">
                                                 <input type="hidden" name="rental_image" class="rentalhseimage"/>
                                                 <span class="font-italic">Recommended size:width  1040px by height 1200px</span>
-                                             </div>
-                                             
-                                       </div>
-                                       <div class="col-md-6 inputdetails">
-                                             <h5 class="card-title mb-4">Rental House Profile Video</h5>
-                                             <div id="propertyvid">
-                                                <input type="file" name="property_video">
-                                                <input type="hidden" name="property_video" class="propertyhsevideo"/>
                                              </div>
                                              
                                        </div>
@@ -456,7 +487,7 @@
                               </div>
                            </div>
                            <button type="submit"  class="btn btn-success">Update Rental Details</button>
-                           <ul class="alert alert-warning d-none" id="update_errorlist"></ul>
+                           <ul class="alert alert-warning d-none update_errorlist"></ul>
                         </form>
                      </div>
                </div> 
@@ -475,17 +506,18 @@
                   <form action="javascript(0)" method="POST" class="updatepropertcat_form">
                      {{-- @csrf --}}
                      <input type="hidden" name="rentalhsecat_id" id="rentalhsecat_id">
+                     <input type="hidden" name="propertycat_id" id="propertycategory_id">
 
                      <div class="modal-body">
                         <div class="form-group">
                            <label for="rentalhse_category" class="catlabel h4">Rental House Category:</label>
-                           <input type="text" class="form-control text-white bg-dark catinput" name="rentalhsecategory" id="rentalhse_category" placeholder="Write a new House Category" required>
+                           <input type="text" class="form-control text-white bg-dark catinput" name="rentalhsecategory" id="rentalhse_category" required>
                         </div>
                      </div>
                      <div class="modal-body">
                         <div class="form-group">
-                           <label for="rentalhse_category" class="catsluglabel h4">Rental House Slug:</label>
-                           <input type="text" class="form-control text-white bg-dark catsluginput" name="rentalcategoryslug" id="rentalcategory_slug" placeholder="Write the Category Slug Here" required>
+                           <label for="rentalhsecategory_slug" class="catsluglabel h4">Rental House Slug:</label>
+                           <input type="text" class="form-control text-white bg-dark catsluginput" name="rentalcategoryslug" id="rentalcategory_slug" required>
                         </div>
                      </div>
                      <div class="modal-footer">
@@ -507,13 +539,14 @@
                 </div>
                <div class="modal-body">
                   <h4 class="text-center adminmodallabel" id="custom-width-modalLabel"></h4>
-                  <input type="hidden" name="rentaltag_id" id="rentaltag_id">
-                  <input type="hidden" name="userrole_id" id="userrole_id">
-                  <input type="hidden" name="roomname_id" id="roomname_id">
+                  <input type="hidden" name="rentaltag_id" class="rentaltag_id">
+                  <input type="hidden" name="userrole_id" class="userrole_id">
+                  <input type="hidden" name="roomname_id" class="roomname_id">
                   <input type="hidden" name="xtraimg_id" id="xtraimg_id">
-                  <input type="hidden" name="rentalcat_id" id="rentalcat_id">
+                  <input type="hidden" name="housevideo_id" id="housevideo_id">
+                  <input type="hidden" name="propertyvideo_id" id="propertyvideo_id">
                   <input type="hidden" name="locationid" id="locatn_id">
-                  <input type="hidden" name="userroleid" id="userrole_id">
+                  <input type="hidden" name="propertyimageid" id="propertyimage_id">
                   <h4>Are You Sure You Want to Delete?</h4>
                      <div class="modal-footer">
                         <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
@@ -542,9 +575,9 @@
                            <input type="text" class="read-only form-control" name="name" id="edit_name">
                        </div>
                        <div class="form-group">
-                           <label style="font-size:15px;">Admin Roles</label>
-                           <select name="selectname" id="roleid" class="form-control text-white bg-dark" required>
-                              <option></option>
+                           <label style="font-size:15px;">Admin Roles</label><br>
+                           <select name="selectname" id="roleid" class="adminselect2 form-control text-white bg-dark" required style="width: 100%;">
+                              <option disabled>Assign A user a different Role</option>
                               @foreach ($allroles as $role)
                                  <option value="{{ $role->id }}">
                                     {{ $role->role_name }}
@@ -613,11 +646,6 @@
                            justify-content: center; padding:5px;"> 
                            <h3 class="mb-2 panel-title text-white edit_propertytitle"></h3> 
                         </div>
-                        @if ($errors)
-                           @foreach ($errors->all() as $error)
-                                 <p class="text-danger">{{ $error }}</p>
-                           @endforeach
-                        @endif
                         <form action="javascript:void(0)" class="form-horizontal updatepropertydetails" id="updatepropertyform" role="form" method="POST" enctype="multipart/form-data">
                            @csrf
                            <input type="hidden" id="propertyid">
@@ -687,16 +715,11 @@
                                              <span class="font-italic">Recommended size:width  1040px by height 1200px</span>
                                           </div>
                                        </div>
-                                       
-                                       <div class="col-md-6 inputdetails">
-                                             <h5 class="card-title mb-4">Property Video</h5>
-                                             <input type="file" name="property_video" accept="video/*">
-                                             <input type="hidden" name="property_video" class="propertyhsevideo"/>
-                                       </div>
                                     </div>
                                  </div>
                            </div>
                            <button type="submit" id="updateproperty" class="btn btn-success">Update Property</button>
+                           <ul class="alert alert-warning d-none updateproperty_errorlist"></ul>
                         </form>
                      </div>
                </div> 
@@ -734,7 +757,7 @@
                                     <div class="row section-groups">
                                        <div class="form-group inputdetails col-sm-7">
                                           <label>Rental House of the User<span class="text-danger inputrequired">*</span></label><br>
-                                          <select id="recipienthouse" class="memoselect form-control text-white bg-dark" style="width:100%;" required>
+                                          <select id="recipienthouse" class="adminselect2 form-control text-white bg-dark" style="width:100%;" required>
                                              <option value="0" disabled="true" selected="true">Select House Name of the User</option>
                                              <?php 
                                                 $allrentalhouses=Rental_house::where(['is_extraimages'=>1,'rental_status'=>1])->get();
@@ -750,7 +773,7 @@
                                     <div class="row section-groups">
                                        <div class="form-group inputdetails col-sm-12">
                                           <label>All Tenants for the Rental House<span class="text-danger inputrequired">*</span></label><br>
-                                          <select name="tenantsadmins[]" id="usertenantnme" class="memoselect form-control text-white bg-dark" style="width:100%;" required multiple>
+                                          <select name="tenantsadmins[]" id="usertenantnme" class="adminselect2 form-control text-white bg-dark" style="width:100%;" required multiple>
                                           </select>
                                        </div>
                                     </div>
@@ -881,21 +904,21 @@
             document.getElementById('wrapper').style.display="flex";
          };
          // delete user modal and also from the database
-        $(document).on('click','.deleteadmin-btn',function()
-        {
-            var adminID=$(this).attr('data-userid');
-            $('#deleteadmindata').val(houseID); 
-            $('#deleteadminmodal').modal('show'); 
-         });
+         // $(document).on('click','.deleteadmin-btn',function()
+         // {
+         //       var adminID=$(this).attr('data-userid');
+         //    $('#deleteadmindata').val(houseID); 
+         //    $('#deleteadminmodal').modal('show'); 
+         // });
 
-         $(document).on('click','.delete-btn',function(e)
-         {
-            e.preventDefault();
+         // $(document).on('click','.delete-btn',function(e)
+         // {
+         //    e.preventDefault();
 
-            var rentalid=$(this).val();
+         //    var rentalid=$(this).val();
 
-            $('#deleterentaldata').val(rentalid);
-         })
+         //    $('#deleterentaldata').val(rentalid);
+         // })
             
          $(document).ready(function() {
 
@@ -910,6 +933,13 @@
 
 
          $(document).ready(function() {
+
+            // hide the drop zone form for changing the video on page load
+            $('.changehsevideo').hide();
+
+            $('.changepropertyvideo').hide();
+
+            // 
             $('.adminselect2').select2();
 
             // hide memo modal when page loads 
@@ -919,6 +949,31 @@
                $('.memodetailstextarea').val('');
             });
 
+            // hide admin edit modal if closed  
+            // $("#admineditmodal").on('hide.bs.modal', function(){
+            //    $('.modal-title').html('');
+            //    $('.catlabel').html('');
+            //    $('.save_button').html('');
+            //    $('.propertycat_id').html('');
+            //    $('.rentaltag_id').html('');
+            //    $('.location_id').html('');
+            //    $('.rolename_id').html('');
+            //    $('.room_id').html('');
+
+            //    $('#property_category').html('');
+            //    $('#rental_tagname').html('');
+            //    $('#location_name').html('');
+            //    $('#roomsize_name').html('');
+            //    $('#room_name').html('');
+            //    $('#role_name').html('');
+
+            //    $('#property_category').hide();
+            //    $('#rental_tagname').hide();
+            //    $('#location_name').hide();
+            //    $('#roomsize_name').hide();
+            //    $('#room_name').hide();
+            //    $('#role_name').hide();
+            // });
 
             // csrf token
             $.ajaxSetup({
@@ -969,6 +1024,8 @@
 
                $(".rentalhselocation").val('');
 
+               $(".hseownerselect").val('');
+
                //pass array object value to select2
                $('.rentaltagselect2').val('');
 
@@ -979,7 +1036,24 @@
                $('.editcheckbox').prop('checked', false);
             });
 
+            // hide editing property modal if no data has been updated
+            $("#editpropertydetailsmodal").on('hide.bs.modal', function(){
+               $('#propertyid').val('');
+               $('.edit_propertytitle').html('');
+               $('#property_name').val('');
+               $('#property_price').val('');
+               $('#property_slug').val('');
+               $('#propertydetails').val('');
 
+               $("#property_details_ck").children("textarea").remove();
+               $('.propertydetailstextarea').val('');
+
+               var deleteimage=$('#showpropertyimage').removeAttr('src');
+               $('.propertyimg').html('deleteimage');
+
+               $(".propertylocationselect").val('');
+               $(".propertycategoryselect").val('');
+            });
          });
       </script>
    </body>

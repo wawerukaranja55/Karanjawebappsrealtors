@@ -7,11 +7,11 @@
                 <div class="col-lg-4 col-md-4">
                     <h3 class="mt-1 mb-5">Get In Touch</h3>
                     <h6 class="text-dark"><i class="fas fa-map-marker-alt"></i> Our Office Address :</h6>
-                    <p>Temu Building 2nd Floor,Moi Avenue close to National Bank Building, opp Nyeri Motors</p>
+                    <p>Karanja Building 1st Floor,Karanja Avenue</p>
                     <h6 class="text-dark"><i class="fa fa-mobile" aria-hidden="true"></i> Phone :</h6>
-                    <p>0727246900</p>
+                    <p>0702521351</p>
                     <h6 class="text-dark"><i class="fa fa-envelope" aria-hidden="true"></i> Email :</h6>
-                    <p>jamarealestateagents@gmail.com</p>
+                    <p>wawerukaranja57@gmail.com</p>
     
                 </div>
                 <div class="col-lg-8 col-md-8">

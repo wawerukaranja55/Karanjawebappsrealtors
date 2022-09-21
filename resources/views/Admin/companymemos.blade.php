@@ -104,7 +104,7 @@
         });
     });
 
-    //   update rental house details
+    //   send memo to users
     $(document).on('submit','#sendmemodetailsform',function()
     {
         var sendmemourl = '{{ route("save.memo") }}';

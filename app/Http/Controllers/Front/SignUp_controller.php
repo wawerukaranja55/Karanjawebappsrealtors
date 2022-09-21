@@ -23,31 +23,65 @@ class SignUp_controller extends Controller
 
     public function registeruser(Request $request){
         $data=$request->all();
+        
+        $rules=[
+            'name'=>'required',
+            'phone'=>'required|regex:/(07)[0-9]/|digits:10',
+            'email'=>'required',
+            'id_number'=>'required|digits:8',
+            'house_id'=>'required',
+            'rentalroom_id'=>'required',
+            'password'=>'required',
+        ];
 
-        $usercount=User::where('id_number',$data['id_number'])->count();
-        if($usercount>0){
-            $message="Your Account Already Exists for Another User";
-            Session::flash('error_message',$message);
-            Session::forget('success_message');
-            return Redirect::back();
+        $custommessages=[
+            'name.required'=>'Kindly Write Your Name',
+            'email.required'=>'Kindly Write Your Email',
+            'id_number.required'=>'Kindly Write Your National Id Number',
+            'id_number.digits:8'=>'Kindly Write National Id Number',
+            'house_id.required'=>'Select Your House Name',
+            'rentalroom_id.required'=>'Select Your Room name',
+            'password.required'=>'Write Your Password',
+            'phone.required'=>'Kindly Write Your Phone',
+            'phone.regex'=>'Your Phone NUmber Should start with 07',
+            'phone.digits:10'=>'The Phone NUmber Should not be less or more than 10 digits',
+            'location_id.required'=>'The Category cant be blank.Select a Location'
+        ];
+
+        $validator = Validator::make( $data,$rules,$custommessages );
+        
+        if($validator->fails())
+        {
+            return redirect()->back()->withErrors($validator);;
         }else{
-            $user=new User;
-            $user->name=$data['fullname'];
-            $user->email=$data['email'];
-            $user->phone=$data['phonenumber'];
-            $user->id_number=$data['id_number'];
-            $user->house_id=$data['rentalhousename'];
-            $user->password=bcrypt($data['password']);
-            $user->save();
+            $usercount=User::where('id_number',$data['id_number'])->count();
+            if($usercount>0){
+                $message="Your Account Already Exists for Another User";
+                Session::flash('error_message',$message);
+                Session::forget('success_message');
+                return Redirect::back();
+            }else{
+                $user=new User;
+                $user->name=$data['name'];
+                $user->email=$data['email'];
+                $user->phone=$data['phone'];
+                $user->id_number=$data['id_number'];
+                $user->house_id=$data['house_id'];
+                $user->password=bcrypt($data['password']);
+                $user->save();
 
-            $user->hserooms()->attach(request('getroomnamenumber'));
-            $user->tenantstatus()->attach(3);
-            $user->roles()->attach(7);
+                $user->hserooms()->attach(request('rentalroom_id'));
+                $user->tenantstatus()->attach(3);
+                $user->roles()->attach(8);
 
-            $message="Welcome to Jamar House Agents.Your Account will be Activated in a short while and you will be able to login.";
-            Alert::Success('success',$message);
-            return Redirect::back();
-        }   
+                $message="Welcome to W.Karanja Apps.Your Account will be Activated in a short while and you will be able to login.";
+                Alert::Success('success',$message);
+                return redirect('/');
+            //     return Redirect::back();
+            }
+        }
+
+        
     }
 
     // check whether an email exist in the users table when registering usingjavascript
@@ -141,13 +175,68 @@ class SignUp_controller extends Controller
         return redirect('/loginuser');
     }
 
-    // Update rooms for a user
-    public function updateroomsforahouse(Request $request)
-    {
-        // dd($request->all());
-        $roomsforahouse=Room_name::where(['rentalhouse_id'=>$request->id,'status'=>1,'is_occupied'=>0])->select('room_name','id')->get();
+    public function signupwithmodal(Request $request){
+        $data=$request->all();
+        
+        $rules=[
+            'name'=>'required',
+            'phone'=>'required|regex:/(07)[0-9]/|digits:10',
+            'email'=>'required',
+            'id_number'=>'required|digits:8',
+            'house_id'=>'required',
+            'rentalroom_id'=>'required',
+            'password'=>'required',
+        ];
 
-        return response()->json($roomsforahouse);
+        $custommessages=[
+            'name.required'=>'Kindly Write Your Name',
+            'email.required'=>'Kindly Write Your Email',
+            'id_number.required'=>'Kindly Write Your National Id Number',
+            'id_number.digits:8'=>'Kindly Write National Id Number',
+            'house_id.required'=>'Select Your House Name',
+            'rentalroom_id.required'=>'Select Your Room name',
+            'password.required'=>'Write Your Password',
+            'phone.required'=>'Kindly Write Your Phone',
+            'phone.regex'=>'Your Phone NUmber Should start with 07',
+            'phone.digits:10'=>'The Phone NUmber Should not be less or more than 10 digits',
+            'location_id.required'=>'The Category cant be blank.Select a Location'
+        ];
 
+        $validator = Validator::make( $data,$rules,$custommessages );
+        if($validator->fails())
+        {
+            return response()->json([
+                'status'=>400,
+                'message'=>$validator->errors()
+            ]);
+        }else{
+            $usercount=User::where('id_number',$data['id_number'])->count();
+            if($usercount>0){
+                $message="Your Account Already Exists for Another User";
+                return response()->json([
+                    'status'=>404,
+                    'message'=>$message
+                ]);
+            }else{
+                $user=new User;
+                $user->name=$data['name'];
+                $user->email=$data['email'];
+                $user->phone=$data['phone'];
+                $user->id_number=$data['id_number'];
+                $user->house_id=$data['house_id'];
+                $user->password=bcrypt($data['password']);
+                $user->save();
+
+                $user->hserooms()->attach(request('rentalroom_id'));
+                $user->tenantstatus()->attach(3);
+                $user->roles()->attach(8);
+
+                $message="Welcome to W.Karanja apps.Your Account will be Activated in a short while and you will be able to login.";
+                return response()->json([
+                    'status'=>200,
+                    'message'=>$message
+                ]);
+            }
+        }
     }
 }

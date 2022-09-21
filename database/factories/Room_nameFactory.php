@@ -22,10 +22,11 @@ class Room_nameFactory extends Factory
     public function definition()
     {
         return [
-            'rentalhouse_id'=>$this->faker->numberBetween(1, 3),
+            'rentalhouse_id'=>2,
             'status'=>1,
             'is_occupied'=>0,
-            'room_name'=>$this->faker->name(),
+            'house_size'=>'no_room_size',
+            'room_name'=>$this->faker->numerify('landlord-##')
         ];
     }
 }

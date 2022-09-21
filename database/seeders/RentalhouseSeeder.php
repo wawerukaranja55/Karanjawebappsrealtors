@@ -24,9 +24,26 @@ class RentalhouseSeeder extends Seeder
             'rentalcat_id'=>'2',
             'rental_status'=>'1',
             'location_id'=>'1',
+            'landlord_id'=>'0',
             'is_extraimages'=>'1',
             'is_vacancy'=>'2',
             'total_rooms'=>'6',
+        ]);
+
+        Rental_house::create([
+            'rental_name'=>'AllLandlordsHouse',
+            'rental_slug'=>'landlords_house',
+            'monthly_rent'=>'1',
+            'rental_details'=>'am the description for the Landlords',
+            'rental_image'=>'LandlordsHouse.png',
+            'rentalcat_id'=>'1',
+            'rental_status'=>'1',
+            'is_rentable'=>'0',
+            'location_id'=>'1',
+            'landlord_id'=>'0',
+            'is_extraimages'=>'1',
+            'is_vacancy'=>'1',
+            'total_rooms'=>'200',
         ]);
 
     }

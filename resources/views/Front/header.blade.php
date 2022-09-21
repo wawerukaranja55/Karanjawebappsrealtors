@@ -9,11 +9,11 @@
             <div class="row">
               <div class="col-md-12" style="padding: 5px;">
                 <ul class="topbar-nav topbar-left">
-                  <li class="disabled"><a href="#"><i class="fa fa-envelope"></i> jamaragents@gmail.com</a></li>
-                  <li class="disabled"><a href="#"><i class="fa fa-map-marker"></i>Moi Ave,Nyeri Town
+                  <li class="disabled"><a href="#"><i class="fa fa-envelope"></i> wawerukaranja57@gmail.com</a></li>
+                  <li class="disabled"><a href="#"><i class="fa fa-map-marker"></i>Karanja Avenue,Nyeri Town
                      {{-- 15/A, Nest Tower, NYC --}}
                     </a></li>
-                  <li class="disabled"><a href="#"><i class="fa fa-phone"></i>0701234567</a></li>
+                  <li class="disabled"><a href="#"><i class="fa fa-phone"></i>0702521351</a></li>
                 </ul>
                 <ul class="topbar-nav topbar-right">
                     <li><a href="#"><i class="fa fa-twitter"></i></a></li>
@@ -34,14 +34,13 @@
             <div class="container">
                 <a class="navbar-brand text-success logo" href="{{route ('home.index') }}">
                     <i class="mdi mdi-home-map-marker"></i>
-                    <strong>Jamar</strong>Agents
+                    <strong>KaranjaWeb</strong>Apps
                 </a>
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav mr-auto mt-2 mt-lg-0 margin-auto">
-
                         {{-- show home page --}}
                         @if (Session::get('page')=="homepage")
                             <?php $active="active";?>
@@ -52,7 +51,8 @@
                             <a class="nav-link" href="{{route ('home.index') }}">Home<span class="sr-only">(current)</span></a>
                         </li>
                         {{-- show the listing page --}}
-                        @if (Session::get('page')=="rentalcategory")
+                        @if (Session::get('page')=="rentalcategory" ||
+                            Session::get('page')=="rental_category")
                             <?php $active="active";?>
                         @else
                             <?php $active="";?>
@@ -66,7 +66,7 @@
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownPortfolio">
                                 @foreach ( $rentalscatsurls as $cat )
-                                    @if (Session::get('page')=="rentalcategory")
+                                    @if (Session::get('page')=="rental_category")
                                         <?php $active="active";?>
                                     @else
                                         <?php $active="";?>
@@ -77,12 +77,13 @@
                         </li>
 
                         {{-- show the properties to sell --}}
-                        @if (Session::get('page')=="propertycategory")
+                        @if (Session::get('page')=="propertycategory" ||
+                        Session::get('page')=="property_category")
                             <?php $active="active";?>
                         @else
                             <?php $active="";?>
                         @endif
-                        <li class="nav-item dropdown">
+                        <li class="nav-item dropdown {{ $active }}">
                             <?php 
                               $propertycatsurls=Propertycategory::select('propertycat_url')->where('status',1)->pluck('propertycat_url');
                             ?>
@@ -91,7 +92,7 @@
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownPortfolio">
                                 @foreach ( $propertycatsurls as $propertycat )
-                                    @if (Session::get('page')==$propertycat)
+                                    @if (Session::get('page')=="property_category")
                                         <?php $active="active";?>
                                     @else
                                         <?php $active="";?>
@@ -100,9 +101,14 @@
                                 @endforeach
                             </div>
                         </li>
-                        <li class="nav-item">
-                        </li>
-                        <li class="nav-item">
+
+                        {{-- show contact us page --}}
+                        @if (Session::get('page')=="contact_us")
+                            <?php $active="active";?>
+                        @else
+                            <?php $active="";?>
+                        @endif
+                        <li class="nav-item {{ $active }}">
                             <a class="nav-link" href="{{route ('contact.us') }}">Contact Us</a>
                         </li>
                     </ul>
@@ -113,7 +119,7 @@
                                     <a class="btn btn-danger btn-sm" href="#" data-toggle="modal" data-target="#LogInModal">Sign In</a>
                                 </li>
                                 <li class="list-inline-item">
-                                    <a class="btn btn-success btn-sm" href="#" data-toggle="modal" data-target="#signupmodal">Sign Up</a>
+                                    <a class="btn btn-success btn-sm" href="#" id="signup">Sign Up</a>
                                 </li>
                             @else
                             <li class="nav-item nav-profile dropdown">

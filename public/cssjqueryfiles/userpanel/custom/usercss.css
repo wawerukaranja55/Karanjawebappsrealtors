@@ -308,6 +308,10 @@ nav.navbar .navbar-nav .nav-link {
     padding: 20px 14px;
     text-transform: uppercase;
 }
+
+.nav-itemactive{
+	background: #8e1ebb;
+}
 .dropdown-menu {
     border: medium none;
     border-radius: 0;

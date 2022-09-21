@@ -88,8 +88,8 @@
          });
    
 
-      //  update rental house status from active to inactive
-      $(document).on('change','.rentalhsestatus',function(e)
+         //  update rental house status from active to inactive
+         $(document).on('change','.rentalhsestatus',function(e)
          {
             var hsestatus=$(this).prop('checked')==true? 1:0;
 
@@ -167,6 +167,9 @@
                      $(".rentalhsevacancy").select2();
                      $(".rentalhsevacancy").val(response.editrentalhsedetail.is_vacancy).trigger('change');
 
+                     $(".hseownerselect").select2();
+                     $(".hseownerselect").val(response.editrentalhsedetail.landlord_id).trigger('change');
+
                      $(".rentalhselocation").select2();
                      $(".rentalhselocation").val(response.editrentalhsedetail.houselocation.id).trigger('change');
 
@@ -222,11 +225,11 @@
                   console.log(response);
                   if (response.status==400)
                   {
-                     $('#update_errorlist').html(" ");
-                     $('#update_errorlist').removeClass('d-none');
+                     $('.update_errorlist').html(" ");
+                     $('.update_errorlist').removeClass('d-none');
                      $.each(response.message,function(key,err_value)
                      {
-                        $('#update_errorlist').append('<li>' + err_value + '</li>');
+                        $('.update_errorlist').append('<li>' + err_value + '</li>');
                      })
                   } else if (response.status==200)
                   {
@@ -259,19 +262,21 @@
                         var deleteimage=$('#showimage').removeAttr('src');
                         $('.rentalhseimage').html('deleteimage');
 
-                        $('input[name^="edit_is_featured"]').val('no').prop('checked', false);
+                        // $('.editcheckbox').prop('checked', false);
 
-                        $('input[name^="edit_wifi"]').val('no').prop('checked', false);
+                        $('input[name^="edit_is_featured"]').prop('checked', false);
 
-                        $('input[name^="edit_generator"]').val('no').prop('checked', false);
+                        $('input[name^="edit_wifi"]').prop('checked', false);
 
-                        $('input[name^="edit_balcony"]').val('no').prop('checked', false);
+                        $('input[name^="edit_generator"]').prop('checked', false);
 
-                        $('input[name^="edit_parking"]').val('no').prop('checked', false);
+                        $('input[name^="edit_balcony"]').prop('checked', false);
 
-                        $('input[name^="edit_cctv_cameras"]').val('no').prop('checked', false);
+                        $('input[name^="edit_parking"]').prop('checked', false);
 
-                        $('input[name^="edit_servant_quarters"]').val('no').prop('checked', false);
+                        $('input[name^="edit_cctv_cameras"]').prop('checked', false);
+
+                        $('input[name^="edit_servant_quarters"]').prop('checked', false);
                         $('#editrentalhsedetailsmodal').modal('hide');
                   }
 

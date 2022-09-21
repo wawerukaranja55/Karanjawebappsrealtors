@@ -187,14 +187,29 @@ class Manageusers_controller extends Controller
         }else{
             $role=Role::where('id',$request->selectname)->first();
             $user=User::find($request->adminrole_id);
-            if($role->role_name!=='Normal User' && $user->is_admin=1)
+
+            if($role->id!==8 && $role->id!==7 && $user->is_admin=1)
             {
                 $user->roles()->sync($role);
             }
-            elseif($role->role_name='Normal User' && $user->is_admin=1){
+            elseif($role->id==7 && $user->is_landlord==0){
+
                 $user->roles()->sync($role);
+                $user->update(['is_landlord'=>1]);
                 $user->update(['is_admin'=>0]);
             }
+            elseif($role->id!==7 && $role->id!==8 && $user->is_landlord=1){
+
+                $user->roles()->sync($role);
+                $user->update(['is_landlord'=>0]);
+                $user->update(['is_admin'=>1]);
+            }
+            elseif($role->id==8 && $user->is_admin=1){
+                $user->roles()->sync($role);
+                $user->update(['is_admin'=>0]);
+                $user->update(['is_landlord'=>0]);
+            }
+            
             $user->save();
 
             return response()->json([

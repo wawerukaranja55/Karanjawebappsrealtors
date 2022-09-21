@@ -18,10 +18,9 @@ class Location_controller extends Controller
      */
     public function index()
     {
-        $alllocations=Location::all();
-        Session::put('page','location');
+        Session::put('page','locations');
 
-        return view('Admin.locations',compact('alllocations'));
+        return view('Admin.locations');
     }
 
     // get all locations
@@ -119,6 +118,7 @@ class Location_controller extends Controller
     {
         
         $data=$request->all();
+
         $location=Location::where('location_title',$data['locationname'])->count();
         if($location>0){
             $message="The Location exists in the database.";
@@ -126,10 +126,7 @@ class Location_controller extends Controller
                                     'message'=>$message]);
         }else{
 
-            $locationnametitle=Location::find($request->locationid);
-
-            $data=$request->all();
-
+            $locationnametitle=Location::find($request->location_id);
             $locationnametitle->update([
                 'location_title'=>$data['locationname']
             ]);

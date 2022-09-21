@@ -9,13 +9,10 @@
       <a class="btn btn-dark" href="{{ route('active.properties') }}">Active Properties</a>
    </div>
    <div class="col-md-3">
-      <a class="btn btn-dark" href="#">Active Properties</a>
+      <a class="btn btn-dark" href="{{ route('add.property') }}">Add a New Property</a>
    </div>
    <div class="col-md-3">
-      <a class="btn btn-dark" href="#">Add a New Property</a>
-   </div>
-   <div class="col-md-3">
-      <a class="btn btn-dark" href="#">Property Categories Management</a>
+      <a class="btn btn-dark" href="{{ url('admin/propertiescategories') }}">Property Categories Management</a>
    </div>
 </div>
 
@@ -65,5 +62,121 @@
         ],
     });
 
+    //   show property editing modal
+    $(document).on('click','.editpropertydetails',function(){
+      var propertydetailsid=$(this).data('id');
+
+      $.ajax({
+        url:'{{ url("admin/property",'') }}' + '/' + propertydetailsid + '/edit',
+        method:'GET',
+        processData: false,
+        contentType: false,
+        success:function(response)
+        {
+            console.log(response)
+            if (response.status==404)
+            {
+              alert(response.message);
+            } 
+            else if(response.status==200)
+            {
+                $('#editpropertydetailsmodal').modal('toggle');
+               $('#propertyid').val(response.editpropertydetails.id);
+               $('.edit_propertytitle').html('Edit property details for' + response.editpropertydetails.property_name);
+               $('#property_name').val(response.editpropertydetails.property_name);
+               $('#property_price').val(response.editpropertydetails.property_price);
+               $('#property_slug').val(response.editpropertydetails.property_slug);
+               $('#propertydetails').val();
+
+               $("#property_details_ck").html('<textarea id="propertyeditor" class="propertydetailstextarea" name="property_details">' + response.editpropertydetails.property_details + '</textarea>');
+
+                  ClassicEditor
+                  .create( document.querySelector( '#propertyeditor' ),
+                  {
+                     toolbar: {
+                        items: [
+                           'heading', '|',
+                           'bold', 'italic', '|',
+                           'link', '|',
+                           'outdent', 'indent', '|',
+                           'bulletedList', 'numberedList', '|',
+                           'undo', 'redo'
+                        ],
+                        shouldNotGroupWhenFull: true
+                     }
+                  })
+                  .catch( error => {
+                        console.error( error );
+                  } );
+
+               // preview an image that was previously uploaded
+               $('.sellpropertyimage').val(response.editpropertydetails.property_image);
+               var showpropertyimage=$('#showpropertyimage').attr('src', '/imagesforthewebsite/properties/propertyimages/small/' + response.editpropertydetails.property_image);
+               $('.propertyimg').html(showpropertyimage);
+
+               $(".propertylocationselect").select2();
+               $(".propertylocationselect").val(response.editpropertydetails.propertylocation.id).trigger('change');
+
+               $(".propertycategoryselect").select2();
+               $(".propertycategoryselect").val(response.editpropertydetails.propertycategory.id).trigger('change');
+              
+            }
+        }
+      })
+    });
+
+    //   update Property details
+    $(document).on('submit','#updatepropertyform',function()
+    {
+      var propertyupdateid=$('#propertyid').val();
+      var url = '{{ route("updateproperties.details", ":id") }}';
+      updatepropertyurl = url.replace(':id',propertyupdateid);
+
+      var form = $('.updatepropertydetails')[0];
+      var formdata=new FormData(form);
+
+      $.ajax({
+        url:updatepropertyurl,
+        method:'POST',
+        processData:false,
+        contentType:false,
+        data:formdata,
+        success:function(response)
+        {
+          console.log(response);
+          if (response.status==400)
+          {
+            $('.updateproperty_errorlist').html(" ");
+            $('.updateproperty_errorlist').removeClass('d-none');
+            $.each(response.message,function(key,err_value)
+            {
+                $('.updateproperty_errorlist').append('<li>' + err_value + '</li>');
+            })
+          } 
+          else if (response.status==200)
+          {
+            alertify.set('notifier','position', 'top-right');
+            alertify.success(response.message);
+            inactiverentalpropertiestable.ajax.reload();
+            $('#propertyid').val('');
+            $('.edit_propertytitle').html('');
+            $('#property_name').val('');
+            $('#property_price').val('');
+            $('#property_slug').val('');
+            $('#propertydetails').val('');
+
+            $("#property_details_ck").children("textarea").remove();
+            $('.propertydetailstextarea').val('');
+
+            var deleteimage=$('#showpropertyimage').removeAttr('src');
+            $('.propertyimg').html('deleteimage');
+
+            $(".propertylocationselect").val('');
+            $(".propertycategoryselect").val('');
+            $('#editpropertydetailsmodal').modal('hide');
+          }
+        }
+      });
+    });
   </script>
 @stop

@@ -21,18 +21,15 @@ class Rentalcategory_controller extends Controller
             $rentalcats = DataTables::of ($rentalcats)
 
 
-            ->addColumn ('action',function($row){
+            ->addColumn ('edit',function($row){
                 return 
-                     '<a href="#" title="Edit the cat" class="btn btn-success editrentalcat" data-id="'.$row->id.'"><i class="fas fa-edit"></i></a>
-                     <a href="#" id="deleterentalcat" title="Delete the cat" class="btn btn-danger" data-id="'.$row->id.'"><i class="fa fa-trash"></i></a>';
+                     '<a href="#" title="Edit the cat" class="btn btn-success editrentalcat" data-id="'.$row->id.'"><i class="fas fa-edit"></i></a>';
             })
-            ->rawColumns(['action'])
+            ->rawColumns(['edit'])
             ->make(true);
 
             return $rentalcats;
         }
-
-        return view('Admin.Rental_houses.rentaltags',compact('rentalcats'));
     }
      
     // store a rental category in the db

@@ -53,7 +53,7 @@
             <div class="col-lg-4 col-md-4 text-right">
                 @if($rentalhouse->is_vacancy==1)
                     <h6 class="mt-2">{{ $availablerooms }} Vacants Available</h6>  
-                @elseif($rentalhouse->is_vacancy==1)
+                @elseif($rentalhouse->is_vacancy==2)
                     <h6 class="mt-2">The House is Fully Booked</h6>
                 @endif
                 
@@ -167,15 +167,15 @@
                         {{-- <div id="map"></div> 
                     </div>
                 </div>--}}
-                @if ($rentalhouse->rental_video="")
-                <div class="card padding-card">
-                    <div class="card-body">
-                        <h5 class="card-title mb-4">Video</h5>
-                        <video id="my-video" class="video-js" controls preload="auto" width="200" height="100" data-setup="{}">
-                            <source src="/videos/rentalvideos/{{$rentalhouse->rental_video}}" type='video/mp4'>
-                        </video>
+                @if ($rentalhouse->rental_video !== NULL)
+                    <div class="card padding-card">
+                        <div class="card-body">
+                            <h5 class="card-title mb-4">House Details Video</h5>
+                            <video id="my-video" class="video-js" controls preload="auto" width="100%" height="350" data-setup="{}">
+                                <source src="/videos/rentalvideos/{{$rentalhouse->rental_video}}" type='video/mp4'>
+                            </video>
+                        </div>
                     </div>
-                </div>
                 @endif
                 {{-- shows all reviews for this house --}}
                 <div class="card padding-card reviews-card">

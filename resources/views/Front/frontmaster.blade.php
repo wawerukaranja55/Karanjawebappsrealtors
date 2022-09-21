@@ -46,7 +46,7 @@
          @yield('content')
       </div>
       <div class="whatsapp_chat">
-         <a href="https://wa.link/dxl5nj" target="_blank">
+         <a href="https://wa.link/dc5azf" target="_blank">
             <img src="{{ asset('imagesforthewebsite/icons/whatsapp.png') }}" alt="Chat with Our Admin" height="60px" width="60px">
          </a>
       </div>
@@ -115,7 +115,7 @@
                         </p>
                         
                      </div>
-                     <form method="POST" action="{{ route('registeruser') }}">
+                     <form action="javascript:void(0)" id="signupform" class="form-horizontal signupuser" role="form" method="POST">
                         @csrf
                         <div class="card padding-card product-card">
                            <div class="card-body">
@@ -124,23 +124,23 @@
                               <div class="row section-groups">
                                  <div class="form-group inputdetails col-sm-6">
                                     <label>Name<span class="text-danger inputrequired">*</span></label>
-                                    <input type="text" class="form-control text-white bg-dark" required name="fullname" id="full_name" placeholder="Write Your Full Name">
+                                    <input type="text" class="form-control text-white bg-dark full_name" required name="name" placeholder="Write Your Full Name">
                                  </div>
          
                                  <div class="form-group inputdetails col-sm-6">
                                     <label>Phone Number<span class="text-danger inputrequired">*</span></label>
-                                    <input type="text" class="form-control text-white bg-dark" required name="phonenumber" id="Phone_number" placeholder="Write Your Phone Number">
+                                    <input type="number" class="form-control text-white bg-dark phone_number" name="phone" placeholder="Write Your Phone Number">
                                  </div>
                               </div>
 
                               <div class="row section-groups">
                                  <div class="form-group inputdetails col-sm-6">
                                      <label>Email<span class="text-danger inputrequired">*</span></label>
-                                     <input type="email" class="form-control text-white bg-dark" required name="email" id="email" placeholder="Write Your Email here">
+                                     <input type="email" class="form-control text-white bg-dark email" name="email" placeholder="Write Your Email here">
                                  </div>
                                  <div class="form-group inputdetails col-sm-6">
                                     <label>Id Number<span class="text-danger inputrequired">*</span></label>
-                                    <input type="number" class="form-control text-white bg-dark" required name="id_number" id="id_number" placeholder="Write Your Id Number here">
+                                    <input type="number" class="form-control text-white bg-dark id_number" name="id_number" id="modalid_number" placeholder="Write Your Id Number here">
                                 </div>
                               </div>
                            </div>
@@ -153,10 +153,10 @@
                            <div class="row section-groups">
                               <div class="form-group inputdetails col-sm-6" style="color: black; font-size:18px;">
                                   <label>House Name<span class="text-danger inputrequired">*</span></label><br>
-                                  <select name="rentalhousename" id="rentalhsenme" class="rentalhsename form-control text-white bg-dark" style="width:100%;" required>
-                                    <option>Select Your Rental House </option>
+                                  <select name="house_id" id="rentalhsenme" class="rentalhsename form-control text-white bg-dark" style="width:100%;">
+                                    <option disabled selected>Select Your Rental House </option>
                                        <?php 
-                                          $activehousenames=Rental_house::select('rental_name','id')->where(['rental_status'=>1,'is_vacancy'=>1,'is_rentable'=>1])->get();
+                                          $activehousenames=Rental_house::select('rental_name','id')->where(['rental_status'=>1,'is_vacancy'=>1])->get();
                                        ?>
                                        @foreach($activehousenames as $housename)
                                           <option value="{{ $housename->id }}">
@@ -168,7 +168,7 @@
                               <div class="form-group inputdetails col-sm-6">
                                  <label>Room Name/Number<span class="text-danger inputrequired">*</span></label>
                                  <br>
-                                 <select name="getroomnamenumber" class="roomnamenumber form-control text-white bg-dark" required style="width: 100%;">
+                                 <select name="rentalroom_id" class="roomnamenumber form-control text-white bg-dark" required style="width: 100%;">
                                     <option value=" " disabled="true" selected="true">Select Your Room Name/Number</option>
                                  </select>
                               </div>
@@ -189,8 +189,8 @@
                         </div>
                         </div>
                         </div>
-                       
-                       <button type="submit" class="btn btn-dark text-white">Register Your Account</button>
+                        <ul class="alert alert-warning d-none update_errorlist"></ul>
+                       <button type="submit" id="registerusermdal" class="btn btn-dark text-white">Register Your Account</button>
                      </form>
                </div>
             </div>
@@ -215,7 +215,7 @@
                            <div class="row section-groups">
                               <div class="form-group inputdetails col-sm-6">
                                  <label>Email<span class="text-danger inputrequired">*</span></label>
-                                 <input type="text" class="form-control text-white bg-dark" required type="email" name="email" placeholder="Write Your Full Name">
+                                 <input type="email" class="form-control text-white bg-dark" required name="email" placeholder="Write Your Email">
                               </div>
       
                               <div class="form-group inputdetails col-sm-6">
@@ -344,7 +344,7 @@
             $("#msg").hide();
             $("#tenantstatusmsg").hide();
 
-            // 
+            // empty contact admin modal on closing it
             $("#contactadminmodal").on('hide.bs.modal', function(){
                $('.houseuserid').val('');
                $('.yourname').html('');
@@ -352,13 +352,19 @@
                $('.yourphone').val('');
                $('.hsemsg_request').val('');
             });
+
+            // empty register modal on closing it
+            $("#registerusermdal").on('hide.bs.modal', function(){
+               $('.full_name').val('');
+               $('.phone_number').val('');
+               $('.email').val('');
+               $('.id_number').val('');
+               $('#rentalhsenme').val('');
+               $('.roomnamenumber').val('');
+               $('#signuppassword').val('');
+            });
          });
          
-         // show preloader when a page loads
-         window.onload=function(){
-            document.getElementById('loader').style.display="none";
-            document.getElementById('wrapper').style.display="block";
-         };
          // show password on clicking a checkbox in login modal
          $('#checkpassword').click(function(){
                if(document.getElementById('checkpassword').checked) {
@@ -386,6 +392,7 @@
             $('.rentalhsename').select2();
             $('.sortproperties').select2();
             $('.propertylocation').select2();
+            $('.rntalhse').select2();
          });
          // prevent navbar scroll
          document.addEventListener("DOMContentLoaded", function(){
@@ -406,9 +413,10 @@
          // show rooms for a house on dropdown
          $(document).on('change','#rentalhsenme',function(){
             var hsetitle_id=$( "#rentalhsenme" ).val();
+            var getroomsurl = '{{ route("getrooms.house") }}'; 
             $.ajax({
                type:'get',
-               url:'getroomsforahouse',
+               url:getroomsurl,
                data:{
                   'id':hsetitle_id
                },
@@ -426,6 +434,59 @@
                }
             });
          });
+
+         // register a user using a modal
+         $('body').on('click','#signup',function(){
+            $('#signupmodal').modal('toggle');
+
+            //   update room details
+            $('#registerusermdal').click(function(){
+
+               var usersignupurl = '{{ route("signup.modal") }}'; 
+               var form = $('#signupform')[0];
+               var formdata=new FormData(form);
+
+               $.ajax({
+               url:usersignupurl,
+               method:'POST',
+               processData:false,
+               contentType:false,
+               data:formdata,
+               success:function(response)
+               {
+                  console.log(response);
+                  if (response.status==400)
+                  {
+                     $('.update_errorlist').html(" ");
+                     $('.update_errorlist').removeClass('d-none');
+                     $.each(response.message,function(key,err_value)
+                     {
+                           $('.update_errorlist').append('<li>' + err_value + '</li>');
+                     })
+                  } 
+                  else if (response.status==200)
+                  {
+                     alertify.set('notifier','position', 'top-right');
+                     alertify.success(response.message);
+                     $('.full_name').val('');
+                     $('.phone_number').val('');
+                     $('.email').val('');
+                     $('.id_number').val('');
+                     $('#rentalhsenme').val('');
+                     $('.roomnamenumber').val('');
+                     $('#signuppassword').val('');
+                     $('#signupmodal').modal('hide');
+                  }
+                  else if (response.status==404)
+                  {
+                     alertify.set('notifier','position', 'top-right');
+                     alertify.success(response.message);
+                     $('#signupmodal').modal('hide');
+                  }
+               }
+            });
+            })
+         })
          
       </script>
    </body>

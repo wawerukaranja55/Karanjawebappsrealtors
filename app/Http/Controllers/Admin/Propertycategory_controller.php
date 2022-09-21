@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Propertycategory;
 use App\Http\Controllers\Controller;
 use App\Notifications\Adminactivities;
+use Illuminate\Support\Facades\Session;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Notification;
 
@@ -17,7 +18,6 @@ class Propertycategory_controller extends Controller
     {
         $category=Propertycategory::find($id);
 
-        // dd($category);die();
         if(! $category)
         {
             abort(404);
@@ -28,98 +28,78 @@ class Propertycategory_controller extends Controller
     // add and edit a property category
     public function storepropertycat(Request $request)
     {
+        $data=$request->all();
+
         if($request->propertycat_id)
         {
-            $category=Propertycategory::find($request->propertycat_id);
-
-            // dd($category);die();
-            if(!$category)
-            {
-                abort(404);
+            
+            $propcategory=Propertycategory::where(['propertycat_title'=>$data['rentalhsecategory'],'propertycat_url'=>$data['rentalcategoryslug']])->count();
+            if($propcategory>0){
+                $message="Property Category details exists in the database.";
+                return response()->json(['status'=>400,
+                                        'message'=>$message]);
             }else{
-                $request->validate([
-                    'property_category'=>'required',
-                    'property_caturl'=>'required'
-                ]);
-        
+                $category=Propertycategory::find($request->propertycat_id);
+
                 $category->update([
-                    'propertycat_title'=>$request->property_category,
-                    'propertycat_url'=>$request->property_caturl,
+                    'propertycat_title'=>$data['rentalhsecategory'],
+                    'propertycat_url'=>$data['rentalcategoryslug']
                 ]);
-        
+
+                $message="Property Category details Have Been Updated Successfuly .";
                 return response()->json([
-                    'success'=>'Property Category Has Been Updated Successfully'
-                ],201);
+                    'status'=>200,
+                    'message'=>$message
+                ]);
             }
         }else{
-            $data=$request->all();
-            // dd($data);die();
-            $request->validate([
-                'property_category'=>'required',
-                'property_caturl'=>'required'
-            ]);
 
-            $propertycategeryadd=Propertycategory::create([
-                'propertycat_title'=>$data['propertycat_title'],
-                'propertycat_url'=>$data['property_caturl']
-            ]);
+            $propcategory=Propertycategory::where(['propertycat_title'=>$data['rentalhsecategory'],'propertycat_url'=>$data['rentalcategoryslug']])->count();
+            if($propcategory>0){
+                $message="Property Category details exists in the database.";
+                return response()->json(['status'=>400,
+                                        'message'=>$message]);
+            }else{
+                Propertycategory::create([
+                    'propertycat_title'=>$data['propertycat_title'],
+                    'propertycat_url'=>$request->propertycat_url
+                ]);
 
-            return response()->json([
-                'success'=>'Property Category Has Been Saved In the DB'
-            ],201);
+                $message="Property Category Have Been saved Successfuly .";
+                return response()->json([
+                    'status'=>200,
+                    'message'=>$message
+                ]);
+            }
 
-            // send notifications to the superadmins
-            $users=User::where('role_id','1')->first();
-            Notification::send($users,new Adminactivities($propertycategeryadd));
         }
+    }
+
+    public function propertycategories()
+    {
+         Session::put('page','propertiescategories');
+
+        return view('Admin.Properties.propertiescategories');
     }
 
     // get property categories
     public function get_propertycategories(Request $request)
     {
-        $propertiescategories=Propertycategory::select('id','propertycat_title','propertycat_url');
+        $propertiescategories=Propertycategory::select('id','propertycat_title','propertycat_url','status');
 
         if($request->ajax()){
             $allpropertycats = DataTables::of ($propertiescategories)
 
-            ->addColumn ('status',function($row){
+            ->addColumn ('edit',function($row){
                 return 
-                '<input class="propertycats_status" type="checkbox" checked data-toggle="toggle" data-id="'.$row->id.'" data-on="Active" data-off="Not Active" data-onstyle="success" data-offstyle="danger">';
+                    '<a href="#" class="btn btn-success editpropcatbutton" data-id="'.$row->id.'">Edit</a>';
             })
-
-            ->addColumn ('action',function($row){
-                return 
-                    '<a href="#" class="btn btn-success editbutton" data-id="'.$row->id.'">Edit</a>
-                     <a href="#" id="deletepropertycat" class="btn btn-danger" data-id="'.$row->id.'">Delete</a>';
-            })
-            ->rawColumns(['status','action'])
+            ->rawColumns(['edit'])
             ->make(true);
 
             return $allpropertycats;
         }
 
-        return view('Admin.Properties.propertiescategories',compact('propertiescategories'));
-    }
-
-    // delete a property category
-    public function delete_propertycategories($id)
-    {
-        $category=Propertycategory::find($id);
-
-        if($category)
-        {
-            $category->delete();
-            return response()->json([
-                'success'=>200,
-                'message'=>'Property Category Has Been Deleted Successfully'
-            ]);
-        }else{
-    
-            return response()->json([
-                'success'=>404,
-                'message'=>'Property Category Not Found'
-            ]);
-        }
     }
 
     // update the status for an Property Category

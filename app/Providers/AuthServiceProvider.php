@@ -29,6 +29,11 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('adminsnotallowed',function($user){
             return $user->hasAnyRoles(['The Ceo','General Manager','Admin 1','Developer']);
         });
+
+        // only the admins will access the admin panel
+        Gate::define('adminonly',function($user){
+            return $user->hasAnyRoles(['The Ceo','General Manager','Admin 1','Admin 2','Admin 3','Developer']);
+        });
     }
 
 

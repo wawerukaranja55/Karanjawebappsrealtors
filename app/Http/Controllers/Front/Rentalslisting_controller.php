@@ -10,12 +10,15 @@ use Illuminate\Http\Request;
 use App\Models\House_Request;
 use Illuminate\Support\Carbon;
 use App\Models\Rental_category;
+use App\Models\Rentalhousesize;
 use App\Models\Houseratingreview;
 use App\Http\Controllers\Controller;
-use App\Models\Rentalhousesize;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
 class Rentalslisting_controller extends Controller
@@ -130,6 +133,8 @@ class Rentalslisting_controller extends Controller
             }
         }else{
 
+            Session::put('page','rentalcategory'); 
+            
             $rentalcaturl=Route::current()->uri();
             
             $rentalcatcount=Rental_category::where(['rentalcat_url'=>$rentalcaturl,'status'=>1])->count();
@@ -168,7 +173,7 @@ class Rentalslisting_controller extends Controller
             $rentalcategorydetails=Rental_category::rentalcategorydetails($url);
 
             $rentalcategoryhouses=Rental_house::whereIn('rentalcat_id',$rentalcategorydetails['catids'])
-            ->where('rental_status',1);
+            ->where(['rental_status'=>1,'is_rentable'=>1]);
 
             $data=$rentalcategoryhouses->where('rental_name','like','%'.$query.'%')->get();
 
@@ -184,15 +189,29 @@ class Rentalslisting_controller extends Controller
         echo $output;
     }
 
+    // show video if the rental house has a video
+    // protected function _rentalhsevideo($id)
+    // {
+    //     $apikey=config('services.youtube.api_key');
+    //     $part='snippet';
+    //     $url="https://www.googleapis.com/youtube/v3/videos?part=$part&id=$id&key=$apikey";
+    //     $response=Http::get($url);
+    //     $results=json_decode($response);
+
+    //     File::put(Storage_path().'/app/public/singlevid.json',$response->body());
+
+    //     return $results;
+    // }
 
     // show house details
-    public function singlehsedetails ($rental_slug,$id){
+    public function singlehsedetails ($rental_slug,$id)
+    {
+        // $rentalhsevideo=$this->_rentalhsevideo($id);
 
-        $rentalhouse=Rental_house::with('housetags','rentalalternateimages','houselocation','hsesusers')->find($id);
+        $rentalhouse=Rental_house::with('housetags','rentalalternateimages','houselocation')->find($id);
         
         $occupiedroomscount=Room_name::where('rentalhouse_id',$id)->where('is_occupied',1)->count();
         $availablerooms=$rentalhouse->total_rooms-$occupiedroomscount;
-
         $relatedhouses=Rental_house::where(['rental_status'=>1,'is_extraimages'=>1,'is_rentable'=>1])->where('id','!=',$id)->take(3)->get();
         $isfeaturedhouses=Rental_house::where(['rental_status'=>1,'is_extraimages'=>1,'is_featured'=>'yes'])->get();
         $activereviews=Houseratingreview::where(['rating_isactive'=>1,'hse_id'=>$id])->get();

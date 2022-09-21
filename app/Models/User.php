@@ -23,7 +23,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name','email','role_id','phone','admin_status','avatar','password',
-        'house_name','username'
+        'house_name','is_landlord'
         
     ];
 
@@ -69,7 +69,7 @@ class User extends Authenticatable
     public function hserooms(){
         return $this->belongsToMany('App\Models\Room_name','house_userrooms','userhse_id','rentalroom_id');
     }
-    
+
     public function tenantstatus(){
         return $this->belongsToMany('App\Models\Tenantstatus','tenantstatus_user','user_id','tenantstatus_id');
     }
@@ -82,5 +82,11 @@ class User extends Authenticatable
         }
 
         return false;
+    }
+
+    // a landlord may have many houses
+    public function landlordhouses()
+    {
+        return $this->hasMany(Rental_house::class,'landlord_id');
     }
 }

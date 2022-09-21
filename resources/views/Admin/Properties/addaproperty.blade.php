@@ -2,29 +2,19 @@
 @section('title','Add a New Property')
 @section('content')
 <div class="content-wrapper">
-    <div class="row" style="margin: 18px 0;">
-        <div class="col-lg-4" style="
-        display: flex;
-        justify-content: center;">
-            <div class="pull-left p-10">
-                <a class="btn btn-success" href="{{ url('admin/rental_houses') }}">Inactive Properties</a>
-            </div>
-        </div>
-        <div class="col-lg-4" style="
-        display: flex;
-        justify-content: center;">
-            <div class="pull-left p-10">
-                <a class="btn btn-success" href="{{ url('admin/rental_houses') }}">Activated Properties</a>
-            </div>
-        </div>
-        <div class="col-lg-4" style="
-        display: flex;
-        justify-content: center;">
-            <div class="pull-left p-10">
-                <a class="btn btn-success" href="{{ url('admin/rental_houses') }}">Properties Categories And Locations</a>
-            </div>
-        </div>
-    </div>
+    <div class="row" style="
+    display: flex;
+    justify-content: center;">
+   <div class="col-md-3">
+      <a class="btn btn-dark" href="{{ route('inactive.properties') }}">In Active Properties</a>
+   </div>
+   <div class="col-md-3">
+      <a class="btn btn-dark" href="{{ url('admin/propertiescategories') }}">Add a Property Category</a>
+   </div>
+   <div class="col-md-3">
+      <a class="btn btn-dark" href="{{ route('alllocations.index') }}">Add a New Location</a>
+   </div>
+</div>
     <div class="row" style="margin-bottom: 100px;">    
         <div class="col-lg-8 col-md-8 mx-auto">
             <div class="panel-heading mt-5" style="text-align: center; font-size:18px; background-color:black;"> 
@@ -49,7 +39,7 @@
     
                             <div class="form-group inputdetails col-sm-6">
                                 <label>Property Price<span class="text-danger inputrequired">*</span></label>
-                                <input type="text" class="form-control text-white bg-dark" required name="property_price" id="proprty_price" placeholder="Write The Price Of the Property Here">
+                                <input type="number" class="form-control text-white bg-dark" required name="property_price" id="proprty_price" placeholder="Write The Price Of the Property Here">
                             </div>
                         </div>
 
@@ -62,7 +52,7 @@
     
                         <div class="form-group inputdetails">
                             <label>Property Description<span class="text-danger inputrequired">*</span></label>
-                            <textarea class="form-control text-white bg-dark ckdescription" id="property-details" name="property_details" placeholder="Describe the Rental property here.explain it with as more details as possible" rows="4"></textarea>
+                            <textarea class="form-control text-white bg-dark ckdescription" id="property-details" name="property_details" placeholder="Describe the Property details here.explain it with as more details as possible"></textarea>
                         </div>
     
                         <div class="row section-groups">
@@ -97,10 +87,6 @@
                                 <h5 class="card-title mb-4">Property Profile Image</h5>
                                 <input type="file" name="property_image" accept="image/*" required>
                                 <span class="font-italic">Recommended size:width  1040px by height 1200px</span>
-                            </div>
-                            <div class="col-md-6 inputdetails">
-                                <h5 class="card-title mb-4">Property Video</h5>
-                                <input type="file" name="property_video">
                             </div>
                         </div>
                     </div>

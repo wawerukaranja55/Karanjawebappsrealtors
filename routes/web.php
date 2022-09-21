@@ -63,6 +63,10 @@ Route::post('login',[SignUp_controller::class,'loginuser'])->name('loginuser');
 
 Route::post('register',[SignUp_controller::class,'registeruser'])->name('registeruser');
 
+Route::post('signupwithmodal',[SignUp_controller::class,'signupwithmodal'])->name('signup.modal');
+
+Route::post('signinwithmodal',[SignUp_controller::class,'loginwithmodal'])->name('signin.modal');
+
 Route::post('check_email',[SignUp_Controller::class,'check_email'])->name('check_email');
 
 Route::post('logout',[SignUp_controller::class,'logoutuser'])->name('logoutuser');
@@ -70,7 +74,7 @@ Route::post('logout',[SignUp_controller::class,'logoutuser'])->name('logoutuser'
 Route::post('forgotpassword',[SignUp_controller::class,'forgotpassword'])->name('forgotpassword');
 
 // Register modal
-Route::get('/getroomsforahouse', [Home_controller::class,'getroomsforahouse'])->name('getrooms.house');
+Route::get('getroomsforahouse', [Home_controller::class,'getroomsforahouse'])->name('getrooms.house');
 
 // newsletter subscriptions
 Route::post('subscribe',[Home_controller::class,'newslettersubscribe'])->name('newsletter.subscribe');
@@ -137,7 +141,7 @@ Route::get('property/{property_slug}/{id}', [Propertieslisting_controller::class
 Route::post('sendpropertyrequest',[Propertieslisting_controller::class,'sendpropertyrequest'])->name('send.propertyrequest');
 
 // Admin Routes
-Route::group(['prefix'=>'admin','middleware'=>(['auth'])],function(){
+Route::group(['prefix'=>'admin','middleware'=>(['auth','can:adminonly'])],function(){
     
     // company Admins
     Route::get('assign_userroles',[Manageusers_controller::class,'assignuser_roles'])->name('assignuser.roles');
@@ -202,13 +206,11 @@ Route::group(['prefix'=>'admin','middleware'=>(['auth'])],function(){
 
     Route::get('get_userroles',[Userroles_controller::class,'get_userroles'])->name('get_user.roles');
 
-    Route::post('addrolename',[Userroles_controller::class,'addrolename'])->name('addrole.name');
-
     Route::get('userrole/{id}/edit',[Userroles_controller::class,'edituserrole'])->name('userrole.edit');
 
     Route::post('updateuserrole/{id}',[Userroles_controller::class,'updateuserrole'])->name('userrole.update');
 
-    // Route::delete('delete_userrole/{id}',[Userroles_controller::class,'deleteuserrole'])->name('delete.userrole');
+    Route::get('/updaterolestatus',[Userroles_controller::class,'updateuserrolestatus'])->name('updaterole.status');
 
     // show admin dashboard for all the admins
     Route::resource('admindashboard',Admindashboard_controller::class);
@@ -226,7 +228,10 @@ Route::group(['prefix'=>'admin','middleware'=>(['auth'])],function(){
     Route::delete('delete_rentalcat/{id}',[Rentalcategory_controller::class,'delete_rentalcategories'])->name('delete_rentalcategories');
 
             // Rental Houses Management
-    // add a new rental space in the db
+    Route::post('addrentalvideo/{id}',[Rentalhouses_controller::class,'addrentalvideo'])->name('addrentalvideo');
+
+    Route::delete('delete-rentalvideo/{id}',[Rentalhouses_controller::class,'deleterentalvideo'])->name('delete_rentalvideo');
+
     Route::get('rentalhouse/add',[Rentalhouses_controller::class,'addrentalhse'])->name('addrentalhse');
 
     Route::post('rentalhouse/storehse',[Rentalhouses_controller::class,'store'])->name('rental_houses.store');
@@ -332,6 +337,10 @@ Route::group(['prefix'=>'admin','middleware'=>(['auth'])],function(){
     Route::post('roomsizes/{id}',[Rentalextraimages_controller::class,'housesizes'])->name('housesizes.house');
 
         // properties Management
+    Route::post('addpropertyvideo/{id}',[Property_controller::class,'addpropertyvideo'])->name('addpropertyvideo');
+
+    Route::delete('delete_propertyvideo/{id}',[Property_controller::class,'deletepropertyvideo'])->name('delete_propertyvideo');
+
     Route::get('add_property',[Property_controller::class,'addaproperty'])->name('add.property');
 
     Route::post('property/store',[Property_controller::class,'store'])->name('property.store');
@@ -348,7 +357,8 @@ Route::group(['prefix'=>'admin','middleware'=>(['auth'])],function(){
 
     Route::get('/updatepropertyimagesstatus',[Property_controller::class,'updatepropertyimagesstatus'])->name('updatepropertyimages.status');
 
-    // Route::post('delete_xtraimage/{id}',[Property_controller::class,'delete_xtraimage'])->name('delete_xtraimage');
+    Route::delete('delete_propertimage/{id}',[Property_controller::class,'deletepropertyimage'])->name('delete.propertyimage');
+
 
     Route::get('activeproperties',[Property_controller::class,'activeproperties'])->name('active.properties');
 
@@ -359,15 +369,17 @@ Route::group(['prefix'=>'admin','middleware'=>(['auth'])],function(){
     Route::post('updatespropertiesdetails/{id}',[Property_controller::class,'updatepropertiesdetails'])->name('updateproperties.details');
 
 
-    Route::get('propertiescategories',[Propertycategory_controller::class,'get_propertycategories'])->name('propertiescategories');
+    Route::get('propertiescategories',[Propertycategory_controller::class,'propertycategories'])->name('allproperties.categories');
 
-    Route::get('propertiescategories',[Propertycategory_controller::class,'get_propertycategories'])->name('propertiescategories');
+    Route::get('get_propertiescategories',[Propertycategory_controller::class,'get_propertycategories'])->name('propertiescategories');
 
     Route::post('addedit/propertycat',[Propertycategory_controller::class,'storepropertycat'])->name('storepropertycat');
 
     Route::get('updatepropertycategorystatus',[Propertycategory_controller::class,'updatepropertycatstatus'])->name('updatepropertycategorystatus');
 
     Route::get('propertycategories/{id}/edit',[Propertycategory_controller::class,'edit_propertycategories'])->name('edit_propertycategories');
+
+    Route::post('updatepropertycategory/{id}',[Propertycategory_controller::class,'storepropertycat'])->name('update.propertycategory');
 
     Route::delete('delete_propertycat/{id}',[Propertycategory_controller::class,'delete_propertycategories'])->name('delete_propertycategories');
 

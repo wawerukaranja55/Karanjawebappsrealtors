@@ -34,15 +34,32 @@
 </div>
     {{-- Add Rental House Extra Images--}}
     
-    <div class="row">
-        <div class="col-lg-8" style="
-            display: flex;
-            justify-content: center;">
-            <div class="panel-heading mt-5" style="text-align: center; font-size:18px; background-color:black;"> 
-                <h3 class="panel-title">Add Extra Images and Room Names To Publish The Rental House</h3> 
-            </div>
+    <div class="panel-heading mt-5" style="text-align: center; font-size:18px; background-color:black;"> 
+        <h3 class="panel-title">Add Extra Images and Room Names To Publish The Rental House</h3> 
+    </div>      
+    <div class="row" style="margin-bottom: 10px;">
+        <div class="col-lg-6">
+            @if (!empty($rentaldata->rental_video))
+
+                <h3>Change video for the Rental house</h3>
+                <div class="changehsevideo">
+                    <form action="{{ url('admin/addrentalvideo/'.$rentaldata->id) }}" class="dropzone form-horizontal dropzone-videoform" role="form" method="POST" enctype="multipart/form-data">
+                        @csrf
+                    </form>
+                </div>
+                <video class="video-js" controls preload="auto" width="100%" height="100" margin-top="10px" data-setup="{}">
+                    <source src="/videos/rentalvideos/{{$rentaldata->rental_video}}" type='video/mp4'>
+                </video>
+                <a class="confirmvideodelete" href="javascript:void(0)" data-id="{{ $rentaldata->id }}">Delete Video and Replace it</a> 
+            @else
+                <h3>Add a video for the Rental house <span class="font-type:italics;">(optional)</span></h3>
+                <form action="{{ url('admin/addrentalvideo/'.$rentaldata->id) }}" class="dropzone form-horizontal dropzone-videoform" role="form" method="POST" enctype="multipart/form-data">
+                    @csrf
+                </form>
+            @endif
+            
         </div>
-        <div class="col-lg-4">
+        <div class="col-lg-6">
             <div class="pull-right p-10">
                 <h3>Important Notes</h3>
                 <ol type="1">
@@ -1822,7 +1839,7 @@
                     <div class="form-group">
                         <label for="room_number" style="font-size: 1.5rem margin-top:5px;" class="control-label">Room Name/No.</label>
                         
-                        <input type="hidden" name="rentalhousermsize" value="noroomsize">
+                        <input type="hidden" name="rentalhousermsize" value="no_room_size">
                         
                         <div class="bg-dark" style="margin-top: 5px;">
                             <input type="text" style="font-size: 1.3rem" class="form-control text-dark" required name="room_numbername" id="room_name" placeholder="Write The Room name here">
@@ -1863,11 +1880,26 @@
         //     });
         // });
 
+        // upload a house video for that rental house using dropzone.js
+        Dropzone.autoDiscover = false;
+        var dzonerentalvideo = new Dropzone(".dropzone-videoform",{
+            maxFilesize: 20000,
+            maxFiles: 1,
+            acceptedFiles: ".Mp4"
+        });
+
+        dzonerentalvideo.on("success",function(file,response){
+            console.log(response)
+            if(response.status == 200)
+            {
+                alertify.set('notifier','position', 'top-right');
+                alertify.success(response.message);
+                
+            }
+        });
         
         $(document).ready(function(){
-            // on page load get the tags for the house
-
-
+            
             // add inputs to the inputs modal
             var maxField = 5; //Input fields increment limitation
             var addButton = $('.add_button'); //Add button selector
@@ -1960,34 +1992,36 @@
             })
         });
 
-        // Delete Room name from the db
-        $(document).on('click','#deleteroomname',function(){
+        // Delete house video from the db
+        $(document).on('click','.confirmvideodelete',function(){
 
-            var deleteroomid=$(this).data('id');
+            var deletehsevideoid=$(this).data('id');
 
-            $('.removepropertycategory').modal('show');
-            $('.modal-title').html('Delete Room Name');
-            $('#propertycategory_id').val(deleteroomid);
+            $('.admindeletemodal').modal('show');
+            $('.modal-title').html('Delete House Video');
+            $('#housevideo_id').val(deletehsevideoid);
 
         })
 
-        $(document).on('click','#deletepropertycategory',function()
+        $(document).on('click','#deletemodalbutton',function()
         {
 
-            var deleteid=$('#propertycategory_id').val();
+            var housevideoid=$('#housevideo_id').val();
 
             $.ajax({
-            type:"DELETE",
-            url:'{{ url("admin/delete_roomname",'') }}' + '/' + deleteid,
-            dataType:"json",
-            success:function(response)
-            {
-                alertify.set('notifier','position', 'top-right');
-                alertify.success(response.message);
-                roomnamestable.ajax.reload();
-                $('.removepropertycategory').modal('hide');
-                $('#propertycategory_id').val('');
-            }
+                type:"DELETE",
+                url:'{{ url("admin/delete-rentalvideo",'') }}' + '/' + housevideoid,
+                data:{housevideo_id: housevideoid},
+                success:function(response)
+                {
+                    alertify.set('notifier','position', 'top-right');
+                    alertify.success(response.message);
+                    $('.changehsevideo').show("1000");
+                    $('.video-js').hide("1000");
+                    $('.confirmvideodelete').hide("2000");
+                    $('.admindeletemodal').modal('hide');
+                    $('#housevideo_id').val('');
+                }
             })
         })
 
@@ -2232,70 +2266,71 @@
         });
 
         // edit room details
-        $('body').on('click','.editroomname',function(){
+        $(document).on('click','.editroomname',function(e){
+            e.preventDefault();
             var roomid=$(this).data('id');
 
             $.ajax({
                 url:'{{ url("admin/roomname",'') }}' + '/' + roomid + '/edit',
                 method:'GET',
                 success:function(response){
-                console.log(response);
-                $('.propertycategory').modal('show');
+                $('#admineditmodal').modal('show');
+                $('#propertycat_id').val('');
+                $('#rentaltag_id').val('');
+                $('#property_category').hide();
+                $('#rental_tagname').hide();
+                $('#location_name').hide();
+                $('#room_id').val(response.id);
+
                 $('.modal-title').html('Edit Room Name');
-                $('.catlabel').html('Room Name');
+                $('.catlabel').html('Room Name Title');
                 $('.save_button').html('Update Room Name');
-                $('.rental_tagname').hide('');
 
-                $('#propertycat_id').val(response.id);
-                $('#property_category').val(response.room_name);
+                $('#room_id').val(response.id);
+                $('#roomsize_name').val(response.house_size);
+                $('#room_name').val(response.room_name);
 
-                },error:function(error){
-                console.log(error)
-                    // if(error)
-                    // {
-                    //   console.log(error.responseJSON.errors.property_category);
-                    //   $('#catname_error').html(error.responseJSON.errors.property_category);
-                    // }
                 }
             })
+        });
 
             //   update room details
-            $('.save_button').click(function(){
+        $(document).on('click','.save_button',function(e){
+            e.preventDefault();
+            
+            var rmid=$('#room_id').val();
 
-                var url = '{{ route("updateroomname", ":id") }}';
-                updateroomurl = url.replace(':id', roomid);
+            var url = '{{ route("updateroomname", ":id") }}';
+            updateroomurl = url.replace(':id', rmid);
 
-                var form = $('.propertcat_form')[0];
-                var formdata=new FormData(form);
+            var form = $('.adminedit_form')[0];
+            var formdata=new FormData(form);
 
-                $.ajax({
-                    url:updateroomurl,
-                    method:'POST',
-                    processData:false,
-                    contentType:false,
-                    data:formdata,
-                    success:function(response)
+            $.ajax({
+                url:updateroomurl,
+                method:'POST',
+                processData:false,
+                contentType:false,
+                data:formdata,
+                success:function(response)
+                {
+                    console.log(response);
+                    if (response.status==400)
+                    {
+                        $('#admineditmodal').modal('hide');
+                        alertify.set('notifier','position', 'top-right');
+                        alertify.success(response.message);
+                        
+                    } else if (response.status==200)
                     {
                         alertify.set('notifier','position', 'top-right');
                         alertify.success(response.message);
-                        roomnamestable.ajax.reload();
-                        $('.propertycategory').modal('hide');
-                        
-                        $('.catinput').val('');
-                        $('#propertycat_id').val('');
-
+                        editroomnamestable.ajax.reload();
+                        $('#admineditmodal').modal('hide');
+                            
                     }
-                    ,error:function(error)
-                    {
-                        console.log(error)
-                        if(error)
-                        {
-                        // console.log(error.responseJSON.errors.property_category);
-                        $('#catname_error').html(error.responseJSON.errors.property_category);
-                        }
-                    }
-                });
-            })
+                }
+            });
         })
 
         

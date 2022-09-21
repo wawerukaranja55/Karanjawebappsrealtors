@@ -100,46 +100,29 @@
 	  <div class="head-img">
 		<img
 		  src="{{ asset('imagesforthewebsite/webicon.jpg') }}"
-		  alt="Jamar Real Estate Agents"
+		  alt="W.Karanja Apps"
 		/>
 	  </div>
 	</div>
 	<div class="email-body">
 	  <div class="body-text">
 		<div class="body-greeting">
-		  Hi, {{ $userdetails->name }}!
+            Memo: as at {{ $memodetails->created_at->timezone('EAT')->toDayDateTimeString() }}
+			<h3>{{ $memodetails->memo_title }}</h3>
 		</div>
-		Your Rental Payment Via Mpesa have been made Successful!
+		
 	  </div>
 	  <div class="body-table">
-		<table>
-		  <tr class="item">
-			<th>House Name</th>
-			<th>Room Title/No.</th>
-			<th>Date Paid</th>
-		  </tr>
-		  <tr>
-			<td>{{ $userdetails->rentalhses->rental_name }}</td>
-			<td>
-				@foreach ($userdetails->hserooms as $room )
-					{{ $room->room_name }}
-				@endforeach
-			</td>
-			<td>{{ $mpesadetails->created_at->timezone('EAT')->toDayDateTimeString() }}</td>
-		  </tr>
-		  <tr class="total">
-			<th>Total Amount Paid</th>
-			<th>sh.{{ $mpesadetails->amount }}</th>
-		  </tr>
-		</table>
+		<p>
+			{!!$memodetails->memo_message!!}</p>
 	  </div>
 	  <div class="body-text bottom-text">
-		Thank You for paying for your paying your rent &#708;_&#708;
+		We Offer The Best when it Comes to Rental Management and Property Selling&#708;_&#708;
 	  </div>
 	</div>
 	<div class="email-footer">
 	  <div class="footer-text">
-		&copy; <a href="/"  target="_blank">JamarAgents</a>
+		&copy; <a href="/"  target="_blank">W.Karanja Apps</a>
 	  </div>
 	</div>
   </div>

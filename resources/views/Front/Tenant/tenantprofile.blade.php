@@ -1,3 +1,4 @@
+
 @extends('Front.frontmaster')
 @section('title','Tenant Profile Page')
 @section('content')
@@ -90,149 +91,197 @@
                 <input type="hidden" name="userid" id="userid" value="{{ $userprofile->id }}">
                 
                 {{-- <input type="hidden" name="checkoutrequestid" id="checkoutrequestid" value="{{ $userprofile->checkoutrequest_id }}"> --}}
-                <div class="row mt-3">
-                    <div class="col-lg-6 col-md-6">
-                        <p class="tenantdetails"><strong>Id Number :</strong> {{ $userprofile->id_number }}</p>
-                        <p class="tenantdetails">
-                            <strong>Phone :</strong> {{ $userprofile->phone }}
-                        </p>
-                        <p class="tenantdetails"><strong>House Name :</strong>
-                            {{ $userprofile->rentalhses->rental_name }}
-                        </p>
-                        <p class="tenantdetails"><strong>House Number :</strong>
-                            @foreach ($userprofile->hserooms as $room )
-                                {{ $room->room_name }}
+                @if($userprofile->is_landlord == 0)
+                    <div class="row mt-3">
+                        <div class="col-lg-6 col-md-6">
+                            <p class="tenantdetails"><strong>Id Number :</strong> {{ $userprofile->id_number }}</p>
+                            <p class="tenantdetails">
+                                <strong>Phone :</strong> {{ $userprofile->phone }}
+                            </p>
+                            <p class="tenantdetails"><strong>House Name :</strong>
+                                {{ $userprofile->rentalhses->rental_name }}
+                            </p>
+                            <p class="tenantdetails"><strong>House Number :</strong>
+                                @foreach ($userprofile->hserooms as $room )
+                                    {{ $room->room_name }}
+                                @endforeach
+                            </p>
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                            @if ($userprofile->rentalhses->is_addedtags==1)
+                                <p class="tenantdetails"><strong>Monthly Rent :sh.</strong>{{ $hseroomprice }}</p>
+                            @else
+                                <p class="tenantdetails"><strong>Monthly Rent :sh.</strong>{{ $userprofile->rentalhses->monthly_rent }}</p>
+                            @endif
+                            
+                        </div>
+                    </div>
+                @else
+                    <h5>User Details</h5>
+                    <div class="row mt-3">
+                        <div class="col-lg-6 col-md-6">
+                            <p class="tenantdetails"><strong>Id Number :</strong> {{ $userprofile->id_number }}</p>
+                            <p class="tenantdetails">
+                                <strong>Phone :</strong> {{ $userprofile->phone }}
+                            </p>
+                            <p class="tenantdetails"><strong>Email :</strong>
+                                {{ $userprofile->email }}
+                            </p>
+                        </div>
+                    </div>
+
+                    <h5>Your House Details</h5>
+                    <div class="row mt-3">
+                        <div class="col-lg-10 col-md-10">
+                            @foreach ( $userprofile->landlordhouses as $hse)
+                                <p class="tenantdetails"><strong>Your House Name/(s) :</strong>{{$hse->rental_name }}
+
+                                </p>
+                                &nbsp;<strong>Number Of Rooms In the House :</strong> {{ $hse->total_rooms }} <br><br>
+
+                                @if ($hse->is_addedtags==1)
+                                    @foreach ($hse->hseroomsizes as $rmsize )
+                                        <p class="tenantdetails"><strong>Room Size :</strong>{{ $rmsize->room_size }}....sh.<span>{{ $rmsize->roomsize_price }}</span> Per Month</p>
+                                    @endforeach
+                                @elseif($hse->is_addedtags==0)
+                                    <p class="tenantdetails"><strong>Monthly Rent:</strong>{{ $hse->monthly_rent }}</p>
+                                @endif
+
                             @endforeach
-                        </p>
+                        </div>
                     </div>
-                    <div class="col-lg-6 col-md-6">
-                        <p class="tenantdetails"><strong>Monthly Rent :sh.</strong> {{ $userprofile->rentalhses->monthly_rent }}</p>
-                    </div>
-                </div>
+                @endif
                 
+                @if($userprofile->is_admin === 0 && $userprofile->is_landlord === 0)
+                    <div id="paywithmpesa">
+                        <section id="tabs" class="project-tab">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <nav>
+                                        <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                                            <a class="nav-item nav-link active payment-tab" id="nav-payment-tab" 
+                                                data-toggle="tab" href="#nav-payment" role="tab" aria-controls="nav-payment" aria-selected="true">
+                                                <span id="paydetails">1.</span>Payment Details
+                                            </a>
+                                            <a class="nav-item nav-link confirm-tab disabled" id="nav-confirm-tab"
+                                                data-toggle="tab" href="#nav-confirm" role="tab" aria-controls="nav-confirm" aria-selected="false">
+                                                <span id="confirmpay">2.</span>Confirm Payment
+                                            </a>
+                                            <a class="nav-item nav-link paid-tab disabled" id="nav-paid-tab" 
+                                                data-toggle="tab" href="#nav-paid" role="tab" aria-controls="nav-paid" aria-selected="false">
+                                                <span id="rentpaid">3.</span>Rent Paid</a>
+                                        </div>
+                                    </nav>
+                                    <div class="tab-content" id="nav-tabContent">
+                                        <div class="tab-pane fade show active" id="nav-payment" role="tabpanel" aria-labelledby="nav-payment-tab">
+                                            <div class="row">
+                                                <div class="col-md-12" style="border: 2px solid black;">
+                                                    <div class="card padding-card product-card" style="text-align: center; margin-top:20px;">
+                                                        <h3>Pay Your Rent With Mpesa</h3>
+                                                        <form action="javascript:void(0)" id="payrentwithmpesa" class="form-horizontal" role="form" method="POST">
+                                                            @csrf
+                                                            <div class="card-body">
+                                    
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <label style="font-size: 20px;">Amount Of Rent To Pay</label>
+                                                                        @if ($userprofile->rentalhses->is_addedtags == 1)
+                                                                            <input type="number" class="form-control text-white bg-dark" name="rent_amount" value="{{ $hseroomprice }}">
+                                                                        @else
+                                                                            <input type="number" class="form-control text-white bg-dark" name="rent_amount" id="rent_amount" value="{{ $userprofile->rentalhses->monthly_rent }}">
+                                                                        @endif
+                                                                    </div>
+                                                                </div>
+                                    
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                    <label style="font-size: 20px;">Phone Number</label>
+                                                                    <input type="number" class="form-control text-white bg-dark" name="phone" id="phonenumber" placeholder="Enter Phone Number To Charge">
+                                                                    <ul class="alert alert-warning d-none mpesa_errorlist"></ul>
+                                                                </div>
+                                                                </div>
 
-                <div id="paywithmpesa">
-                    <section id="tabs" class="project-tab">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <nav>
-                                    <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
-                                        <a class="nav-item nav-link active payment-tab" id="nav-payment-tab" 
-                                            data-toggle="tab" href="#nav-payment" role="tab" aria-controls="nav-payment" aria-selected="true">
-                                            <span id="paydetails">1.</span>Payment Details
-                                        </a>
-                                        <a class="nav-item nav-link confirm-tab disabled" id="nav-confirm-tab"
-                                            data-toggle="tab" href="#nav-confirm" role="tab" aria-controls="nav-confirm" aria-selected="false">
-                                            <span id="confirmpay">2.</span>Confirm Payment
-                                        </a>
-                                        <a class="nav-item nav-link paid-tab disabled" id="nav-paid-tab" 
-                                            data-toggle="tab" href="#nav-paid" role="tab" aria-controls="nav-paid" aria-selected="false">
-                                            <span id="rentpaid">3.</span>Rent Paid</a>
-                                    </div>
-                                </nav>
-                                <div class="tab-content" id="nav-tabContent">
-                                    <div class="tab-pane fade show active" id="nav-payment" role="tabpanel" aria-labelledby="nav-payment-tab">
-                                        <div class="row">
-                                            <div class="col-md-12" style="border: 2px solid black;">
-                                                <div class="card padding-card product-card" style="text-align: center; margin-top:20px;">
-                                                    <h3>Pay Your Rent With Mpesa</h3>
-                                                    <form action="javascript:void(0)" id="payrentwithmpesa" class="form-horizontal" role="form" method="POST">
-                                                        @csrf
-                                                        <div class="card-body">
-                                
-                                                            <div class="row">
-                                                                <div class="col-md-9">
-                                                                    <label style="font-size: 20px;">Amount Of Rent To Pay</label>
-                                                                    <input type="number" class="form-control text-white bg-dark" name="rent_amount" id="rent_amount" value="{{ $userprofile->rentalhses->monthly_rent }}">
+                                    
+                                                                <input type="hidden" name="tenantname" id="tenantname" value="{{ $userprofile->name }}">
+                                                                <input type="text" class="form-control" name="userid" id="user" value="{{ $userprofile->id }}" hidden>
+                                    
+                                                                <div class="row section-groups mt-3">
+                                                                    <div class="col-md-12 text-center">
+                                                                        <button type="submit" class="btn btn-md btn-danger">Pay Rent</button>
+                                                                    </div>
                                                                 </div>
+                                    
                                                             </div>
-                                
-                                                            <div class="row">
-                                                                <div class="col-md-9">
-                                                                <label style="font-size: 20px;">Phone Number</label>
-                                                                <input type="number" class="form-control text-white bg-dark" name="phone_number" id="phonenumber" placeholder="Enter Phone Number To Charge">
-                                                                </div>
-                                                            </div>
-                                
-                                                            <input type="hidden" name="tenantname" id="tenantname" value="{{ $userprofile->name }}">
-                                                            <input type="text" class="form-control" name="userid" id="user" value="{{ $userprofile->id }}" hidden>
-                                
-                                                            <div class="row section-groups mt-3">
-                                                                <div class="col-md-12 text-center">
-                                                                    <button type="submit" class="btn btn-md btn-danger">Pay Rent</button>
-                                                                </div>
-                                                            </div>
-                                
-                                                        </div>
-                                                    </form>
+                                                        </form>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="tab-pane fade show" id="nav-confirm" role="tabpanel" aria-labelledby="nav-confirm-tab">
-                                        <div class="row">
-                                            <div class="col-md-12" style="border: 2px solid black;">
-                                                <div class="card padding-card product-card confirmrentalpay" style="text-align: center; margin-top:20px;">
-                                                    <h3>Confirm The Rental Payment</h3>
-                                                    <form action="javascript:void(0)" id="confirmmpesapayment" class="form-horizontal" role="form" method="POST">
-                                                        @csrf
-                                                        <div class="card-body">
+                                        <div class="tab-pane fade show" id="nav-confirm" role="tabpanel" aria-labelledby="nav-confirm-tab">
+                                            <div class="row">
+                                                <div class="col-md-12" style="border: 2px solid black;">
+                                                    <div class="card padding-card product-card confirmrentalpay" style="text-align: center; margin-top:20px;">
+                                                        <h3>Confirm The Rental Payment</h3>
+                                                        <form action="javascript:void(0)" id="confirmmpesapayment" class="form-horizontal" role="form" method="POST">
+                                                            @csrf
+                                                            <div class="card-body">
 
-                                                            <div class="row">
-                                                                <div class="col-md-9">
-                                                                    <label style="font-size: 20px;">Transaction Code</label>
-                                                                    <input type="text" class="form-control text-white bg-dark" name="transactionid" id="transactionid" placeholder="Enter the Transaction code Sent Back In Your Mpesa Message.e.g QWERRYHSG ">
+                                                                <div class="row">
+                                                                    <div class="col-md-9">
+                                                                        <label style="font-size: 20px;">Transaction Code</label>
+                                                                        <input type="text" class="form-control text-white bg-dark" name="transactionid" id="transactionid" placeholder="Enter the Transaction code Sent Back In Your Mpesa Message.e.g QWERRYHSG ">
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                            <span style="font-style: italic">Keenly Check the Confirmation code very well on the message and type all the letters and number.</span>
-                                                            <div class="row section-groups mt-3">
-                                                                <div class="col-md-12 text-center">
-                                                                    <button type="submit" class="btn btn-md btn-danger">Submit</button>
+                                                                <span style="font-style: italic">Keenly Check the Confirmation code very well on the message and type all the letters and number.</span>
+                                                                <div class="row section-groups mt-3">
+                                                                    <div class="col-md-12 text-center">
+                                                                        <button type="submit" class="btn btn-md btn-danger">Submit</button>
+                                                                    </div>
                                                                 </div>
+                                    
                                                             </div>
-                                
-                                                        </div>
-                                                    </form>
+                                                        </form>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="tab-pane fade show" id="nav-paid" role="tabpanel" aria-labelledby="nav-paid-tab">
-                                        <div class="card" id="mpesasuccessful">
-                                            <div style="border-radius:200px; height:200px; width:200px;
-                                            background: #f3f5f1; margin:0 auto; 
-                                            display: flex;
-                                            justify-content: center;" >
-                                              <i class="checkmark" 
-                                                style="color: hsl(180, 93%, 43%);
-                                                font-size: 100px;
-                                                line-height: 200px;">✓</i>
+                                        <div class="tab-pane fade show" id="nav-paid" role="tabpanel" aria-labelledby="nav-paid-tab">
+                                            <div class="card" id="mpesasuccessful">
+                                                <div style="border-radius:200px; height:200px; width:200px;
+                                                background: #f3f5f1; margin:0 auto; 
+                                                display: flex;
+                                                justify-content: center;" >
+                                                <i class="checkmark" 
+                                                    style="color: hsl(180, 93%, 43%);
+                                                    font-size: 100px;
+                                                    line-height: 200px;">✓</i>
+                                                </div>
+                                                <div class="card-body">
+                                                    <h1>Payment Successful</h1>
+                                                    <span>Your Payment is Successful.Click on the tab below to check the transaction Details.</span>
+                                                </div>
                                             </div>
-                                            <div class="card-body">
-                                                <h1>Payment Successful</h1>
-                                                <span>Your Payment is Successful.Click on the tab below to check the transaction Details.</span>
-                                            </div>
-                                        </div>
-                                        <div class="card" id="mpesafailed">
-                                            <div style="border-radius:200px; height:200px; width:200px;
-                                            background: #dd0529; margin:0 auto; 
-                                            display: flex;
-                                            justify-content: center;" >
-                                                <i class="checkmark" style="color: hsl(0, 29%, 97%);
-                                                font-size: 100px;
-                                                line-height: 200px;">X</i>
-                                            </div>
-                                            <div class="card-body">
-                                                <h1>Payment On Mpesa Failed</h1>
-                                                <span>Your Payment Failed Kindly check Your Phone Number Again.</span>
+                                            <div class="card" id="mpesafailed">
+                                                <div style="border-radius:200px; height:200px; width:200px;
+                                                background: #dd0529; margin:0 auto; 
+                                                display: flex;
+                                                justify-content: center;" >
+                                                    <i class="checkmark" style="color: hsl(0, 29%, 97%);
+                                                    font-size: 100px;
+                                                    line-height: 200px;">X</i>
+                                                </div>
+                                                <div class="card-body">
+                                                    <h1>Payment On Mpesa Failed</h1>
+                                                    <span>Your Payment Failed.If you made Payment <a href="{{ route('contact.us') }}" class="btn btn-xs text-light bg-dark">Click here</a> and send the Mpesa transaction code to the admin for verification or reload the page and try making the payment again</span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </section>
-                </div>
+                        </section>
+                    </div>
+                @endif
             </div>
                  
         </div>
@@ -245,7 +294,9 @@
                                 <nav>
                                     <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
                                         <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Update Your Profile</a>
-                                        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Mpesa Rent Payments</a>
+                                        @if($userprofile->is_admin == 0 && $userprofile->is_landlord == 0)
+                                            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Mpesa Rent Payments</a>
+                                        @endif
                                         <a class="nav-item nav-link" id="nav-password-tab" data-toggle="tab" href="#nav-password" role="tab" aria-controls="nav-password" aria-selected="false">Update Your Password</a>
                                     </div>
                                 </nav>
@@ -253,38 +304,39 @@
                                     <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
                                         <div class="row">
                                             <div class="col-md-12">
-                                                <form method="POST" action="{{ url('edituserdetails/'.$userprofile->id) }}">
+                                                <form method="POST" action="javascript:void(0)" id="updatetenantdetails">
                                                     @csrf
                                                     <div class="card padding-card product-card">
                                                         <div class="card-body">
                                                             <h5 class="card-title mb-4" style="color: black; font-size:18px;">1.Personal Details</h5>
                                         
+                                                            <input type="hidden" name="userid" id="tennatid" value="{{ $userprofile->id }}">
                                                             <div class="row section-groups">
                                                                 <div class="form-group inputdetails col-sm-6">
                                                                     <label>Name<span class="text-danger inputrequired">*</span></label>
-                                                                    <input type="text" class="form-control text-white bg-dark" required name="fullname" id="fullname">
+                                                                    <input type="text" class="form-control text-white bg-dark fullname" value="{{ $userprofile->name }}" required name="name">
                                                                 </div>
                                         
                                                                 <div class="form-group inputdetails col-sm-6">
                                                                     <label>Phone Number<span class="text-danger inputrequired">*</span></label>
-                                                                    <input type="text" class="form-control text-white bg-dark" required name="phonenumber" id="phone_number">
+                                                                    <input type="number" class="form-control text-white bg-dark phone_number" value="{{ $userprofile->phone }}" required name="phone">
                                                                 </div>
                                                             </div>
                                 
                                                             <div class="row section-groups">
                                                                 <div class="form-group inputdetails col-sm-6">
                                                                     <label>Email<span class="text-danger inputrequired">*</span></label>
-                                                                    <input type="email" class="form-control text-white bg-dark" required name="email" id="emailaddress">
+                                                                    <input type="email" class="form-control text-white bg-dark email" required name="email" value="{{ $userprofile->email }}">
                                                                 </div>
                                                                 <div class="form-group inputdetails col-sm-6">
                                                                     <label>Id Number<span class="text-danger inputrequired">*</span></label>
-                                                                    <input type="number" class="form-control text-white bg-dark" required name="id_number" id="idnumber">
+                                                                    <input type="number" class="form-control text-white bg-dark id_number" required name="id_number" value="{{ $userprofile->id_number }}">
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
 
-                                                    @if($userprofile->is_admin == 0)
+                                                    @if($userprofile->is_admin == 0 && $userprofile->is_landlord == 0)
                                                         <div class="card padding-card product-card">
                                                             <div class="card-body">
                                                                 <h5 class="card-title mb-4" style="color: black; font-size:18px;">2.House Details</h5>
@@ -293,20 +345,28 @@
                                                                     <div class="form-group inputdetails col-sm-6">
                                                                         <label>House Name<span class="text-danger inputrequired">*</span></label>
                                                                         <br>
-                                                                        <select name="rentalnameid" class="rntalhse form-control text-white bg-dark" style="width: 100%;" required>
+                                                                        <select name="house_id" class="rntalhse form-control text-white bg-dark"  id="rentalhouseedit" style="width: 100%;">
+                                                                            <option disabled selected value=" ">Select Your Rental House </option>
                                                                             @foreach($activehousenames as $housename)
-                                                                                <option value="{{ $housename->id }}">{{ $housename->rental_name }}
+                                                                                <option value="{{ $housename->id }}" {{$userprofile->house_id == $housename->id  ? 'selected' : ''}}>{{ $housename->rental_name }}
                                                                                 </option>
                                                                             @endforeach
+
+                                                                            {{-- <option value="option_select" disabled selected>Shoppings</option>
+                                                                            @foreach($shoppings as $shopping)
+                                                                                <option value="{{ $shopping->id }}" {{$company->shopping_id == $shopping->id  ? 'selected' : ''}}>{{ $shopping->fantasyname}}</option>
+                                                                            @endforeach --}}
                                                                         </select>
                                                                     </div>
                                             
                                                                     <div class="form-group inputdetails col-sm-6">
                                                                         <label>Room Name/Number<span class="text-danger inputrequired">*</span></label>
-                                                                        <select name="getroomnamenumber" id="rmnamenumber" class="form-control text-white bg-dark" style="width: 100%;" required>
-                                                                            @foreach($rmnames as $rmname)
-                                                                                <option value="{{ $rmname->id }}">{{ $rmname->room_name }}
-                                                                                </option>
+                                                                        <select name="rentalroom_id" id="rmnamenumber" class="form-control text-white bg-dark roomnamennumber" style="width: 100%;">
+                                                                            @foreach($userprofile->hserooms as $roomid)
+                                                                                @foreach($rmnames as $rmname)
+                                                                                    <option value="{{ $rmname->id }}" {{$roomid->id == $rmname->id  ? 'selected' : ''}}>{{ $rmname->room_name }}
+                                                                                    </option>
+                                                                                @endforeach
                                                                             @endforeach
                                                                         </select>
                                                                     </div>
@@ -314,25 +374,28 @@
                                                             </div>
                                                         </div>
                                                     @endif 
+                                                    <ul class="alert alert-warning d-none edituser_errorlist"></ul>
                                                    <button type="submit" class="btn btn-dark text-white">Update The Details</button>
                                                 </form>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-                                        <table id="mpesapaymentstable" class="table  table-bordered" style="width: 100%;">
-                                            <thead>
-                                                <tr>
-                                                    <th>Id</th>
-                                                    <th>Transaction_id</th>
-                                                    <th>Phone Number</th>
-                                                    <th>Date Paid</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody></tbody>
-                                        </table>
-                                    </div>
+                                    @if($userprofile->is_admin == 0 && $userprofile->is_landlord == 0)
+                                        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                                            <table id="mpesapaymentstable" class="table  table-bordered" style="width: 100%;">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Id</th>
+                                                        <th>Transaction_id</th>
+                                                        <th>Phone Number</th>
+                                                        <th>Date Paid</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                    @endif
                                     <div class="tab-pane fade" id="nav-password" role="tabpanel" aria-labelledby="nav-password-tab">
                                         <div class="row">
                                             <div class="col-md-12">
@@ -463,6 +526,7 @@
         // mpesa pay rent by mpesa
         $(document).ready(function(){
 
+            $("#rmnamenumber").select2();
             // add payment details
             var mpesapayurl = '{{ route("stkpush") }}'; 
             $("#payrentwithmpesa").on("submit",function(e){
@@ -476,18 +540,29 @@
                     contentType:false,
                     data:formdata,
                     success:function(response){
-                        $message="Kindly Check On Your Phone and Enter Mpesa Pin"
-                        alertify.set('notifier','position', 'top-right');
-                        alertify.success($message);
-                        alert('check phone');
-                        // $('#nav-payment-tab').append('<span id="paydetails"><img src=\"/imagesforthewebsite/icons/check-circle-solid.svg/" height=\"30px\"></span>');
+                        console.log(response)
+                        if (response.status==422)
+                        {
+                            $('.mpesa_errorlist').html(" ");
+                            $('.mpesa_errorlist').removeClass('d-none');
+                            $.each(response.message,function(key,err_value)
+                            {
+                                $('.mpesa_errorlist').append('<li>' + err_value + '</li>');
+                            })
+                        } else if (response.status==200)
+                        {
+                            $message="Kindly Check On Your Phone and Enter Mpesa Pin"
+                            alertify.set('notifier','position', 'top-right');
+                            alertify.success($message);
+                            alert('check phone');
+                            // $('#nav-payment-tab').append('<span id="paydetails"><img src=\"/imagesforthewebsite/icons/check-circle-solid.svg/" height=\"30px\"></span>');
 
-                        $('#nav-confirm-tab').removeClass("disabled").addClass("active");
-                        $('#nav-payment-tab').removeClass("active").addClass("disabled");
+                            $('#nav-confirm-tab').removeClass("disabled").addClass("active");
+                            $('#nav-payment-tab').removeClass("active").addClass("disabled");
 
-                        $('#nav-payment').hide();
-                        $('#nav-confirm').show()
-                        
+                            $('#nav-payment').hide();
+                            $('#nav-confirm').show();
+                        }
                     },
                     error:function(response){
                         console.log(response);
@@ -538,38 +613,6 @@
                 });
             })
 
-            // add data to the edit form from the table upon page load
-            var useraccountid=$('.useraccntid').val();
-            $.ajax({
-                url:'{{ url("edituseraccount",'') }}' + '/' + useraccountid + '/edit',
-                method:'GET',
-                processData: false,
-                contentType: false,
-                success:function(response)
-                {
-                    if (response.status==200)
-                    {
-                    $('#username').val(response.edituserdetail.username);
-                    $('#fullname').val(response.edituserdetail.name);
-                    $('#phone_number').val(response.edituserdetail.phone);
-                    $('#emailaddress').val(response.edituserdetail.email);
-                    $('#idnumber').val(response.edituserdetail.id_number);
-
-                    $('.rntalhse').select2();
-                    $('.rntalhse').val(response.edituserdetail.rentalhses.id);
-
-                    var housesobject = (response.edituserdetail.hserooms);
-                    var tagsarray = $.map(housesobject, function(el) { 
-                        return el['id']; 
-                    });
-
-                    //pass array object value to select2
-                    $("#rmnamenumber").select2();
-                    $('#rmnamenumber').val(tagsarray).trigger('change');;
-                    }
-                }
-            })
-
             // check if the current password is correct
             $("#current_pwd").keyup(function(){
                 var currentpassword=$("#current_pwd").val();
@@ -598,6 +641,7 @@
         // show rooms for a house on dropdown
         $(document).on('change','.rntalhse',function(){
             var hsetitle_id=$( ".rntalhse" ).val();
+            $('#rmnamenumber').val('');
             $.ajax({
                 type:'get',
                 url:'{{ route("getrooms.house") }}',
@@ -606,18 +650,53 @@
                 },
                 success:function(data){
                         console.log(data);
-                        $('#rmnamenumber').html('<option disabled selected value=" ">Select Your Room Name/Number</option>');
+                        $('.roomnamennumber').html('<option disabled selected value=" ">Select Your Room Name/Number</option>');
                         
                         console.log("the data is ",data);
                         data.forEach((room)=>{
                         console.log(room);
-                        $('#rmnamenumber').append('<option value="'+room.id+'">'+room.room_name+'</option>');
+                        $('.roomnamennumber').append('<option value="'+room.id+'">'+room.room_name+'</option>');
                     });
                         
-                },error:function(){
                 }
             });
         });
+
+        // update user details for a tenant
+        $(document).on('submit','#updatetenantdetails',function(){
+
+            var tennatid=$('#tennatid').val();
+            var url = '{{ route("edituser.details", ":id") }}'; 
+            userupdateurl = url.replace(':id',tennatid);
+            var form = $('#updatetenantdetails')[0];
+            var formdata=new FormData(form);
+
+            $.ajax({
+                url:userupdateurl,
+                method:'POST',
+                processData:false,
+                contentType:false,
+                data:formdata,
+                success:function(response)
+                {
+                    console.log(response);
+                    if (response.status==400)
+                    {
+                        $('.edituser_errorlist').html(" ");
+                        $('.edituser_errorlist').removeClass('d-none');
+                        $.each(response.message,function(key,err_value)
+                        {
+                                $('.edituser_errorlist').append('<li>' + err_value + '</li>');
+                        })
+                    } 
+                    else if (response.status==200)
+                    {
+                        alertify.set('notifier','position', 'top-right');
+                        alertify.success(response.message);
+                    }
+                }
+            });
+        })
 
         // user can deactivate their account
         // $(document).on('click','#deactivateuseraccount',function(){

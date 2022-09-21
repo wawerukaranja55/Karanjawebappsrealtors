@@ -57,16 +57,6 @@ class Tenant_controller extends Controller
                 $rmupdate->is_occupied=1,
             ]);
 
-            // send email to the user to inform them to login
-            $email=$user['email'];
-            $name=$user['name'];
-            $housename=$user->rentalhses->rental_name;
-            $messagedata=['email'=>$email,'name'=>$name,'housename'=>$housename];
-
-            Mail::send('emails.signupsuccessful', $messagedata, function ($message) use($email) {
-                $message->to($email)->subject('Welcome to Jamar Real Estate Agencies');
-            });
-
             $countoccupiedrms=Room_name::where(['rentalhouse_id'=>$user->house_id,'is_occupied'=>1])->count();
             $hsetotalrooms=Rental_house::where('id',$user->house_id)->pluck('total_rooms')->first();
             
@@ -75,6 +65,17 @@ class Tenant_controller extends Controller
             
                 Rental_house::where('id',$user->house_id)->update(['is_vacancy'=>2]);
             }
+            
+            // send email to the user to inform them to login
+            $email=$user['email'];
+            $name=$user['name'];
+            $housename=$user->rentalhses->rental_name;
+            $messagedata=['email'=>$email,'name'=>$name,'housename'=>$housename];
+
+            Mail::send('emails.signupsuccessful', $messagedata, function ($message) use($email) {
+                $message->to($email)->subject('Welcome to W.Karanja Apps');
+            });
+
             return response()->json([
                 'user'=>$user,
                 'status'=>200,

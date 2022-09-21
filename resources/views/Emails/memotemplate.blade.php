@@ -1,170 +1,127 @@
-<!-- START HEAD -->
-<head>
-    
-    <!-- CHARSET -->
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    
-    <!-- MOBILE FIRST -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<style>
+	.email {
+	  max-width: 480px;
+	  margin: 1rem auto;
+	  border-radius: 10px;
+	  border-top: #d74034 2px solid;
+	  border-bottom: #d74034 2px solid;
+	  box-shadow: 0 2px 18px rgba(0, 0, 0, 0.2);
+	  padding: 1.5rem;
+	  font-family: Arial, Helvetica, sans-serif;
+	}
+	.email .email-head {
+	  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+	  padding-bottom: 1rem;
+	}
+	.email .email-head .head-img {
+	  max-width: 240px;
+	  padding: 0 0.5rem;
+	  display: block;
+	  margin: 0 auto;
+	}
 
-    {{-- icon for our website --}}
-    <link rel="icon" type="image/png" href="{{ asset('imagesforthewebsite/webicon.jpg') }}">
-    
-    <!-- GOOGLE FONTS -->
-    <link href="https://fonts.googleapis.com/css?family=Ubuntu+Mono" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
-    
-    <!-- RESPONSIVE CSS -->
-    <style type="text/css">
-        @media only screen and (max-width: 550px){
-            .responsive_at_550{
-                width: 90% !important;
-                max-width: 90% !important;
-            }
-        }
-    </style>
+	.email .email-head .head-img img {
+	  width: 100%;
+	}
+	.email-body .invoice-icon {
+	  max-width: 80px;
+	  margin: 1rem auto;
+	}
+	.email-body .invoice-icon img {
+	  width: 100%;
+	}
 
+	.email-body .body-text {
+	  padding: 2rem 0 1rem;
+	  text-align: center;
+	  font-size: 1.15rem;
+	}
+	.email-body .body-text.bottom-text {
+	  padding: 2rem 0 1rem;
+	  text-align: center;
+	  font-size: 0.8rem;
+	}
+	.email-body .body-text .body-greeting {
+	  font-weight: bold;
+	  margin-bottom: 1rem;
+	}
+
+	.email-body .body-table {
+	  text-align: left;
+	}
+	.email-body .body-table table {
+	  width: 100%;
+	  font-size: 1.1rem;
+	}
+	.email-body .body-table table .total {
+	  background-color: hsla(4, 67%, 52%, 0.12);
+	  border-radius: 8px;
+	  color: #d74034;
+	}
+	.email-body .body-table table .item {
+	  border-radius: 8px;
+	  color: #d74034;
+	}
+	.email-body .body-table table th,
+	.email-body .body-table table td {
+	  padding: 10px;
+	}
+	.email-body .body-table table tr:first-child th {
+	  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+	}
+	.email-body .body-table table tr td:last-child {
+	  text-align: right;
+	}
+	.email-body .body-table table tr th:last-child {
+	  text-align: right;
+	}
+	.email-body .body-table table tr:last-child th:first-child {
+	  border-radius: 8px 0 0 8px;
+	}
+	.email-body .body-table table tr:last-child th:last-child {
+	  border-radius: 0 8px 8px 0;
+	}
+	.email-footer {
+	  border-top: 1px solid rgba(0, 0, 0, 0.2);
+	}
+	.email-footer .footer-text {
+	  font-size: 0.8rem;
+	  text-align: center;
+	  padding-top: 1rem;
+	}
+	.email-footer .footer-text a {
+	  color: #d74034;
+	}
+  </style>
 </head>
-<!-- END HEAD -->
-
-<!-- START BODY -->
 <body>
-    
-    <!-- START EMAIL CONTENT -->
-    <table style="width:100%; align:center;">        
-        <tbody>
-            <tr>
-                <td style="align:center; backgroundcolor:#1976D2;">
-                    <table style="align:center; width:100%;">
-                        <tbody>
-                            <tr>
-                                <td width="100%" align="center">
-                                    
-                                    <!-- START SPACING -->
-                                    <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
-                                        <tbody>
-                                            <tr>
-                                                <td height="40">&nbsp;</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    <!-- END SPACING -->
-                                    
-                                    <!-- START LOGO -->
-                                    <table width="200" border="0" cellpadding="0" cellspacing="0" align="center">
-                                        <tbody>
-                                            <tr>
-                                                <td width="100%" align="center">
-                                                    <img width="200" src="{{ asset('imagesforthewebsite/webicon.jpg') }}" style="text-align: center;"/>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    <!-- END LOGO -->
-                                    
-                                    <!-- START SPACING -->
-                                    <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
-                                        <tbody>
-                                            <tr>
-                                                <td height="40">&nbsp;</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    <!-- END SPACING -->
-                                    
-                                    <!-- START CONTENT -->
-                                    <table width="500" border="0" cellpadding="0" cellspacing="0" align="center" style="padding-left:20px; padding-right:20px;" class="responsive_at_550">
-                                        <tbody>
-                                            <tr>
-                                                <td align="center" bgcolor="#ffffff">
-                                                    
-                                                    <!-- START HEADING -->
-                                                    <table width="90%" border="0" cellpadding="0" cellspacing="0" align="center">
-                                                        <tbody>
-                                                            <tr>
-                                                                <td width="100%" align="center">
-                                                                    <h1 style="font-family:'Ubuntu Mono', monospace; font-size:20px; color:#202020; font-weight:bold; padding-left:20px; padding-right:20px;">Notice From Jamar Real Estate</h1>
-                                                                </td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                    <!-- END HEADING -->
-                                                    
-                                                    <!-- START PARAGRAPH -->
-                                                    <table width="90%" border="0" cellpadding="0" cellspacing="0" align="center">
-                                                        <tbody>
-                                                            <tr>
-                                                                <td width="100%" align="center">
-                                                                    <p style="font-family:'Ubuntu', sans-serif; font-size:14px; color:#202020; padding-left:20px; padding-right:20px; text-align:justify;">
-                                                                       <h3>{{ $memotitle }}</h3>
-                                                                        <p>{{ $memomsg }}</p>
-                                                                        Click <a href="{{ url('/') }}">here</a> To Access the website </p>
-                                                                </td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                    <!-- END PARAGRAPH -->
-                                                    
-                                                    <!-- START SPACING -->
-                                                    <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
-                                                        <tbody>
-                                                            <tr>
-                                                                <td height="30">&nbsp;</td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                    <!-- END SPACING -->
-                                                    
-                                                    <!-- START BUTTON -->
-                                                    <table width="200" border="0" cellpadding="0" cellspacing="0" align="center">
-                                                        <tbody>
-                                                            <tr>
-                                                                <td align="center" bgcolor="#1976D2">
-                                                                    {{-- <a style="font-family:'Ubuntu Mono', monospace; display:block; color:#ffffff; font-size:14px; font-weight:bold; text-decoration:none; padding-left:20px; padding-right:20px; padding-top:20px; padding-bottom:20px;" href="{{ url('confirmaccount/'.) }}">Verify E-mail Address</a> --}}
-                                                                </td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                    <!-- END BUTTON -->
-                                                    
-                                                    <!-- START SPACING -->
-                                                    <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
-                                                        <tbody>
-                                                            <tr>
-                                                                <td height="30">&nbsp;</td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                    <!-- END SPACING -->
-                                                    
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    <!-- END CONTENT -->
-                                    
-                                    <!-- START SPACING -->
-                                    <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
-                                        <tbody>
-                                            <tr>
-                                                <td height="40">&nbsp;</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    <!-- END SPACING -->
-                                    
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    
-                </td>
-                
-            </tr>
-            
-        </tbody>        
-    </table>
-    <!-- END EMAIL CONTENT -->
-    
+  <div class="email">
+	<div class="email-head">
+	  <div class="head-img">
+		<img
+		  src="{{ asset('imagesforthewebsite/webicon.jpg') }}"
+		  alt="W.Karanja Apps"
+		/>
+	  </div>
+	</div>
+	<div class="email-body">
+	  <div class="body-text">
+		<div class="body-greeting">
+            Memo:<h3>{{ $memotitle }}</h3>
+		</div>
+		
+	  </div>
+	  <div class="body-table">
+		<p>{{ $memomsg }}</p>
+	  </div>
+	  <div class="body-text bottom-text">
+		We Offer The Best when it Comes to Rental Management and Property Selling&#708;_&#708;
+	  </div>
+	</div>
+	<div class="email-footer">
+	  <div class="footer-text">
+		&copy; <a href="/"  target="_blank">W.Karanja Apps</a>
+	  </div>
+	</div>
+  </div>
 </body>
-<!-- END BODY -->

@@ -27,18 +27,15 @@ class Rentaltags_controller extends Controller
         if($request->ajax()){
             $rentaltags = DataTables::of ($rentaltags)
 
-            ->addColumn ('action',function($row){
+            ->addColumn ('edit',function($row){
                 return 
-                     '<a href="#" title="Edit the tag" class="btn btn-success editrentaltag" data-id="'.$row->id.'"><i class="fas fa-edit"></i></a>
-                     <a href="#" id="deleterentaltag" title="Delete the Tag" class="btn btn-danger" data-id="'.$row->id.'"><i class="fa fa-trash"></i></a>';
+                     '<a href="#" title="Edit the tag" class="btn btn-success editrentaltag" data-id="'.$row->id.'"><i class="fas fa-edit"></i></a>';
             })
-            ->rawColumns(['action'])
+            ->rawColumns(['edit'])
             ->make(true);
 
             return $rentaltags;
         }
-
-        return view('Admin.Rental_houses.rentaltags',compact('rentaltags'));
     }
      
     // store a rental tag in the db
@@ -82,6 +79,7 @@ class Rentaltags_controller extends Controller
     public function updaterentaltag(Request $request)
     {
         $data=$request->all();
+
         $hsecount=Rental_tags::where('rentaltag_title',$data['rentaltagname'])->count();
 
 

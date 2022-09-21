@@ -60,7 +60,7 @@
           responsive:true,
           ajax:"{{ route('get_usersroles.assign') }}",
             columns: [
-              { data: 'id' },
+              { data: 'id' }, 
               { data: 'name' },
               { data: 'avatar',
                 render: function ( data, type, full, meta, row) {
@@ -161,7 +161,7 @@
                     $('#edit_name').val(response.admindata.name);
                     $('#adminrole_id').val(user_roleid);
 
-                    $("#roleid").val(response.admindata.roles);
+                    // $("#roleid").val(response.admindata.roles);
                     var roleobj = response.admindata.roles;
                     var arr = $.map(roleobj, function(el) { 
                       return el['id']; 
@@ -209,7 +209,8 @@
                       $('#assignadminmodal').modal('hide');
                       managesignedupuserstable.ajax.reload();
                       alertify.set('notifier','position', 'top-right');
-                      alertify.success(response.message); 
+                      alertify.success(response.message);
+                      $('#roleid').val('');
                   }
                 }
               })
@@ -251,7 +252,7 @@
                     });
                     //pass array object value to select2
                     console.log(arr);
-                    $('#tenantstat_id').val(arr).trigger('change');;
+                    $('#tenantstat_id').val(arr).trigger('change');
                               
                 }
               }

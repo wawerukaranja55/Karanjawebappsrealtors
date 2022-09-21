@@ -22,13 +22,13 @@
             <a class="btn btn-dark" href="{{ route('inactive.properties') }}">Inactive Properties</a>
         </div>
         <div class="col-md-3">
-            <a class="btn btn-dark" href="#">Active Properties</a>
+            <a class="btn btn-dark" href="{{ route('active.properties') }}">Active Properties</a>
         </div>
         <div class="col-md-3">
-            <a class="btn btn-dark" href="#">Add a New Property</a>
+            <a class="btn btn-dark" href="{{ route('add.property') }}">Add a New Property</a>
         </div>
         <div class="col-md-3">
-            <a class="btn btn-dark" href="#">Property Categories Management</a>
+            <a class="btn btn-dark" href="{{ url('admin/propertiescategories') }}">Property Categories Management</a>
         </div>
     </div>
     <div class="panel-heading mt-5" style="text-align: center; font-size:17px; padding:10px; background-color:black;"> 
@@ -60,6 +60,25 @@
                     <li class="font-bold text-uppercase text-danger">A Maximum of 7 images should be added for each Property</li>
                 </ol>
             </div>
+
+            @if (!empty($propertydata->property_video))
+
+                <h3>Change video for the Property house</h3>
+                <div class="changepropertyvideo">
+                    <form action="{{ url('admin/addpropertyvideo/'.$propertydata->id) }}" class="dropzone form-horizontal dropzone-propertyform" role="form" method="POST" enctype="multipart/form-data">
+                        @csrf
+                    </form>
+                </div>
+                <video class="video-js" controls preload="auto" width="100%" height="100" margin-top="10px" data-setup="{}">
+                    <source src="/videos/propertyvideos/{{$propertydata->property_video}}" type='video/mp4'>
+                </video>
+                <a class="confirmvideodelete" href="javascript:void(0)" data-id="{{ $propertydata->id }}">Delete Video and Replace it</a> 
+            @else
+                <h3>Add a video for the Property<span class="font-type:italics;">(optional)</span></h3>
+                <form action="{{ url('admin/addpropertyvideo/'.$propertydata->id) }}" class="dropzone form-horizontal dropzone-propertyform" role="form" method="POST" enctype="multipart/form-data">
+                    @csrf
+                </form>
+            @endif
         </div>
     </div>
     <div class="row" style="margin-top: 50px;">
@@ -82,7 +101,56 @@
 
 @section('propertyimagesscript')
     <script>
-        
+        // add a property video for the property on sale using dropzone.js
+        Dropzone.autoDiscover = false;
+        var dzonepropertyvideo = new Dropzone(".dropzone-propertyform",{
+            maxFilesize: 20000,
+            maxFiles: 1,
+            acceptedFiles: ".Mp4"
+        });
+
+        dzonepropertyvideo.on("success",function(file,response){
+            console.log(response)
+            if(response.status == 200)
+            {
+                alertify.set('notifier','position', 'top-right');
+                alertify.success(response.message);
+                
+            }
+        });
+
+        // Delete house video from the db
+        $(document).on('click','.confirmvideodelete',function(){
+
+            var deletepropertyvideoid=$(this).data('id');
+
+            $('.admindeletemodal').modal('show');
+            $('.modal-title').html('Delete Property Video');
+            $('#propertyvideo_id').val(deletepropertyvideoid);
+
+        })
+
+        $(document).on('click','#deletemodalbutton',function()
+        {
+
+            var propertyvideoid=$('#propertyvideo_id').val();
+
+            $.ajax({
+                type:"DELETE",
+                url:'{{ url("admin/delete_propertyvideo",'') }}' + '/' + propertyvideoid,
+                data:{propertyvideo_id: propertyvideoid},
+                success:function(response)
+                {
+                    alertify.set('notifier','position', 'top-right');
+                    alertify.success(response.message);
+                    $('.changepropertyvideo').show("1000");
+                    $('.video-js').hide("1000");
+                    $('.confirmvideodelete').hide("2000");
+                    $('.admindeletemodal').modal('hide');
+                    $('#propertyvideo_id').val('');
+                }
+            })
+        })
 
         // show all images of the property in a datatable
         var propertyimgid=$('.propertyimageid').val();
@@ -174,41 +242,40 @@
         $(document).on('click','#deletepropertyimg',function(){
 
             var propertyimgid=$(this).data('id');
-            alert(propertyimgid);
 
-            $('.removepropertycategory').modal('show');
-            $('.modal-title').html('Remove the User from the system');
-            $('.propertycatlabel').html('Are You Sure You Want to Delete the User And his Details?');
+            $('.admindeletemodal').modal('show');
+            $('.modal-title').html('Delete The Property Image');
 
-            $('#userrole_id').val(userwithroleid);
+            $('#propertyimage_id').val(propertyimgid);
 
         })
 
-        $(document).on('click','#deletepropertycategory',function()
+        $(document).on('click','#deletemodalbutton',function()
         {
-            var deleteuserid=$('#userrole_id').val();
+            var propertyimg_id=$('#propertyimage_id').val();
 
-            var url = '{{ route("delete.userrole", ":id") }}';
-                    url = url.replace(':id', deleteuserid);
+            var url = '{{ route("delete.propertyimage", ":id") }}';
+                    url = url.replace(':id', propertyimg_id);
             $.ajax({
-            url:url,
-            type: 'DELETE',
-            dataType: 'JSON',
-            data:{
-                'userroleid': deleteuserid,
-                '_token': '{{ csrf_token() }}',
-            },
-            success:function(response)
-            {
-                alertify.set('notifier','position', 'top-right');
-                alertify.success(response.message);
-                assignusersrolestable.ajax.reload();
-                $('.removepropertycategory').modal('hide');
-                $('.modal-title').html('');
-                $('.propertycatlabel').html('');
-            }
+                url:url,
+                type: 'DELETE',
+                dataType: 'JSON',
+                data:{
+                    'propertyimageid': propertyimg_id,
+                    '_token': '{{ csrf_token() }}',
+                },
+                success:function(response)
+                {
+                    alertify.set('notifier','position', 'top-right');
+                    alertify.success(response.message);
+                    propertyimgstable.ajax.reload();
+                    $('.admindeletemodal').modal('hide');
+                    $('.modal-title').html('');
+
+                    $('#propertyimage_id').val('');
+                }
             })
-            })
+        })
 
         
     </script>

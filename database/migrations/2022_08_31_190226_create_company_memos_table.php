@@ -16,7 +16,7 @@ class CreateCompanyMemosTable extends Migration
         Schema::create('company_memos', function (Blueprint $table) {
             $table->id();
             $table->string('memo_title');
-            $table->string('memo_message');
+            $table->text('memo_message');
             $table->text('recipient_emails');
             $table->timestamps();
         });

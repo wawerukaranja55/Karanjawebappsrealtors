@@ -100,7 +100,7 @@
 	  <div class="head-img">
 		<img
 		  src="{{ asset('imagesforthewebsite/webicon.jpg') }}"
-		  alt="Jamar Real Estate Agents"
+		  alt="Karanja Web Apps"
 		/>
 	  </div>
 	</div>
@@ -139,7 +139,7 @@
 	</div>
 	<div class="email-footer">
 	  <div class="footer-text">
-		&copy; <a href="/"  target="_blank">JamarAgents</a>
+		&copy; <a href="/"  target="_blank">Karanja Web Apps</a>
 	  </div>
 	</div>
   </div>

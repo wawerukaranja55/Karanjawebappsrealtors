@@ -5,11 +5,12 @@ namespace App\Http\Controllers\Front;
 use App\Models\Location;
 use App\Models\Property;
 use Illuminate\Http\Request;
+use App\Models\Property_request;
 use App\Models\Propertycategory;
 use App\Http\Controllers\Controller;
-use App\Models\Property_request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
 class Propertieslisting_controller extends Controller
@@ -66,6 +67,8 @@ class Propertieslisting_controller extends Controller
                 abort (404);
             }
         }else{
+
+            Session::put('page','propertycategory'); 
 
             $propertycaturl=Route::current()->uri();
             

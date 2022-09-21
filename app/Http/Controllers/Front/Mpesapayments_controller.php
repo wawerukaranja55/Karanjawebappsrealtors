@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 
 class Mpesapayments_controller extends Controller
 {
@@ -30,8 +31,8 @@ class Mpesapayments_controller extends Controller
     //generate access token for the transaction
     public function newaccesstoken()
     {
-        $consumer_key="N1as4sgEJMOavH6DQjFgNsV9zIzJf4Zs";
-        $consumer_secret="Ia0SLGIjX0VXc4GB";
+        $consumer_key="kh7mRQyP8zMRLy1ucSk7h6M04P59o5HF";
+        $consumer_secret="yMAIRy6UXQ4z4dtZ";
         $credentials = base64_encode($consumer_key.":".$consumer_secret);
         $url ="https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials";
         $curl = curl_init();
@@ -49,87 +50,95 @@ class Mpesapayments_controller extends Controller
     // push stk on the phone
     public function stkpush(Request $request)
     {
-
-        $request->validate([
-            'phone_number'=>'required','regex:/^(\\+?254|0)(7|1)([0-9{8})$/',    
-        ]);
-
-        $phone=$request->phone_number;
-        $getamount=$request->rent_amount;
-        $amount=round($getamount);
-
-        $formattednumber=Substr($phone,1);
-        $code="254";
-        $phonenumber=$code.$formattednumber;
-
-        $url='https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest';
-
-        $curl_post_data=[
-            'BusinessShortCode'=>174379,
-            'Password'=>$this->lipanampesapassword(),
-            'Timestamp'=>Carbon::rawParse('now')->format('YmdHms'),
-
-            'TransactionType'=> "CustomerPayBillOnline",
-            'Amount'=>$amount,
-            'PartyA'=>$phonenumber,
-            'PartyB'=>174379,
-            'PhoneNumber'=>$phonenumber,
-            'CallBackURL'=>'https://2cfe-154-122-135-189.eu.ngrok.io/api/mpesa/stkpush/callbackurl',
-            'AccountReference'=>'Waweru Karanja Sounds',
-            'TransactionDesc'=>'Paying for Products Bought'
+        $data=$request->all();
+        
+        $rules=[
+            'phone'=>'required|regex:/(07)[0-9]/|digits:10'
         ];
 
-        $data_string=json_encode($curl_post_data);
+        $custommessages=[
+            'phone.regex'=>'Your Phone NUmber Should start with 07',
+            'phone.digits:10'=>'The Phone NUmber Should not be less or more than 10 digits'
+        ];
 
-        $curl=curl_init();
-        curl_setopt($curl,CURLOPT_URL,$url);
-        curl_setopt($curl,CURLOPT_HTTPHEADER,array('Content-Type:application/json','Authorization:Bearer '.$this->newaccesstoken()));
-        curl_setopt($curl,CURLOPT_RETURNTRANSFER,true);
-        curl_setopt($curl,CURLOPT_POST,true);
-        curl_setopt($curl,CURLOPT_POSTFIELDS,$data_string);
-
-        $curl_response=curl_exec($curl);
-        $res=json_decode($curl_response);
-
-        // save the check out request id in to the mpesa checkout request id table then sync the id in the pivot
-        $checkoutrequestid=$res->CheckoutRequestID;
-
-        $checkoutrqstid=new Mpesapayment;
-        $checkoutrqstid->callbackurlrequest_id=$checkoutrequestid;
-        $checkoutrqstid->amount=$amount;
-        $checkoutrqstid->phone=$phonenumber;
-        $checkoutrqstid->tenant_name=$request->tenantname;
-        $checkoutrqstid->user_id=$request->userid;
-        // $checkoutrqstid->mpesatransaction_id=$mpesatransactionid,
-        $checkoutrqstid->save();
-
-        return $curl_response;
-
+        $validator = Validator::make( $data,$rules,$custommessages );
         
+        if($validator->fails())
+        {
+            return response()->json([
+                'status'=>422,
+                'message'=>$validator->errors()
+            ]);
+        }else{
+            $phone=$request->phone;
+            $getamount=$request->rent_amount;
+            $amount=round($getamount);
 
+            $formattednumber=Substr($phone,1);
+            $code="254";
+            $phonenumber=$code.$formattednumber;
+
+            $url='https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest';
+
+            $curl_post_data=[
+                'BusinessShortCode'=>174379,
+                'Password'=>$this->lipanampesapassword(),
+                'Timestamp'=>Carbon::rawParse('now')->format('YmdHms'),
+
+                'TransactionType'=> "CustomerPayBillOnline",
+                'Amount'=>$amount,
+                'PartyA'=>$phonenumber,
+                'PartyB'=>174379,
+                'PhoneNumber'=>$phonenumber,
+                'CallBackURL'=>'https://c637-196-202-210-53.in.ngrok.io/api/mpesa/stkpush/callbackurl',
+                'AccountReference'=>'W.Karanja Web App Realtors ',
+                'TransactionDesc'=>'Paying for Your House Rent'
+            ];
+
+            $data_string=json_encode($curl_post_data);
+
+            $curl=curl_init();
+            curl_setopt($curl,CURLOPT_URL,$url);
+            curl_setopt($curl,CURLOPT_HTTPHEADER,array('Content-Type:application/json','Authorization:Bearer '.$this->newaccesstoken()));
+            curl_setopt($curl,CURLOPT_RETURNTRANSFER,true);
+            curl_setopt($curl,CURLOPT_POST,true);
+            curl_setopt($curl,CURLOPT_POSTFIELDS,$data_string);
+
+            $curl_response=curl_exec($curl);
+            $res=json_decode($curl_response);
+
+            // save the check out request id in to the mpesa checkout request id table then sync the id in the pivot
+            $checkoutrequestid=$res->CheckoutRequestID;
+
+            $checkoutrqstid=new Mpesapayment;
+            $checkoutrqstid->callbackurlrequest_id=$checkoutrequestid;
+            $checkoutrqstid->amount=$amount;
+            $checkoutrqstid->phone=$phonenumber;
+            $checkoutrqstid->tenant_name=$request->tenantname;
+            $checkoutrqstid->user_id=$request->userid;
+            // $checkoutrqstid->mpesatransaction_id=$mpesatransactionid,
+            $checkoutrqstid->save();
+
+            return response()->json([
+                'status'=>200,
+                'curl_response'=>$curl_response
+            ]);
+        }
     }
 
     // call back url
     public function mpesaresponse(Request $request)
     {
         $response=json_decode($request->getContent());
+        Log::info(json_encode($response));
 
         $responsedata=$response->Body->stkCallback->CallbackMetadata;
         $callbackurlrequest_id=$response->Body->stkCallback->CheckoutRequestID;
-        $responsecode=$response->Body->stkCallback->ResultCode;
+        // $responsecode=$response->Body->stkCallback->ResultCode;
         $responsemessage=$response->Body->stkCallback->ResultDesc;
-        // $amountpaid=$responsedata->Item[0]->Value;
         $mpesatransactionid=$responsedata->Item[1]->Value;
-        Log::info(json_encode($mpesatransactionid));
-        $paymentphonenumber=$responsedata->Item[4]->Value;
-        $formattedphonenumber=str_replace("254","0",$paymentphonenumber);
-        Log::info(json_encode($callbackurlrequest_id));
-
-        $payment=Mpesapayment::where('callbackurlrequest_id',$callbackurlrequest_id)->first();
-        Log::info(json_encode($payment));
-        $payment->update([
-            $payment->mpesatransaction_id=$mpesatransactionid,
-            $payment->callbackurlrequest_id=$callbackurlrequest_id,
+        Mpesapayment::where('callbackurlrequest_id',$callbackurlrequest_id)->update([
+            'mpesatransaction_id'=>$mpesatransactionid
         ]);
 
         return response()->json($responsemessage);

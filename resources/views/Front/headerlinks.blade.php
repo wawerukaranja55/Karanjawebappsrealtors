@@ -1,6 +1,6 @@
 <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <meta name="description" content="Jamar Realtors Agency In Nyeri">
+      <meta name="description" content="Karanja Web Apps">
       <meta name="csrf-token" content="{{ csrf_token() }}">
       <title>
          @yield('title','Front Layout')
@@ -22,7 +22,7 @@
 
       <link rel="stylesheet" href="{{ asset('cssjqueryfiles/adminpanel/bootstrap-togglemin/bootstrap-toggle.css') }}"/>
       {{-- icon for our website --}}
-      <link rel="icon" type="image/png" href="{{ asset('imagesforthewebsite/webicon.jpg') }}">
+      <link rel="icon" type="image/png" href="{{ asset('imagesforthewebsite/webicon.png') }}">
 
       {{-- css for datatables --}}
       <link rel="stylesheet" href="{{ asset('cssjqueryfiles/adminpanel/datatables/DataTables-1.10.25/css/jquery.dataTables.min.css') }}"/>

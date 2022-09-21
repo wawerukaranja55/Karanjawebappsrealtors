@@ -8,11 +8,13 @@
 </div>
 <div class="row">
     @if ($propertycategory->isEmpty())
-        <h4 style="text-align: center;">No Property Found At the Moment</h4>
+    <div style="text-align: center; padding:50px 0px; width:100%;">
+        <h5>Property Unvailable but coming soon</h5>
+     </div>
     @else 
 
         @foreach ($propertycategory as $property)
-        <div class="col-lg-10 col-md-10 mx-auto" style="margin:5px; box-shadow: 0px 0px 7px 3px #46e961;">
+        <div class="col-lg-10 col-md-10 mx-auto" style="margin:10px; box-shadow: 0px 0px 7px 3px #46e961;">
             <div class="card card-list card-list-view">
                 <div class="row no-gutters">
                     <div class="col-lg-5 col-md-5">

@@ -12,15 +12,9 @@
 @stop
 <?php use App\Models\Rental_house; ?>
     
-    @if (Session::has('error_message'))
-        <div class="alert alert-danger" role="alert">
-            {{ Session::get('error_message') }}
-            <button type="button" class="close" data-dismiss="alert" aria-label="close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-    @endif   
+      
     <div class="row">
+         
         <div class="col-md-8 mx-auto" id="signupbox">
             <div class="panel-heading text-center mt-5">
                 <div class="panel-title" style="font-size: 18px;">Sign Up For an Account</div>
@@ -42,27 +36,34 @@
                          <div class="card padding-card product-card">
                             <div class="card-body">
                                <h5 class="card-title mb-4" style="color: black; font-size:18px;">1.Personal Details</h5>
-          
+                               @if (Session::has('error_message'))
+                                    <div class="alert alert-danger" role="alert">
+                                        {{ Session::get('error_message') }}
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                @endif
                                <div class="row section-groups">
                                   <div class="form-group inputdetails col-sm-6">
                                      <label>Name<span class="text-danger inputrequired">*</span></label>
-                                     <input type="text" class="form-control text-white bg-dark" required name="fullname" id="full_name" placeholder="Write Your Full Name">
+                                     <input type="text" class="form-control text-white bg-dark" name="name" id="full_name" placeholder="Write Your Full Name">
                                   </div>
           
                                   <div class="form-group inputdetails col-sm-6">
                                      <label>Phone Number<span class="text-danger inputrequired">*</span></label>
-                                     <input type="text" class="form-control text-white bg-dark" required name="phonenumber" id="Phone_number" placeholder="Write Your Phone Number">
+                                     <input type="number" class="form-control text-white bg-dark" name="phone" id="Phone_number" placeholder="Write Your Phone Number">
                                   </div>
                                </div>
     
                                <div class="row section-groups">
                                   <div class="form-group inputdetails col-sm-6">
                                       <label>Email<span class="text-danger inputrequired">*</span></label>
-                                      <input type="email" class="form-control text-white bg-dark" required name="email" id="email" placeholder="Write Your Email here">
+                                      <input type="email" class="form-control text-white bg-dark" name="email" id="email" placeholder="Write Your Email here">
                                   </div>
                                   <div class="form-group inputdetails col-sm-6">
                                      <label>Id Number<span class="text-danger inputrequired">*</span></label>
-                                     <input type="number" class="form-control text-white bg-dark" required name="id_number" id="id_number" placeholder="Write Your Id Number here">
+                                     <input type="number" class="form-control text-white bg-dark" name="id_number" id="id_number" placeholder="Write Your Id Number here">
                                  </div>
                                </div>
                             </div>
@@ -75,8 +76,8 @@
                             <div class="row section-groups">
                                <div class="form-group inputdetails col-sm-6">
                                    <label>House Name<span class="text-danger inputrequired">*</span></label>
-                                   <select name="rentalhousename" id="rentalhse" class="rentalhsename form-control text-white bg-dark" required>
-                                       <option>Select Your House </option>
+                                   <select name="house_id" id="rentalhse" class="rentalhsename form-control text-white bg-dark" required>
+                                       <option value=" " selected disabled>Select Your House </option>
                                         <?php 
                                            $activehousenames=Rental_house::select('rental_name','id')->where(['rental_status'=>1,'is_vacancy'=>1])->get();
                                         ?>
@@ -90,7 +91,7 @@
                                <div class="form-group inputdetails col-sm-6">
                                   <label>Room Name/Number<span class="text-danger inputrequired">*</span></label>
                                   <br>
-                                  <select name="getroomnamenumber" class="roomnamenumber form-control text-white bg-dark" required style="width: 100%;">
+                                  <select name="rentalroom_id" class="roomnamenumber form-control text-white bg-dark" required style="width: 100%;">
                                      <option value=" " disabled="true" selected="true">Select Your Room Name/Number</option>
                                   </select>
                                </div>
@@ -105,7 +106,7 @@
                            <div class="row section-groups">
                             <div class="form-group inputdetails col-sm-8">
                                 <label>Password<span class="text-danger inputrequired">*</span></label>
-                                <input type="password" name="password" required autocomplete="current-password" id="signupshowpassword" placeholder="Write Your Password here" class="text-white bg-dark form-control">
+                                <input type="password" name="password" autocomplete="current-password" id="signupshowpassword" placeholder="Write Your Password here" class="text-white bg-dark form-control">
                                <input type="checkbox" id="signupcheckpasswordform">Show Password
                             </div>
                          </div>
@@ -137,7 +138,7 @@
                             <div class="row section-groups">
                                 <div class="form-group inputdetails col-sm-6">
                                 <label>Email<span class="text-danger inputrequired">*</span></label>
-                                <input type="text" class="form-control text-white bg-dark" required type="email" name="email" placeholder="Write Your Email">
+                                <input type="email" class="form-control text-white bg-dark" required type="email" name="email" placeholder="Write Your Email">
                                 </div>
         
                                 <div class="form-group inputdetails col-sm-6">
@@ -269,4 +270,3 @@
          });
     </script>
 @stop
-    

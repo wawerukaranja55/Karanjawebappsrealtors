@@ -83,7 +83,7 @@
                                                         <tbody>
                                                             <tr>
                                                                 <td width="100%" align="center">
-                                                                    <h1 style="font-family:'Ubuntu Mono', monospace; font-size:20px; color:#202020; font-weight:bold; padding-left:20px; padding-right:20px;">Hello {{ $name }} Welcome to Jamar Real estate Agencies.</h1>
+                                                                    <h1 style="font-family:'Ubuntu Mono', monospace; font-size:20px; color:#202020; font-weight:bold; padding-left:20px; padding-right:20px;">Hello {{ $name }} Welcome to W.Karanja Apps.</h1>
                                                                 </td>
                                                             </tr>
                                                         </tbody>

@@ -2,30 +2,38 @@
 
 namespace App\Http\Controllers\Front;
 
+use Carbon\Carbon;
+use App\Models\Property;
 use App\Models\Room_name;
 use App\Models\Subscriber;
-use Illuminate\Http\Request;
-use Spatie\Newsletter\Newsletter;
-use App\Http\Controllers\Controller;
-use App\Models\Property;
-use App\Models\Rental_category;
 use App\Models\Rental_tags;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Validator;
 use App\Models\Rental_house;
+use Illuminate\Http\Request;
+use App\Models\Rental_category;
+use Spatie\Newsletter\Newsletter;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use App\Models\Mpesapayment;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 
 class Home_controller extends Controller
 {
     public function index()
-    {
+    { 
+        Session::put('page','homepage');
+
         $showcommercialhses=Rental_house::where(['rentalcat_id'=>2,'is_rentable'=>1])->latest()->take(4)->get();
-        $showlatestbedsitters=Rental_tags::where('id',6)->with(['tagshouse'])->latest()->take(4)->get();
+        $showlatestbedsitters=Rental_tags::where('id',7)->with(['tagshouse'])->latest()->take(4)->get();
         $showlatestproperties=Property::where('property_isactive',1)->latest()->take(4)->get();
         return view('Front.homepage',compact('showcommercialhses','showlatestbedsitters','showlatestproperties'));
     }
 
     public function contactus()
     {
+        Session::put('page','contact_us');
+
         return view('Front.contact');
     }
 

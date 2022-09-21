@@ -81,37 +81,37 @@
         // manage the locations in the database
         $(document).ready(function(){
             $("#addalocation").on("submit",function(s){
-            s.preventDefault();
-            $.ajax({
-               url:"addalocation",
-               type:"POST",
-               data:$("#addalocation").serialize(),
-               success:function(result){
-                console.log(result);
-                    if (result.status==400)
-                    {
-                        $('#show_errorlist').html(" ");
-                        $('#show_errorlist').removeClass('d-none');
-                        $.each(result.message,function(key,err_value)
+                s.preventDefault();
+                $.ajax({
+                url:"addalocation",
+                type:"POST",
+                data:$("#addalocation").serialize(),
+                success:function(result){
+                    console.log(result);
+                        if (result.status==400)
                         {
-                            $('#show_errorlist').append('<li>' + err_value + '</li>');
-                        })
+                            $('#show_errorlist').html(" ");
+                            $('#show_errorlist').removeClass('d-none');
+                            $.each(result.message,function(key,err_value)
+                            {
+                                $('#show_errorlist').append('<li>' + err_value + '</li>');
+                            })
 
-                    } else if (result.status==404)
-                    {
-                        alertify.set('notifier','position', 'top-right');
-                        alertify.success(result.message);
-                    }
-                    
-                    else if (result.status==200)
-                    {
-                        alertify.set('notifier','position', 'top-right');
-                        alertify.success(result.message);
-                        locationstable.ajax.reload();
-                    }
-               },
+                        } else if (result.status==404)
+                        {
+                            alertify.set('notifier','position', 'top-right');
+                            alertify.success(result.message);
+                        }
+                        
+                        else if (result.status==200)
+                        {
+                            alertify.set('notifier','position', 'top-right');
+                            alertify.success(result.message);
+                            locationstable.ajax.reload();
+                        }
+                },
+                });
             });
-         });
         });
 
         //  update location status from active to inactive
@@ -136,72 +136,82 @@
         });
 
         // show modal for editing Location Details
-        $('body').on('click','.editlocation',function(){
+        $(document).on('click','.editlocation',function(e){
+            e.preventDefault();
             var locationid=$(this).data('id');
 
             $.ajax({
                 url:'{{ url("admin/location",'') }}' + '/' + locationid + '/edit',
                 method:'GET',
                 success:function(response){
-                $('#admineditmodal').modal('show');
-                $('.modal-title').html('Edit Location Details');
-                $('.catlabel').html('Location Name');
-                $('.save_button').html('Update Location');
-                $('#property_category').hide('');
-                $('#rental_tagname').hide();
-                $('#location_id').val(response.id);
-                $('#location_name').val(response.location_title);
+                    $('#admineditmodal').modal('show');
+                    $('.propertycat_id').html('');
+                    $('.rolename_id').html('');
+                    $('.room_id').html('');
+                    $('#rentaltag_id').val('');
+                    
+
+                    $('#property_category').html('');
+                    $('#rental_tagname').html('');
+                    $('#roomsize_name').html('');
+                    $('#room_name').html('');
+                    $('#role_name').html('');
+
+                    $('#property_category').hide().prop('required',false);
+                    $('#rental_tagname').hide().prop('required',false);
+                    $('#roomsize_name').hide().prop('required',false);
+                    $('#room_name').hide().prop('required',false);
+                    $('#role_name').hide().prop('required',false);
+
+                    $('.modal-title').html('Edit Location Details');
+                    $('.catlabel').html('Location Name');
+                    $('.save_button').html('Update Location Name');
+                
+                    $('#location_id').val(response.id);
+                    $('#location_name').val(response.location_title);
 
                 }
             })
+        });
 
-            //   update rental tags details
-            $('.save_button').click(function(){
+            //   update location details
+        $(document).on('click','.save_button',function(e){
+            e.preventDefault();
+            
+            $locationid=$('#location_id').val();
 
-                var url = '{{ route("update.location", ":id") }}';
-                updatelocationurl = url.replace(':id', locationid);
+            var url = '{{ route("update.location", ":id") }}';
+            updatelocationurl = url.replace(':id', $locationid);
 
-                var form = $('.adminedit_form')[0];
-                var formdata=new FormData(form);
+            var form = $('.adminedit_form')[0];
+            var formdata=new FormData(form);
 
-                $.ajax({
-                    url:updatelocationurl,
-                    method:'POST',
-                    processData:false,
-                    contentType:false,
-                    data:formdata,
-                    success:function(response)
+            $.ajax({
+                url:updatelocationurl,
+                method:'POST',
+                processData:false,
+                contentType:false,
+                data:formdata,
+                success:function(response)
+                {
+                    console.log(response);
+                    if (response.status==200)
                     {
-                        console.log(response);
-                        if (response.status==200)
-                        {
-                            alertify.set('notifier','position', 'top-right');
-                            alertify.success(response.message);
-                            locationstable.ajax.reload();
-                            $('#admineditmodal').modal('hide');
-                            $('.modal-title').html('');
-                            $('.catlabel').html('');
-                            $('#location_id').val('');
-                            $('#location_name').val('');
-                            $('.save_button').html('');
-                        }
-                        else if (response.status==404)
-                        {
-                            alertify.set('notifier','position', 'top-right');
-                            alertify.success(response.message);
-                            $('#admineditmodal').modal('hide');
-                            $('.modal-title').html('');
-                            $('.catlabel').html('');
-                            $('#location_id').val();
-                            $('#location_name').val();
-
-
-                        } 
-
+                        alertify.set('notifier','position', 'top-right');
+                        alertify.success(response.message);
+                        locationstable.ajax.reload();
+                        $('#admineditmodal').modal('hide');
                     }
-                });
-            })
-        })
+                    else if (response.status==404)
+                    {
+                        alertify.set('notifier','position', 'top-right');
+                        alertify.success(response.message);
+                        $('#admineditmodal').modal('hide');
+                    } 
+
+                }
+            });
+        });
 
         // Delete a location from the db
         $(document).on('click','#deletelocation',function(){

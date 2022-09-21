@@ -43,11 +43,11 @@
                         <p>{!!$property->property_details!!}</p>
                     </div>
                 </div>
-                @if ($property->rental_video="")
+                @if ($property->property_video !== NULL)
                 <div class="card padding-card">
                     <div class="card-body">
                         <h5 class="card-title mb-4">Video</h5>
-                        <video id="my-video" class="video-js" controls preload="auto" width="200" height="100" data-setup="{}">
+                        <video id="my-video" class="video-js" controls preload="auto" width="100%" height="350" data-setup="{}">
                             <source src="/videos/propertyvideos/{{$property->property_video}}" type='video/mp4'>
                         </video>
                     </div>

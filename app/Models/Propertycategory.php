@@ -9,7 +9,7 @@ class Propertycategory extends Model
 {
     use HasFactory;
     protected $table = 'propertycategories';
-    protected $fillable = ['propertycat_title','status'];
+    protected $fillable = ['propertycat_title','propertycat_url','status'];
 
     public static function propertycategorydetails($url)
     {

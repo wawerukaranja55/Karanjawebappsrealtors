@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 
@@ -65,27 +66,27 @@ class Property_controller extends Controller
         }
 
         // add a video
-        if(empty($data['property_video'])){
-            $video_name='No video added';
-        }else{
-            if($request->hasFile('property_video')){
-                $videotmp=$request->file('property_video');
-                if($videotmp->isValid()){
-                    $extension=$videotmp->getClientOriginalExtension();
-                    $video_name=$request->get('property_name').'-'.rand(111,9999).'.'.$extension;
+        // if(empty($data['property_video'])){
+        //     $video_name='No video added';
+        // }else{
+        //     if($request->hasFile('property_video')){
+        //         $videotmp=$request->file('property_video');
+        //         if($videotmp->isValid()){
+        //             $extension=$videotmp->getClientOriginalExtension();
+        //             $video_name=$request->get('property_name').'-'.rand(111,9999).'.'.$extension;
     
-                    $video_path='videos/propertyvideos/';
-                    $videotmp->move($video_path,$video_name);
-                }
-            }
-        }
+        //             $video_path='videos/propertyvideos/';
+        //             $videotmp->move($video_path,$video_name);
+        //         }
+        //     }
+        // }
 
         $property=new Property();
         $property->property_name=$data['property_name'];
         $property->property_slug=$data['property_slug'];
         $property->property_price=$data['property_price'];
         $property->property_image=$image_name;
-        $property->property_video=$video_name;
+        // $property->property_video=$video_name;
         $property->property_details=$data['property_details'];
         $property->propertycat_id=$data['propertycategory'];
         $property->propertylocation_id=$data['propertyhouselocation'];
@@ -97,7 +98,7 @@ class Property_controller extends Controller
     public function inactiveproperties()
     {
         
-        Session::put('page','inactiverentals');
+        Session::put('page','inactiveproperties');
 
         return view('Admin.Properties.inactiveproperties');
     }
@@ -124,8 +125,7 @@ class Property_controller extends Controller
                     <i class="fa fa-image"></i>
                 </a>
 
-                <a href="#" title="Edit the Property Details" class="btn btn-success editpropertydetails" data-id="'.$row->id.'"><i class="fas fa-edit"></i></a>
-                <a href="#" title="Delete the Property Details" id="deleteproperty" class="btn btn-danger" data-id="'.$row->id.'"><i class="fa fa-trash"></i></a>';
+                <a href="#" title="Edit the Property Details" class="btn btn-success editpropertydetails" data-id="'.$row->id.'"><i class="fas fa-edit"></i></a>';
             })
             ->rawColumns(['propertylocation_id','propertycat_id','action'])
             ->make(true);
@@ -142,7 +142,7 @@ class Property_controller extends Controller
         
         $propertyimages=Property_image::where('status',1)->get();
 
-        $propertydata=Property::with('propertyimages')->select('id','property_name','propertylocation_id','property_image')->find($id);
+        $propertydata=Property::with('propertyimages')->select('id','property_name','propertylocation_id','property_image','property_video')->find($id);
 
         return view('Admin.Properties.propertyimages',compact('propertydata','propertyimages'));
     }
@@ -258,8 +258,7 @@ class Property_controller extends Controller
                     <i class="fa fa-image"></i>
                 </a>
 
-                <a href="#" title="Edit the Property Details" class="btn btn-success editpropertydetails" data-id="'.$row->id.'"><i class="fas fa-edit"></i></a>
-                <a href="#" title="Delete the Property Details" id="deleteproperty" class="btn btn-danger" data-id="'.$row->id.'"><i class="fa fa-trash"></i></a>';
+                <a href="#" title="Edit the Property Details" class="btn btn-success editpropertydetails" data-id="'.$row->id.'"><i class="fas fa-edit"></i></a>';
             })
             ->rawColumns(['propertylocation_id','propertycat_id','action'])
             ->make(true);
@@ -313,7 +312,7 @@ class Property_controller extends Controller
         {
             return response()->json([
                 'status'=>400,
-                'errors'=>$validator->$custommessages()
+                'message'=>$validator->errors()
             ]);
         }else{
 
@@ -354,27 +353,27 @@ class Property_controller extends Controller
                 $image_name=$request->property_image;
             }
 
-            $video_path='videos/propertyvideos/'.$data['property_video'];
-            if(File::exists($video_path))
-            {
-                File::delete($video_path);
-            }
+            // $video_path='videos/propertyvideos/'.$data['property_video'];
+            // if(File::exists($video_path))
+            // {
+            //     File::delete($video_path);
+            // }
 
-            if($request->hasFile('property_video')){
-                $videotmp=$request->file('property_video');
-                if($videotmp->isValid()){
-                    $extension=$videotmp->getClientOriginalExtension();
-                    $video_name=$request->get('property_name').'-'.rand(111,9999).'.'.$extension;
+            // if($request->hasFile('property_video')){
+            //     $videotmp=$request->file('property_video');
+            //     if($videotmp->isValid()){
+            //         $extension=$videotmp->getClientOriginalExtension();
+            //         $video_name=$request->get('property_name').'-'.rand(111,9999).'.'.$extension;
 
-                    $video_path='videos/propertyvideos/';
-                    $videotmp->move($video_path,$video_name);
-                }
-            } else {
-                $video_name=$request->rentalproperty_video;
-            }
+            //         $video_path='videos/propertyvideos/';
+            //         $videotmp->move($video_path,$video_name);
+            //     }
+            // } else {
+            //     $video_name=$request->rentalproperty_video;
+            // }
 
             $property->property_image=$image_name;
-            $property->property_video=$video_name;
+            // $property->property_video=$video_name;
             $property->property_details=$data['property_details'];
             $property->propertycat_id=$data['propertycategory'];
             $property->propertylocation_id=$data['propertyhouselocation'];
@@ -387,4 +386,102 @@ class Property_controller extends Controller
         }
     }
 
+    // store Property video in the database
+    public function addpropertyvideo(Request $request,$id)
+    {
+
+        $propertydata=Property::select('id','property_name','property_video')->find($id);
+
+        if($request->hasFile('file')){
+            $videotmp=$request->file('file');
+            if($videotmp->isValid()){
+                $extension=$videotmp->getClientOriginalExtension();
+                $property_name=$propertydata->property_name.'-'.rand(111,9999).'.'.$extension;
+
+                $video_path='videos/propertyvideos/';
+                $videotmp->move($video_path,$property_name);
+            }
+        }
+
+        $propertydata->update([
+            'property_video'=>$property_name,
+        ]);
+
+        return response()->json([
+            'status'=>200,
+            'message'=>'Video Uploaded Successfully'
+        ]);
+    }
+
+    // delete Property video from the db
+    public function deletepropertyvideo(Request $request)
+    {
+        // delete the video of the rental house from the table
+        $propertyvideoid=$request->input('propertyvideo_id');
+        
+        // delete the image from folders
+        $propertyvideo=Property::select('property_video')->where('id',$propertyvideoid)->first();
+        $video_folder = Storage::path($propertyvideo->property_video);
+        $video_folder='videos/propertyvideos/'.$propertyvideo->property_video;
+        
+        $video_folder='videos/propertyvideos/'.$propertyvideo->property_video;
+        unlink($video_folder);
+        
+        File::delete($video_folder);
+
+        Property::where('id',$propertyvideoid)->update(['property_video' => NULL]);
+        return response()->json([
+            'status'=>200,
+            'message'=>'Property Video Deleted successfully'
+        ]);
+    }
+
+    // delete an Extra Image
+    public function deletepropertyimage(Request $request)
+    {
+
+        // delete an extra image for a house from the table
+        $imageid=$request->propertyimageid;
+
+        $extrapropertyimage=Property_image::find($imageid);
+
+        if($extrapropertyimage->image)
+        {
+            $large_xtraimage_folder = Storage::path($extrapropertyimage->image);
+            $large_xtraimage_folder='imagesforthewebsite/properties/propertyxtraimages/large/'.$extrapropertyimage->image;
+
+            $medium_xtraimage_folder = Storage::path($extrapropertyimage->image);
+            $medium_xtraimage_folder='imagesforthewebsite/properties/propertyxtraimages/medium/'.$extrapropertyimage->image;
+
+            $small_xtraimage_folder = Storage::path($extrapropertyimage->image);
+            $small_xtraimage_folder='imagesforthewebsite/properties/propertyxtraimages/small/'.$extrapropertyimage->image;
+            
+            $large_xtraimage_folder='imagesforthewebsite/properties/propertyxtraimages/large/'.$extrapropertyimage->image;
+            unlink($large_xtraimage_folder);
+
+            $medium_xtraimage_folder='imagesforthewebsite/properties/propertyxtraimages/medium/'.$extrapropertyimage->image;
+            unlink($medium_xtraimage_folder);
+
+            $small_xtraimage_folder='imagesforthewebsite/properties/propertyxtraimages/small/'.$extrapropertyimage->image;
+            unlink($small_xtraimage_folder);
+
+            $xtraimagefiles = array($large_xtraimage_folder,$medium_xtraimage_folder,$small_xtraimage_folder);
+            
+            File::delete($xtraimagefiles);
+
+            Property_image::destroy($imageid);
+
+            return response()->json([
+                'success'=>200,
+                'message'=>'The image Has Been Deleted Successfully'
+            ]);
+
+        }else{
+        
+                return response()->json([
+                    'success'=>404,
+                    'message'=>'Image Not Found'
+                ]);
+        }
+    }
 }
