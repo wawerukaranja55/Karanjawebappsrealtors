@@ -17,9 +17,7 @@ class CreateRentalhousesizesTable extends Migration
             $table->id();
             $table->integer('rentalhse_id');
             $table->string('room_size');
-            $table->integer('roomsize_price');
             $table->integer('total_rooms');
-            $table->boolean('status')->default('1');
             $table->timestamps();
         });
     }

@@ -3,7 +3,7 @@
 <div class="row">
     <div class="col-md-10"></div>
     <div class="col-md-2" style="margin-top:25px">
-        {{ $propertycategory->count() }} Products Found
+        {{ $propertycategory->count() }} Properties Found
     </div>
 </div>
 <div class="row">

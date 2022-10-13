@@ -6,6 +6,7 @@ use App\Models\Role;
 use App\Models\Room_name;
 use App\Models\Rental_house;
 use App\Models\Tenantstatus;
+use App\Models\Rentalhousesize;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -22,7 +23,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name','email','role_id','phone','admin_status','avatar','password',
+        'name','email','is_tenant','phone','admin_status','avatar','password',
         'house_name','is_landlord'
         
     ];
@@ -69,7 +70,7 @@ class User extends Authenticatable
     public function hserooms(){
         return $this->belongsToMany('App\Models\Room_name','house_userrooms','userhse_id','rentalroom_id');
     }
-
+    
     public function tenantstatus(){
         return $this->belongsToMany('App\Models\Tenantstatus','tenantstatus_user','user_id','tenantstatus_id');
     }

@@ -135,7 +135,7 @@
                                                                     <div>
                                                                         <input id="house_id" type="hidden" name="rentalhouseid" value="{{ $rentaldata->id }}"/>
                                                                         <input id="rentalroom_size" type="text"  name="room_size[]" placeholder="Room size" style="width:150px"/>
-                                                                        <input id="rentalroomsize_price" type="number" name="roomsize_price[]" placeholder="Room Size Price" style="width:150px"/>
+                                                                        {{-- <input id="rentalroomsize_price" type="number" name="roomsize_price[]" placeholder="Room Size Price" style="width:150px"/> --}}
                                                                         <input id="totalrooms" type="number" name="total_rooms[]" placeholder="Total Rooms" style="width:150px"/>
                             
                                                                         <a href="javascript:void(0);" class="add_button" title="Add field">Add</a>
@@ -146,15 +146,15 @@
                                                         </div>
                                                         <button type="submit" id="uploadroomsizesbtn" class="btn btn-success">Upload the House Sizes</button>
                                                         <ul class="alert alert-warning d-none" id="update_housesizelist"></ul>
-                                                </form>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="tab-pane fade show" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                                             <p style="font-size:15px; font-weight:700; color:rgb(147, 15, 165)">The room sizes for this house are 
-                                                <span>@foreach ($rentaldata->housetags as $rntalhsetags)
-                                                    {{ $rntalhsetags->rentaltag_title }}</span>,
-                                                @endforeach</p>
+                                            <span>@foreach ($rentaldata->housetags as $rntalhsetags)
+                                                {{ $rntalhsetags->rentaltag_title }}</span>,
+                                            @endforeach</p>
                                             <form action="javascript:void(0)" id="addaroomname" class="form-horizontal" role="form" method="POST" style="margin: 5px;">
                                                 @csrf
                                                 <input type="hidden" name="rentalhouseid" id="rentalhse_id" value="{{ $rentaldata->id }}" >
@@ -163,22 +163,34 @@
                                                     <div class="card-body">
                                                         <h5 class="card-title mb-4" style="color: black; font-size:18px;">1.Room Sizes Details for the Rental House</h5>
                                                         <div class="row section-groups">
-                                                            <div class="form-group inputdetails col-sm-6">
+                                                            <div class="form-group inputdetails col-sm-4">
                                                                 <label>Room Sizes For this House<span class="text-danger inputrequired">*</span></label>
                                                                 <br>
-                                                                <select id="selectrmsize" name="rentalhousermsize" style="width: 100%;" class="adminselect2 form-control text-white bg-dark" required>
+                                                                <select name="rentalhousermsize" id="selectrmsize" class="adminselect2 form-control text-white bg-dark" style="width:100%;" required>
+                                                                    {{-- <option value="0" disabled="true" selected="true">Choose a Room Size</option>
+                                                                    <?php
+                                                                        $addedhousesizes=Rentalhousesize::where('rentalhse_id',$rentaldata->id)->get();
+                                                                    ?>
+                                                                    @foreach($addedhousesizes as $housesize)
+                                                                        <option value="{{ $housesize->id }}">
+                                                                            {{ $housesize->room_size }}</option>
+                                                                    @endforeach --}}
                                                                 </select>
                                                             </div>
-                                                            <div class="form-group inputdetails col-sm-6">
+                                                            <div class="form-group inputdetails col-sm-4">
+                                                                <label>Room Size Price<span class="text-danger inputrequired">*</span></label>
+                                                                <input type="number" class="form-control text-white bg-dark" required required name="roomsize_price" id="roomsize_price" placeholder="Write The Room Size Price here">
+                                                            </div>
+                                                            <div class="form-group inputdetails col-sm-4">
                                                                 <label>Room Name/Number<span class="text-danger inputrequired">*</span></label>
                                                                 <input type="text" class="form-control text-white bg-dark" required required name="room_numbername" id="room_name" placeholder="Write The Room name here">
-                                                        </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <button type="submit"  class="btn btn-success">Create A Room Name</button>
                                             </form>
-                            
+
                                             <div class="col-md-12">
                                                 <table class="table table-striped table-bordered roomnamestable" style="width:18%; margin-top:10px;">
                                                     <thead>
@@ -186,8 +198,9 @@
                                                             <th>Id</th>
                                                             <th>Name</th>
                                                             <th>Room Size</th>
+                                                            <th>Room Size Price</th>
                                                             <th>Status</th>
-                                                            <th>Delete</th>
+                                                            <th>Action</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody></tbody>
@@ -208,7 +221,7 @@
                             <div class="card-body">
                                 <h5 class="card-title mb-4" style="color: black; font-size:18px;">1.Room Sizes Details for the Rental House</h5>
                                 <div class="row section-groups">
-                                    <div class="form-group inputdetails col-sm-6">
+                                    <div class="form-group inputdetails col-sm-4">
                                         <label>Room Sizes For this House<span class="text-danger inputrequired">*</span></label>
                                         <br>
                                         <select name="rentalhousermsize" class="adminselect2 form-control text-white bg-dark" style="width:100%;" required>
@@ -217,15 +230,19 @@
                                                 $addedhousesizes=Rentalhousesize::where('rentalhse_id',$rentaldata->id)->get();
                                             ?>
                                             @foreach($addedhousesizes as $housesize)
-                                                <option value="{{ $housesize->room_size }}">
+                                                <option value="{{ $housesize->id }}">
                                                     {{ $housesize->room_size }}</option>
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div class="form-group inputdetails col-sm-6">
+                                    <div class="form-group inputdetails col-sm-4">
+                                        <label>Room Size Price<span class="text-danger inputrequired">*</span></label>
+                                        <input type="number" class="form-control text-white bg-dark" required required name="roomsize_price" id="roomsize_price" placeholder="Write The Room Size Price here">
+                                    </div>
+                                    <div class="form-group inputdetails col-sm-4">
                                         <label>Room Name/Number<span class="text-danger inputrequired">*</span></label>
                                         <input type="text" class="form-control text-white bg-dark" required required name="room_numbername" id="room_name" placeholder="Write The Room name here">
-                                </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -239,6 +256,7 @@
                                     <th>Id</th>
                                     <th>Name</th>
                                     <th>Room Size</th>
+                                    <th>Room Size Price</th>
                                     <th>Status</th>
                                     <th>Delete</th>
                                 </tr>
@@ -279,7 +297,7 @@
                                                                     <div>
                                                                         <input id="house_id" type="hidden" name="rentalhouseid" value="{{ $rentaldata->id }}"/>
                                                                         <input id="rentalroom_size" type="text"  name="room_size[]" placeholder="Room size" style="width:150px"/>
-                                                                        <input id="rentalroomsize_price" type="number" name="roomsize_price[]" placeholder="Room Size Price" style="width:150px"/>
+                                                                        {{-- <input id="rentalroomsize_price" type="number" name="roomsize_price[]" placeholder="Room Size Price" style="width:150px"/> --}}
                                                                         <input id="totalrooms" type="number" name="total_rooms[]" placeholder="Total Rooms" style="width:150px"/>
                             
                                                                         <a href="javascript:void(0);" class="add_button" title="Add field">Add</a>
@@ -290,15 +308,15 @@
                                                         </div>
                                                         <button type="submit" id="uploadroomsizesbtn" class="btn btn-success">Upload the House Sizes</button>
                                                         <ul class="alert alert-warning d-none" id="update_housesizelist"></ul>
-                                                </form>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="tab-pane fade show" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                                             <p style="font-size:15px; font-weight:700; color:rgb(147, 15, 165)">The room sizes for this house are 
-                                                <span>@foreach ($rentaldata->housetags as $rntalhsetags)
-                                                    {{ $rntalhsetags->rentaltag_title }}</span>,
-                                                @endforeach</p>
+                                            <span>@foreach ($rentaldata->housetags as $rntalhsetags)
+                                                {{ $rntalhsetags->rentaltag_title }}</span>,
+                                            @endforeach</p>
                                             <form action="javascript:void(0)" id="addaroomname" class="form-horizontal" role="form" method="POST" style="margin: 5px;">
                                                 @csrf
                                                 <input type="hidden" name="rentalhouseid" id="rentalhse_id" value="{{ $rentaldata->id }}" >
@@ -307,22 +325,34 @@
                                                     <div class="card-body">
                                                         <h5 class="card-title mb-4" style="color: black; font-size:18px;">1.Room Sizes Details for the Rental House</h5>
                                                         <div class="row section-groups">
-                                                            <div class="form-group inputdetails col-sm-6">
+                                                            <div class="form-group inputdetails col-sm-4">
                                                                 <label>Room Sizes For this House<span class="text-danger inputrequired">*</span></label>
                                                                 <br>
-                                                                <select id="selectrmsize" name="rentalhousermsize" style="width: 100%;" class="adminselect2 form-control text-white bg-dark" required>
+                                                                <select name="rentalhousermsize" id="selectrmsize" class="adminselect2 form-control text-white bg-dark" style="width:100%;" required>
+                                                                    {{-- <option value="0" disabled="true" selected="true">Choose Your Rental House</option>
+                                                                    <?php
+                                                                        $addedhousesizes=Rentalhousesize::where('rentalhse_id',$rentaldata->id)->get();
+                                                                    ?>
+                                                                    @foreach($addedhousesizes as $housesize)
+                                                                        <option value="{{ $housesize->id }}">
+                                                                            {{ $housesize->room_size }}</option>
+                                                                    @endforeach --}}
                                                                 </select>
                                                             </div>
-                                                            <div class="form-group inputdetails col-sm-6">
+                                                            <div class="form-group inputdetails col-sm-4">
+                                                                <label>Room Size Price<span class="text-danger inputrequired">*</span></label>
+                                                                <input type="number" class="form-control text-white bg-dark" required required name="roomsize_price" id="roomsize_price" placeholder="Write The Room Size Price here">
+                                                            </div>
+                                                            <div class="form-group inputdetails col-sm-4">
                                                                 <label>Room Name/Number<span class="text-danger inputrequired">*</span></label>
                                                                 <input type="text" class="form-control text-white bg-dark" required required name="room_numbername" id="room_name" placeholder="Write The Room name here">
-                                                        </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <button type="submit"  class="btn btn-success">Create A Room Name</button>
                                             </form>
-                            
+
                                             <div class="col-md-12">
                                                 <table class="table table-striped table-bordered roomnamestable" style="width:18%; margin-top:10px;">
                                                     <thead>
@@ -330,6 +360,7 @@
                                                             <th>Id</th>
                                                             <th>Name</th>
                                                             <th>Room Size</th>
+                                                            <th>Room Size Price</th>
                                                             <th>Status</th>
                                                             <th>Delete</th>
                                                         </tr>
@@ -352,7 +383,7 @@
                             <div class="card-body">
                                 <h5 class="card-title mb-4" style="color: black; font-size:18px;">1.Room Sizes Details for the Rental House</h5>
                                 <div class="row section-groups">
-                                    <div class="form-group inputdetails col-sm-6">
+                                    <div class="form-group inputdetails col-sm-4">
                                         <label>Room Sizes For this House<span class="text-danger inputrequired">*</span></label>
                                         <br>
                                         <select name="rentalhousermsize" class="adminselect2 form-control text-white bg-dark" style="width:100%;" required>
@@ -361,15 +392,19 @@
                                                 $addedhousesizes=Rentalhousesize::where('rentalhse_id',$rentaldata->id)->get();
                                             ?>
                                             @foreach($addedhousesizes as $housesize)
-                                                <option value="{{ $housesize->room_size }}">
+                                                <option value="{{ $housesize->id }}">
                                                     {{ $housesize->room_size }}</option>
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div class="form-group inputdetails col-sm-6">
+                                    <div class="form-group inputdetails col-sm-4">
+                                        <label>Room Size Price<span class="text-danger inputrequired">*</span></label>
+                                        <input type="number" class="form-control text-white bg-dark" required required name="roomsize_price" id="roomsize_price" placeholder="Write The Room Size Price here">
+                                    </div>
+                                    <div class="form-group inputdetails col-sm-4">
                                         <label>Room Name/Number<span class="text-danger inputrequired">*</span></label>
                                         <input type="text" class="form-control text-white bg-dark" required required name="room_numbername" id="room_name" placeholder="Write The Room name here">
-                                </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -383,6 +418,7 @@
                                     <th>Id</th>
                                     <th>Name</th>
                                     <th>Room Size</th>
+                                    <th>Room Size Price</th>
                                     <th>Status</th>
                                     <th>Delete</th>
                                 </tr>
@@ -390,7 +426,7 @@
                             <tbody></tbody>
                         </table>
                     </div>
-                @endif
+                @endif  
             @elseif($hsesizes === [5,6])
                 <h3 class="mb-2 panel-title ms_heading text-white bg-black" style="padding:10px;">House Sizes and Room Names Management</h3>
                 @if ((int)$roomsizescount !== $rentaldata->total_rooms)
@@ -423,7 +459,7 @@
                                                                     <div>
                                                                         <input id="house_id" type="hidden" name="rentalhouseid" value="{{ $rentaldata->id }}"/>
                                                                         <input id="rentalroom_size" type="text"  name="room_size[]" placeholder="Room size" style="width:150px"/>
-                                                                        <input id="rentalroomsize_price" type="number" name="roomsize_price[]" placeholder="Room Size Price" style="width:150px"/>
+                                                                        {{-- <input id="rentalroomsize_price" type="number" name="roomsize_price[]" placeholder="Room Size Price" style="width:150px"/> --}}
                                                                         <input id="totalrooms" type="number" name="total_rooms[]" placeholder="Total Rooms" style="width:150px"/>
                             
                                                                         <a href="javascript:void(0);" class="add_button" title="Add field">Add</a>
@@ -434,15 +470,15 @@
                                                         </div>
                                                         <button type="submit" id="uploadroomsizesbtn" class="btn btn-success">Upload the House Sizes</button>
                                                         <ul class="alert alert-warning d-none" id="update_housesizelist"></ul>
-                                                </form>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="tab-pane fade show" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                                             <p style="font-size:15px; font-weight:700; color:rgb(147, 15, 165)">The room sizes for this house are 
-                                                <span>@foreach ($rentaldata->housetags as $rntalhsetags)
-                                                    {{ $rntalhsetags->rentaltag_title }}</span>,
-                                                @endforeach</p>
+                                            <span>@foreach ($rentaldata->housetags as $rntalhsetags)
+                                                {{ $rntalhsetags->rentaltag_title }}</span>,
+                                            @endforeach</p>
                                             <form action="javascript:void(0)" id="addaroomname" class="form-horizontal" role="form" method="POST" style="margin: 5px;">
                                                 @csrf
                                                 <input type="hidden" name="rentalhouseid" id="rentalhse_id" value="{{ $rentaldata->id }}" >
@@ -451,22 +487,34 @@
                                                     <div class="card-body">
                                                         <h5 class="card-title mb-4" style="color: black; font-size:18px;">1.Room Sizes Details for the Rental House</h5>
                                                         <div class="row section-groups">
-                                                            <div class="form-group inputdetails col-sm-6">
+                                                            <div class="form-group inputdetails col-sm-4">
                                                                 <label>Room Sizes For this House<span class="text-danger inputrequired">*</span></label>
                                                                 <br>
-                                                                <select id="selectrmsize" name="rentalhousermsize" style="width: 100%;" class="adminselect2 form-control text-white bg-dark" required>
+                                                                <select name="rentalhousermsize" id="selectrmsize" class="adminselect2 form-control text-white bg-dark" style="width:100%;" required>
+                                                                    {{-- <option value="0" disabled="true" selected="true">Choose Your Rental House</option>
+                                                                    <?php
+                                                                        $addedhousesizes=Rentalhousesize::where('rentalhse_id',$rentaldata->id)->get();
+                                                                    ?>
+                                                                    @foreach($addedhousesizes as $housesize)
+                                                                        <option value="{{ $housesize->id }}">
+                                                                            {{ $housesize->room_size }}</option>
+                                                                    @endforeach --}}
                                                                 </select>
                                                             </div>
-                                                            <div class="form-group inputdetails col-sm-6">
+                                                            <div class="form-group inputdetails col-sm-4">
+                                                                <label>Room Size Price<span class="text-danger inputrequired">*</span></label>
+                                                                <input type="number" class="form-control text-white bg-dark" required required name="roomsize_price" id="roomsize_price" placeholder="Write The Room Size Price here">
+                                                            </div>
+                                                            <div class="form-group inputdetails col-sm-4">
                                                                 <label>Room Name/Number<span class="text-danger inputrequired">*</span></label>
                                                                 <input type="text" class="form-control text-white bg-dark" required required name="room_numbername" id="room_name" placeholder="Write The Room name here">
-                                                        </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <button type="submit"  class="btn btn-success">Create A Room Name</button>
                                             </form>
-                            
+
                                             <div class="col-md-12">
                                                 <table class="table table-striped table-bordered roomnamestable" style="width:18%; margin-top:10px;">
                                                     <thead>
@@ -474,6 +522,7 @@
                                                             <th>Id</th>
                                                             <th>Name</th>
                                                             <th>Room Size</th>
+                                                            <th>Room Size Price</th>
                                                             <th>Status</th>
                                                             <th>Delete</th>
                                                         </tr>
@@ -496,7 +545,7 @@
                             <div class="card-body">
                                 <h5 class="card-title mb-4" style="color: black; font-size:18px;">1.Room Sizes Details for the Rental House</h5>
                                 <div class="row section-groups">
-                                    <div class="form-group inputdetails col-sm-6">
+                                    <div class="form-group inputdetails col-sm-4">
                                         <label>Room Sizes For this House<span class="text-danger inputrequired">*</span></label>
                                         <br>
                                         <select name="rentalhousermsize" class="adminselect2 form-control text-white bg-dark" style="width:100%;" required>
@@ -505,15 +554,19 @@
                                                 $addedhousesizes=Rentalhousesize::where('rentalhse_id',$rentaldata->id)->get();
                                             ?>
                                             @foreach($addedhousesizes as $housesize)
-                                                <option value="{{ $housesize->room_size }}">
+                                                <option value="{{ $housesize->id }}">
                                                     {{ $housesize->room_size }}</option>
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div class="form-group inputdetails col-sm-6">
+                                    <div class="form-group inputdetails col-sm-4">
+                                        <label>Room Size Price<span class="text-danger inputrequired">*</span></label>
+                                        <input type="number" class="form-control text-white bg-dark" required required name="roomsize_price" id="roomsize_price" placeholder="Write The Room Size Price here">
+                                    </div>
+                                    <div class="form-group inputdetails col-sm-4">
                                         <label>Room Name/Number<span class="text-danger inputrequired">*</span></label>
                                         <input type="text" class="form-control text-white bg-dark" required required name="room_numbername" id="room_name" placeholder="Write The Room name here">
-                                </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -527,6 +580,7 @@
                                     <th>Id</th>
                                     <th>Name</th>
                                     <th>Room Size</th>
+                                    <th>Room Size Price</th>
                                     <th>Status</th>
                                     <th>Delete</th>
                                 </tr>
@@ -534,7 +588,7 @@
                             <tbody></tbody>
                         </table>
                     </div>
-                @endif
+                @endif  
             @elseif($hsesizes === [1,2,3])
                 <h3 class="mb-2 panel-title ms_heading text-white bg-black" style="padding:10px;">House Sizes and Room Names Management</h3>
                 @if ((int)$roomsizescount !== $rentaldata->total_rooms)
@@ -567,7 +621,7 @@
                                                                     <div>
                                                                         <input id="house_id" type="hidden" name="rentalhouseid" value="{{ $rentaldata->id }}"/>
                                                                         <input id="rentalroom_size" type="text"  name="room_size[]" placeholder="Room size" style="width:150px"/>
-                                                                        <input id="rentalroomsize_price" type="number" name="roomsize_price[]" placeholder="Room Size Price" style="width:150px"/>
+                                                                        {{-- <input id="rentalroomsize_price" type="number" name="roomsize_price[]" placeholder="Room Size Price" style="width:150px"/> --}}
                                                                         <input id="totalrooms" type="number" name="total_rooms[]" placeholder="Total Rooms" style="width:150px"/>
                             
                                                                         <a href="javascript:void(0);" class="add_button" title="Add field">Add</a>
@@ -578,15 +632,15 @@
                                                         </div>
                                                         <button type="submit" id="uploadroomsizesbtn" class="btn btn-success">Upload the House Sizes</button>
                                                         <ul class="alert alert-warning d-none" id="update_housesizelist"></ul>
-                                                </form>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="tab-pane fade show" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                                             <p style="font-size:15px; font-weight:700; color:rgb(147, 15, 165)">The room sizes for this house are 
-                                                <span>@foreach ($rentaldata->housetags as $rntalhsetags)
-                                                    {{ $rntalhsetags->rentaltag_title }}</span>,
-                                                @endforeach</p>
+                                            <span>@foreach ($rentaldata->housetags as $rntalhsetags)
+                                                {{ $rntalhsetags->rentaltag_title }}</span>,
+                                            @endforeach</p>
                                             <form action="javascript:void(0)" id="addaroomname" class="form-horizontal" role="form" method="POST" style="margin: 5px;">
                                                 @csrf
                                                 <input type="hidden" name="rentalhouseid" id="rentalhse_id" value="{{ $rentaldata->id }}" >
@@ -595,22 +649,34 @@
                                                     <div class="card-body">
                                                         <h5 class="card-title mb-4" style="color: black; font-size:18px;">1.Room Sizes Details for the Rental House</h5>
                                                         <div class="row section-groups">
-                                                            <div class="form-group inputdetails col-sm-6">
+                                                            <div class="form-group inputdetails col-sm-4">
                                                                 <label>Room Sizes For this House<span class="text-danger inputrequired">*</span></label>
                                                                 <br>
-                                                                <select id="selectrmsize" name="rentalhousermsize" style="width: 100%;" class="adminselect2 form-control text-white bg-dark" required>
+                                                                <select name="rentalhousermsize" id="selectrmsize" class="adminselect2 form-control text-white bg-dark" style="width:100%;" required>
+                                                                    {{-- <option value="0" disabled="true" selected="true">Choose Your Rental House</option>
+                                                                    <?php
+                                                                        $addedhousesizes=Rentalhousesize::where('rentalhse_id',$rentaldata->id)->get();
+                                                                    ?>
+                                                                    @foreach($addedhousesizes as $housesize)
+                                                                        <option value="{{ $housesize->id }}">
+                                                                            {{ $housesize->room_size }}</option>
+                                                                    @endforeach --}}
                                                                 </select>
                                                             </div>
-                                                            <div class="form-group inputdetails col-sm-6">
+                                                            <div class="form-group inputdetails col-sm-4">
+                                                                <label>Room Size Price<span class="text-danger inputrequired">*</span></label>
+                                                                <input type="number" class="form-control text-white bg-dark" required required name="roomsize_price" id="roomsize_price" placeholder="Write The Room Size Price here">
+                                                            </div>
+                                                            <div class="form-group inputdetails col-sm-4">
                                                                 <label>Room Name/Number<span class="text-danger inputrequired">*</span></label>
                                                                 <input type="text" class="form-control text-white bg-dark" required required name="room_numbername" id="room_name" placeholder="Write The Room name here">
-                                                        </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <button type="submit"  class="btn btn-success">Create A Room Name</button>
                                             </form>
-                            
+
                                             <div class="col-md-12">
                                                 <table class="table table-striped table-bordered roomnamestable" style="width:18%; margin-top:10px;">
                                                     <thead>
@@ -618,6 +684,7 @@
                                                             <th>Id</th>
                                                             <th>Name</th>
                                                             <th>Room Size</th>
+                                                            <th>Room Size Price</th>
                                                             <th>Status</th>
                                                             <th>Delete</th>
                                                         </tr>
@@ -640,7 +707,7 @@
                             <div class="card-body">
                                 <h5 class="card-title mb-4" style="color: black; font-size:18px;">1.Room Sizes Details for the Rental House</h5>
                                 <div class="row section-groups">
-                                    <div class="form-group inputdetails col-sm-6">
+                                    <div class="form-group inputdetails col-sm-4">
                                         <label>Room Sizes For this House<span class="text-danger inputrequired">*</span></label>
                                         <br>
                                         <select name="rentalhousermsize" class="adminselect2 form-control text-white bg-dark" style="width:100%;" required>
@@ -649,15 +716,19 @@
                                                 $addedhousesizes=Rentalhousesize::where('rentalhse_id',$rentaldata->id)->get();
                                             ?>
                                             @foreach($addedhousesizes as $housesize)
-                                                <option value="{{ $housesize->room_size }}">
+                                                <option value="{{ $housesize->id }}">
                                                     {{ $housesize->room_size }}</option>
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div class="form-group inputdetails col-sm-6">
+                                    <div class="form-group inputdetails col-sm-4">
+                                        <label>Room Size Price<span class="text-danger inputrequired">*</span></label>
+                                        <input type="number" class="form-control text-white bg-dark" required required name="roomsize_price" id="roomsize_price" placeholder="Write The Room Size Price here">
+                                    </div>
+                                    <div class="form-group inputdetails col-sm-4">
                                         <label>Room Name/Number<span class="text-danger inputrequired">*</span></label>
                                         <input type="text" class="form-control text-white bg-dark" required required name="room_numbername" id="room_name" placeholder="Write The Room name here">
-                                </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -671,6 +742,7 @@
                                     <th>Id</th>
                                     <th>Name</th>
                                     <th>Room Size</th>
+                                    <th>Room Size Price</th>
                                     <th>Status</th>
                                     <th>Delete</th>
                                 </tr>
@@ -678,7 +750,7 @@
                             <tbody></tbody>
                         </table>
                     </div>
-                @endif
+                @endif  
             @elseif($hsesizes === [1,2])
                 <h3 class="mb-2 panel-title ms_heading text-white bg-black" style="padding:10px;">House Sizes and Room Names Management</h3>
                 @if ((int)$roomsizescount !== $rentaldata->total_rooms)
@@ -711,7 +783,7 @@
                                                                     <div>
                                                                         <input id="house_id" type="hidden" name="rentalhouseid" value="{{ $rentaldata->id }}"/>
                                                                         <input id="rentalroom_size" type="text"  name="room_size[]" placeholder="Room size" style="width:150px"/>
-                                                                        <input id="rentalroomsize_price" type="number" name="roomsize_price[]" placeholder="Room Size Price" style="width:150px"/>
+                                                                        {{-- <input id="rentalroomsize_price" type="number" name="roomsize_price[]" placeholder="Room Size Price" style="width:150px"/> --}}
                                                                         <input id="totalrooms" type="number" name="total_rooms[]" placeholder="Total Rooms" style="width:150px"/>
                             
                                                                         <a href="javascript:void(0);" class="add_button" title="Add field">Add</a>
@@ -722,15 +794,15 @@
                                                         </div>
                                                         <button type="submit" id="uploadroomsizesbtn" class="btn btn-success">Upload the House Sizes</button>
                                                         <ul class="alert alert-warning d-none" id="update_housesizelist"></ul>
-                                                </form>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="tab-pane fade show" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                                             <p style="font-size:15px; font-weight:700; color:rgb(147, 15, 165)">The room sizes for this house are 
-                                                <span>@foreach ($rentaldata->housetags as $rntalhsetags)
-                                                    {{ $rntalhsetags->rentaltag_title }}</span>,
-                                                @endforeach</p>
+                                            <span>@foreach ($rentaldata->housetags as $rntalhsetags)
+                                                {{ $rntalhsetags->rentaltag_title }}</span>,
+                                            @endforeach</p>
                                             <form action="javascript:void(0)" id="addaroomname" class="form-horizontal" role="form" method="POST" style="margin: 5px;">
                                                 @csrf
                                                 <input type="hidden" name="rentalhouseid" id="rentalhse_id" value="{{ $rentaldata->id }}" >
@@ -739,22 +811,34 @@
                                                     <div class="card-body">
                                                         <h5 class="card-title mb-4" style="color: black; font-size:18px;">1.Room Sizes Details for the Rental House</h5>
                                                         <div class="row section-groups">
-                                                            <div class="form-group inputdetails col-sm-6">
+                                                            <div class="form-group inputdetails col-sm-4">
                                                                 <label>Room Sizes For this House<span class="text-danger inputrequired">*</span></label>
                                                                 <br>
-                                                                <select id="selectrmsize" name="rentalhousermsize" style="width: 100%;" class="adminselect2 form-control text-white bg-dark" required>
+                                                                <select name="rentalhousermsize" id="selectrmsize" class="adminselect2 form-control text-white bg-dark" style="width:100%;" required>
+                                                                    {{-- <option value="0" disabled="true" selected="true">Choose Your Rental House</option>
+                                                                    <?php
+                                                                        $addedhousesizes=Rentalhousesize::where('rentalhse_id',$rentaldata->id)->get();
+                                                                    ?>
+                                                                    @foreach($addedhousesizes as $housesize)
+                                                                        <option value="{{ $housesize->id }}">
+                                                                            {{ $housesize->room_size }}</option>
+                                                                    @endforeach --}}
                                                                 </select>
                                                             </div>
-                                                            <div class="form-group inputdetails col-sm-6">
+                                                            <div class="form-group inputdetails col-sm-4">
+                                                                <label>Room Size Price<span class="text-danger inputrequired">*</span></label>
+                                                                <input type="number" class="form-control text-white bg-dark" required required name="roomsize_price" id="roomsize_price" placeholder="Write The Room Size Price here">
+                                                            </div>
+                                                            <div class="form-group inputdetails col-sm-4">
                                                                 <label>Room Name/Number<span class="text-danger inputrequired">*</span></label>
                                                                 <input type="text" class="form-control text-white bg-dark" required required name="room_numbername" id="room_name" placeholder="Write The Room name here">
-                                                        </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <button type="submit"  class="btn btn-success">Create A Room Name</button>
                                             </form>
-                            
+
                                             <div class="col-md-12">
                                                 <table class="table table-striped table-bordered roomnamestable" style="width:18%; margin-top:10px;">
                                                     <thead>
@@ -762,6 +846,7 @@
                                                             <th>Id</th>
                                                             <th>Name</th>
                                                             <th>Room Size</th>
+                                                            <th>Room Size Price</th>
                                                             <th>Status</th>
                                                             <th>Delete</th>
                                                         </tr>
@@ -784,7 +869,7 @@
                             <div class="card-body">
                                 <h5 class="card-title mb-4" style="color: black; font-size:18px;">1.Room Sizes Details for the Rental House</h5>
                                 <div class="row section-groups">
-                                    <div class="form-group inputdetails col-sm-6">
+                                    <div class="form-group inputdetails col-sm-4">
                                         <label>Room Sizes For this House<span class="text-danger inputrequired">*</span></label>
                                         <br>
                                         <select name="rentalhousermsize" class="adminselect2 form-control text-white bg-dark" style="width:100%;" required>
@@ -793,15 +878,19 @@
                                                 $addedhousesizes=Rentalhousesize::where('rentalhse_id',$rentaldata->id)->get();
                                             ?>
                                             @foreach($addedhousesizes as $housesize)
-                                                <option value="{{ $housesize->room_size }}">
+                                                <option value="{{ $housesize->id }}">
                                                     {{ $housesize->room_size }}</option>
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div class="form-group inputdetails col-sm-6">
+                                    <div class="form-group inputdetails col-sm-4">
+                                        <label>Room Size Price<span class="text-danger inputrequired">*</span></label>
+                                        <input type="number" class="form-control text-white bg-dark" required required name="roomsize_price" id="roomsize_price" placeholder="Write The Room Size Price here">
+                                    </div>
+                                    <div class="form-group inputdetails col-sm-4">
                                         <label>Room Name/Number<span class="text-danger inputrequired">*</span></label>
                                         <input type="text" class="form-control text-white bg-dark" required required name="room_numbername" id="room_name" placeholder="Write The Room name here">
-                                </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -815,6 +904,7 @@
                                     <th>Id</th>
                                     <th>Name</th>
                                     <th>Room Size</th>
+                                    <th>Room Size Price</th>
                                     <th>Status</th>
                                     <th>Delete</th>
                                 </tr>
@@ -822,7 +912,7 @@
                             <tbody></tbody>
                         </table>
                     </div>
-                @endif
+                @endif  
             @elseif($hsesizes === [2,3])
                 <h3 class="mb-2 panel-title ms_heading text-white bg-black" style="padding:10px;">House Sizes and Room Names Management</h3>
                 @if ((int)$roomsizescount !== $rentaldata->total_rooms)
@@ -855,7 +945,7 @@
                                                                     <div>
                                                                         <input id="house_id" type="hidden" name="rentalhouseid" value="{{ $rentaldata->id }}"/>
                                                                         <input id="rentalroom_size" type="text"  name="room_size[]" placeholder="Room size" style="width:150px"/>
-                                                                        <input id="rentalroomsize_price" type="number" name="roomsize_price[]" placeholder="Room Size Price" style="width:150px"/>
+                                                                        {{-- <input id="rentalroomsize_price" type="number" name="roomsize_price[]" placeholder="Room Size Price" style="width:150px"/> --}}
                                                                         <input id="totalrooms" type="number" name="total_rooms[]" placeholder="Total Rooms" style="width:150px"/>
                             
                                                                         <a href="javascript:void(0);" class="add_button" title="Add field">Add</a>
@@ -866,15 +956,15 @@
                                                         </div>
                                                         <button type="submit" id="uploadroomsizesbtn" class="btn btn-success">Upload the House Sizes</button>
                                                         <ul class="alert alert-warning d-none" id="update_housesizelist"></ul>
-                                                </form>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="tab-pane fade show" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                                             <p style="font-size:15px; font-weight:700; color:rgb(147, 15, 165)">The room sizes for this house are 
-                                                <span>@foreach ($rentaldata->housetags as $rntalhsetags)
-                                                    {{ $rntalhsetags->rentaltag_title }}</span>,
-                                                @endforeach</p>
+                                            <span>@foreach ($rentaldata->housetags as $rntalhsetags)
+                                                {{ $rntalhsetags->rentaltag_title }}</span>,
+                                            @endforeach</p>
                                             <form action="javascript:void(0)" id="addaroomname" class="form-horizontal" role="form" method="POST" style="margin: 5px;">
                                                 @csrf
                                                 <input type="hidden" name="rentalhouseid" id="rentalhse_id" value="{{ $rentaldata->id }}" >
@@ -883,22 +973,34 @@
                                                     <div class="card-body">
                                                         <h5 class="card-title mb-4" style="color: black; font-size:18px;">1.Room Sizes Details for the Rental House</h5>
                                                         <div class="row section-groups">
-                                                            <div class="form-group inputdetails col-sm-6">
+                                                            <div class="form-group inputdetails col-sm-4">
                                                                 <label>Room Sizes For this House<span class="text-danger inputrequired">*</span></label>
                                                                 <br>
-                                                                <select id="selectrmsize" name="rentalhousermsize" style="width: 100%;" class="adminselect2 form-control text-white bg-dark" required>
+                                                                <select name="rentalhousermsize" id="selectrmsize" class="adminselect2 form-control text-white bg-dark" style="width:100%;" required>
+                                                                    {{-- <option value="0" disabled="true" selected="true">Choose Your Rental House</option>
+                                                                    <?php
+                                                                        $addedhousesizes=Rentalhousesize::where('rentalhse_id',$rentaldata->id)->get();
+                                                                    ?>
+                                                                    @foreach($addedhousesizes as $housesize)
+                                                                        <option value="{{ $housesize->id }}">
+                                                                            {{ $housesize->room_size }}</option>
+                                                                    @endforeach --}}
                                                                 </select>
                                                             </div>
-                                                            <div class="form-group inputdetails col-sm-6">
+                                                            <div class="form-group inputdetails col-sm-4">
+                                                                <label>Room Size Price<span class="text-danger inputrequired">*</span></label>
+                                                                <input type="number" class="form-control text-white bg-dark" required required name="roomsize_price" id="roomsize_price" placeholder="Write The Room Size Price here">
+                                                            </div>
+                                                            <div class="form-group inputdetails col-sm-4">
                                                                 <label>Room Name/Number<span class="text-danger inputrequired">*</span></label>
                                                                 <input type="text" class="form-control text-white bg-dark" required required name="room_numbername" id="room_name" placeholder="Write The Room name here">
-                                                        </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <button type="submit"  class="btn btn-success">Create A Room Name</button>
                                             </form>
-                            
+
                                             <div class="col-md-12">
                                                 <table class="table table-striped table-bordered roomnamestable" style="width:18%; margin-top:10px;">
                                                     <thead>
@@ -906,6 +1008,7 @@
                                                             <th>Id</th>
                                                             <th>Name</th>
                                                             <th>Room Size</th>
+                                                            <th>Room Size Price</th>
                                                             <th>Status</th>
                                                             <th>Delete</th>
                                                         </tr>
@@ -928,7 +1031,7 @@
                             <div class="card-body">
                                 <h5 class="card-title mb-4" style="color: black; font-size:18px;">1.Room Sizes Details for the Rental House</h5>
                                 <div class="row section-groups">
-                                    <div class="form-group inputdetails col-sm-6">
+                                    <div class="form-group inputdetails col-sm-4">
                                         <label>Room Sizes For this House<span class="text-danger inputrequired">*</span></label>
                                         <br>
                                         <select name="rentalhousermsize" class="adminselect2 form-control text-white bg-dark" style="width:100%;" required>
@@ -937,15 +1040,19 @@
                                                 $addedhousesizes=Rentalhousesize::where('rentalhse_id',$rentaldata->id)->get();
                                             ?>
                                             @foreach($addedhousesizes as $housesize)
-                                                <option value="{{ $housesize->room_size }}">
+                                                <option value="{{ $housesize->id }}">
                                                     {{ $housesize->room_size }}</option>
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div class="form-group inputdetails col-sm-6">
+                                    <div class="form-group inputdetails col-sm-4">
+                                        <label>Room Size Price<span class="text-danger inputrequired">*</span></label>
+                                        <input type="number" class="form-control text-white bg-dark" required required name="roomsize_price" id="roomsize_price" placeholder="Write The Room Size Price here">
+                                    </div>
+                                    <div class="form-group inputdetails col-sm-4">
                                         <label>Room Name/Number<span class="text-danger inputrequired">*</span></label>
                                         <input type="text" class="form-control text-white bg-dark" required required name="room_numbername" id="room_name" placeholder="Write The Room name here">
-                                </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -959,6 +1066,7 @@
                                     <th>Id</th>
                                     <th>Name</th>
                                     <th>Room Size</th>
+                                    <th>Room Size Price</th>
                                     <th>Status</th>
                                     <th>Delete</th>
                                 </tr>
@@ -966,7 +1074,7 @@
                             <tbody></tbody>
                         </table>
                     </div>
-                @endif
+                @endif  
             @elseif($hsesizes === [6,7])
                 <h3 class="mb-2 panel-title ms_heading text-white bg-black" style="padding:10px;">House Sizes and Room Names Management</h3>
                 @if ((int)$roomsizescount !== $rentaldata->total_rooms)
@@ -999,7 +1107,7 @@
                                                                     <div>
                                                                         <input id="house_id" type="hidden" name="rentalhouseid" value="{{ $rentaldata->id }}"/>
                                                                         <input id="rentalroom_size" type="text"  name="room_size[]" placeholder="Room size" style="width:150px"/>
-                                                                        <input id="rentalroomsize_price" type="number" name="roomsize_price[]" placeholder="Room Size Price" style="width:150px"/>
+                                                                        {{-- <input id="rentalroomsize_price" type="number" name="roomsize_price[]" placeholder="Room Size Price" style="width:150px"/> --}}
                                                                         <input id="totalrooms" type="number" name="total_rooms[]" placeholder="Total Rooms" style="width:150px"/>
                             
                                                                         <a href="javascript:void(0);" class="add_button" title="Add field">Add</a>
@@ -1010,15 +1118,15 @@
                                                         </div>
                                                         <button type="submit" id="uploadroomsizesbtn" class="btn btn-success">Upload the House Sizes</button>
                                                         <ul class="alert alert-warning d-none" id="update_housesizelist"></ul>
-                                                </form>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="tab-pane fade show" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                                             <p style="font-size:15px; font-weight:700; color:rgb(147, 15, 165)">The room sizes for this house are 
-                                                <span>@foreach ($rentaldata->housetags as $rntalhsetags)
-                                                    {{ $rntalhsetags->rentaltag_title }}</span>,
-                                                @endforeach</p>
+                                            <span>@foreach ($rentaldata->housetags as $rntalhsetags)
+                                                {{ $rntalhsetags->rentaltag_title }}</span>,
+                                            @endforeach</p>
                                             <form action="javascript:void(0)" id="addaroomname" class="form-horizontal" role="form" method="POST" style="margin: 5px;">
                                                 @csrf
                                                 <input type="hidden" name="rentalhouseid" id="rentalhse_id" value="{{ $rentaldata->id }}" >
@@ -1027,22 +1135,34 @@
                                                     <div class="card-body">
                                                         <h5 class="card-title mb-4" style="color: black; font-size:18px;">1.Room Sizes Details for the Rental House</h5>
                                                         <div class="row section-groups">
-                                                            <div class="form-group inputdetails col-sm-6">
+                                                            <div class="form-group inputdetails col-sm-4">
                                                                 <label>Room Sizes For this House<span class="text-danger inputrequired">*</span></label>
                                                                 <br>
-                                                                <select id="selectrmsize" name="rentalhousermsize" style="width: 100%;" class="adminselect2 form-control text-white bg-dark" required>
+                                                                <select name="rentalhousermsize" id="selectrmsize" class="adminselect2 form-control text-white bg-dark" style="width:100%;" required>
+                                                                    {{-- <option value="0" disabled="true" selected="true">Choose Your Rental House</option>
+                                                                    <?php
+                                                                        $addedhousesizes=Rentalhousesize::where('rentalhse_id',$rentaldata->id)->get();
+                                                                    ?>
+                                                                    @foreach($addedhousesizes as $housesize)
+                                                                        <option value="{{ $housesize->id }}">
+                                                                            {{ $housesize->room_size }}</option>
+                                                                    @endforeach --}}
                                                                 </select>
                                                             </div>
-                                                            <div class="form-group inputdetails col-sm-6">
+                                                            <div class="form-group inputdetails col-sm-4">
+                                                                <label>Room Size Price<span class="text-danger inputrequired">*</span></label>
+                                                                <input type="number" class="form-control text-white bg-dark" required required name="roomsize_price" id="roomsize_price" placeholder="Write The Room Size Price here">
+                                                            </div>
+                                                            <div class="form-group inputdetails col-sm-4">
                                                                 <label>Room Name/Number<span class="text-danger inputrequired">*</span></label>
                                                                 <input type="text" class="form-control text-white bg-dark" required required name="room_numbername" id="room_name" placeholder="Write The Room name here">
-                                                        </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <button type="submit"  class="btn btn-success">Create A Room Name</button>
                                             </form>
-                            
+
                                             <div class="col-md-12">
                                                 <table class="table table-striped table-bordered roomnamestable" style="width:18%; margin-top:10px;">
                                                     <thead>
@@ -1050,6 +1170,7 @@
                                                             <th>Id</th>
                                                             <th>Name</th>
                                                             <th>Room Size</th>
+                                                            <th>Room Size Price</th>
                                                             <th>Status</th>
                                                             <th>Delete</th>
                                                         </tr>
@@ -1072,7 +1193,7 @@
                             <div class="card-body">
                                 <h5 class="card-title mb-4" style="color: black; font-size:18px;">1.Room Sizes Details for the Rental House</h5>
                                 <div class="row section-groups">
-                                    <div class="form-group inputdetails col-sm-6">
+                                    <div class="form-group inputdetails col-sm-4">
                                         <label>Room Sizes For this House<span class="text-danger inputrequired">*</span></label>
                                         <br>
                                         <select name="rentalhousermsize" class="adminselect2 form-control text-white bg-dark" style="width:100%;" required>
@@ -1081,15 +1202,19 @@
                                                 $addedhousesizes=Rentalhousesize::where('rentalhse_id',$rentaldata->id)->get();
                                             ?>
                                             @foreach($addedhousesizes as $housesize)
-                                                <option value="{{ $housesize->room_size }}">
+                                                <option value="{{ $housesize->id }}">
                                                     {{ $housesize->room_size }}</option>
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div class="form-group inputdetails col-sm-6">
+                                    <div class="form-group inputdetails col-sm-4">
+                                        <label>Room Size Price<span class="text-danger inputrequired">*</span></label>
+                                        <input type="number" class="form-control text-white bg-dark" required required name="roomsize_price" id="roomsize_price" placeholder="Write The Room Size Price here">
+                                    </div>
+                                    <div class="form-group inputdetails col-sm-4">
                                         <label>Room Name/Number<span class="text-danger inputrequired">*</span></label>
                                         <input type="text" class="form-control text-white bg-dark" required required name="room_numbername" id="room_name" placeholder="Write The Room name here">
-                                </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1103,6 +1228,7 @@
                                     <th>Id</th>
                                     <th>Name</th>
                                     <th>Room Size</th>
+                                    <th>Room Size Price</th>
                                     <th>Status</th>
                                     <th>Delete</th>
                                 </tr>
@@ -1110,7 +1236,7 @@
                             <tbody></tbody>
                         </table>
                     </div>
-                @endif
+                @endif  
             @elseif($hsesizes === [1,2,10])
                 <h3 class="mb-2 panel-title ms_heading text-white bg-black" style="padding:10px;">House Sizes and Room Names Management</h3>
                 @if ((int)$roomsizescount !== $rentaldata->total_rooms)
@@ -1143,7 +1269,7 @@
                                                                     <div>
                                                                         <input id="house_id" type="hidden" name="rentalhouseid" value="{{ $rentaldata->id }}"/>
                                                                         <input id="rentalroom_size" type="text"  name="room_size[]" placeholder="Room size" style="width:150px"/>
-                                                                        <input id="rentalroomsize_price" type="number" name="roomsize_price[]" placeholder="Room Size Price" style="width:150px"/>
+                                                                        {{-- <input id="rentalroomsize_price" type="number" name="roomsize_price[]" placeholder="Room Size Price" style="width:150px"/> --}}
                                                                         <input id="totalrooms" type="number" name="total_rooms[]" placeholder="Total Rooms" style="width:150px"/>
                             
                                                                         <a href="javascript:void(0);" class="add_button" title="Add field">Add</a>
@@ -1154,15 +1280,15 @@
                                                         </div>
                                                         <button type="submit" id="uploadroomsizesbtn" class="btn btn-success">Upload the House Sizes</button>
                                                         <ul class="alert alert-warning d-none" id="update_housesizelist"></ul>
-                                                </form>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="tab-pane fade show" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                                             <p style="font-size:15px; font-weight:700; color:rgb(147, 15, 165)">The room sizes for this house are 
-                                                <span>@foreach ($rentaldata->housetags as $rntalhsetags)
-                                                    {{ $rntalhsetags->rentaltag_title }}</span>,
-                                                @endforeach</p>
+                                            <span>@foreach ($rentaldata->housetags as $rntalhsetags)
+                                                {{ $rntalhsetags->rentaltag_title }}</span>,
+                                            @endforeach</p>
                                             <form action="javascript:void(0)" id="addaroomname" class="form-horizontal" role="form" method="POST" style="margin: 5px;">
                                                 @csrf
                                                 <input type="hidden" name="rentalhouseid" id="rentalhse_id" value="{{ $rentaldata->id }}" >
@@ -1171,22 +1297,34 @@
                                                     <div class="card-body">
                                                         <h5 class="card-title mb-4" style="color: black; font-size:18px;">1.Room Sizes Details for the Rental House</h5>
                                                         <div class="row section-groups">
-                                                            <div class="form-group inputdetails col-sm-6">
+                                                            <div class="form-group inputdetails col-sm-4">
                                                                 <label>Room Sizes For this House<span class="text-danger inputrequired">*</span></label>
                                                                 <br>
-                                                                <select id="selectrmsize" name="rentalhousermsize" style="width: 100%;" class="adminselect2 form-control text-white bg-dark" required>
+                                                                <select name="rentalhousermsize" id="selectrmsize" class="adminselect2 form-control text-white bg-dark" style="width:100%;" required>
+                                                                    <option value="0" disabled="true" selected="true">Choose Your Rental House</option>
+                                                                    <?php
+                                                                        $addedhousesizes=Rentalhousesize::where('rentalhse_id',$rentaldata->id)->get();
+                                                                    ?>
+                                                                    @foreach($addedhousesizes as $housesize)
+                                                                        <option value="{{ $housesize->id }}">
+                                                                            {{ $housesize->room_size }}</option>
+                                                                    @endforeach
                                                                 </select>
                                                             </div>
-                                                            <div class="form-group inputdetails col-sm-6">
+                                                            <div class="form-group inputdetails col-sm-4">
+                                                                <label>Room Size Price<span class="text-danger inputrequired">*</span></label>
+                                                                <input type="number" class="form-control text-white bg-dark" required required name="roomsize_price" id="roomsize_price" placeholder="Write The Room Size Price here">
+                                                            </div>
+                                                            <div class="form-group inputdetails col-sm-4">
                                                                 <label>Room Name/Number<span class="text-danger inputrequired">*</span></label>
                                                                 <input type="text" class="form-control text-white bg-dark" required required name="room_numbername" id="room_name" placeholder="Write The Room name here">
-                                                        </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <button type="submit"  class="btn btn-success">Create A Room Name</button>
                                             </form>
-                            
+
                                             <div class="col-md-12">
                                                 <table class="table table-striped table-bordered roomnamestable" style="width:18%; margin-top:10px;">
                                                     <thead>
@@ -1194,6 +1332,7 @@
                                                             <th>Id</th>
                                                             <th>Name</th>
                                                             <th>Room Size</th>
+                                                            <th>Room Size Price</th>
                                                             <th>Status</th>
                                                             <th>Delete</th>
                                                         </tr>
@@ -1216,7 +1355,7 @@
                             <div class="card-body">
                                 <h5 class="card-title mb-4" style="color: black; font-size:18px;">1.Room Sizes Details for the Rental House</h5>
                                 <div class="row section-groups">
-                                    <div class="form-group inputdetails col-sm-6">
+                                    <div class="form-group inputdetails col-sm-4">
                                         <label>Room Sizes For this House<span class="text-danger inputrequired">*</span></label>
                                         <br>
                                         <select name="rentalhousermsize" class="adminselect2 form-control text-white bg-dark" style="width:100%;" required>
@@ -1225,15 +1364,19 @@
                                                 $addedhousesizes=Rentalhousesize::where('rentalhse_id',$rentaldata->id)->get();
                                             ?>
                                             @foreach($addedhousesizes as $housesize)
-                                                <option value="{{ $housesize->room_size }}">
+                                                <option value="{{ $housesize->id }}">
                                                     {{ $housesize->room_size }}</option>
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div class="form-group inputdetails col-sm-6">
+                                    <div class="form-group inputdetails col-sm-4">
+                                        <label>Room Size Price<span class="text-danger inputrequired">*</span></label>
+                                        <input type="number" class="form-control text-white bg-dark" required required name="roomsize_price" id="roomsize_price" placeholder="Write The Room Size Price here">
+                                    </div>
+                                    <div class="form-group inputdetails col-sm-4">
                                         <label>Room Name/Number<span class="text-danger inputrequired">*</span></label>
                                         <input type="text" class="form-control text-white bg-dark" required required name="room_numbername" id="room_name" placeholder="Write The Room name here">
-                                </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1247,6 +1390,7 @@
                                     <th>Id</th>
                                     <th>Name</th>
                                     <th>Room Size</th>
+                                    <th>Room Size Price</th>
                                     <th>Status</th>
                                     <th>Delete</th>
                                 </tr>
@@ -1287,7 +1431,7 @@
                                                                     <div>
                                                                         <input id="house_id" type="hidden" name="rentalhouseid" value="{{ $rentaldata->id }}"/>
                                                                         <input id="rentalroom_size" type="text"  name="room_size[]" placeholder="Room size" style="width:150px"/>
-                                                                        <input id="rentalroomsize_price" type="number" name="roomsize_price[]" placeholder="Room Size Price" style="width:150px"/>
+                                                                        {{-- <input id="rentalroomsize_price" type="number" name="roomsize_price[]" placeholder="Room Size Price" style="width:150px"/> --}}
                                                                         <input id="totalrooms" type="number" name="total_rooms[]" placeholder="Total Rooms" style="width:150px"/>
                             
                                                                         <a href="javascript:void(0);" class="add_button" title="Add field">Add</a>
@@ -1298,15 +1442,15 @@
                                                         </div>
                                                         <button type="submit" id="uploadroomsizesbtn" class="btn btn-success">Upload the House Sizes</button>
                                                         <ul class="alert alert-warning d-none" id="update_housesizelist"></ul>
-                                                </form>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="tab-pane fade show" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                                             <p style="font-size:15px; font-weight:700; color:rgb(147, 15, 165)">The room sizes for this house are 
-                                                <span>@foreach ($rentaldata->housetags as $rntalhsetags)
-                                                    {{ $rntalhsetags->rentaltag_title }}</span>,
-                                                @endforeach</p>
+                                            <span>@foreach ($rentaldata->housetags as $rntalhsetags)
+                                                {{ $rntalhsetags->rentaltag_title }}</span>,
+                                            @endforeach</p>
                                             <form action="javascript:void(0)" id="addaroomname" class="form-horizontal" role="form" method="POST" style="margin: 5px;">
                                                 @csrf
                                                 <input type="hidden" name="rentalhouseid" id="rentalhse_id" value="{{ $rentaldata->id }}" >
@@ -1315,22 +1459,34 @@
                                                     <div class="card-body">
                                                         <h5 class="card-title mb-4" style="color: black; font-size:18px;">1.Room Sizes Details for the Rental House</h5>
                                                         <div class="row section-groups">
-                                                            <div class="form-group inputdetails col-sm-6">
+                                                            <div class="form-group inputdetails col-sm-4">
                                                                 <label>Room Sizes For this House<span class="text-danger inputrequired">*</span></label>
                                                                 <br>
-                                                                <select id="selectrmsize" name="rentalhousermsize" style="width: 100%;" class="adminselect2 form-control text-white bg-dark" required>
+                                                                <select name="rentalhousermsize" id="selectrmsize" class="adminselect2 form-control text-white bg-dark" style="width:100%;" required>
+                                                                    {{-- <option value="0" disabled="true" selected="true">Choose Your Rental House</option>
+                                                                    <?php
+                                                                        $addedhousesizes=Rentalhousesize::where('rentalhse_id',$rentaldata->id)->get();
+                                                                    ?>
+                                                                    @foreach($addedhousesizes as $housesize)
+                                                                        <option value="{{ $housesize->id }}">
+                                                                            {{ $housesize->room_size }}</option>
+                                                                    @endforeach --}}
                                                                 </select>
                                                             </div>
-                                                            <div class="form-group inputdetails col-sm-6">
+                                                            <div class="form-group inputdetails col-sm-4">
+                                                                <label>Room Size Price<span class="text-danger inputrequired">*</span></label>
+                                                                <input type="number" class="form-control text-white bg-dark" required required name="roomsize_price" id="roomsize_price" placeholder="Write The Room Size Price here">
+                                                            </div>
+                                                            <div class="form-group inputdetails col-sm-4">
                                                                 <label>Room Name/Number<span class="text-danger inputrequired">*</span></label>
                                                                 <input type="text" class="form-control text-white bg-dark" required required name="room_numbername" id="room_name" placeholder="Write The Room name here">
-                                                        </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <button type="submit"  class="btn btn-success">Create A Room Name</button>
                                             </form>
-                            
+
                                             <div class="col-md-12">
                                                 <table class="table table-striped table-bordered roomnamestable" style="width:18%; margin-top:10px;">
                                                     <thead>
@@ -1338,6 +1494,7 @@
                                                             <th>Id</th>
                                                             <th>Name</th>
                                                             <th>Room Size</th>
+                                                            <th>Room Size Price</th>
                                                             <th>Status</th>
                                                             <th>Delete</th>
                                                         </tr>
@@ -1360,7 +1517,7 @@
                             <div class="card-body">
                                 <h5 class="card-title mb-4" style="color: black; font-size:18px;">1.Room Sizes Details for the Rental House</h5>
                                 <div class="row section-groups">
-                                    <div class="form-group inputdetails col-sm-6">
+                                    <div class="form-group inputdetails col-sm-4">
                                         <label>Room Sizes For this House<span class="text-danger inputrequired">*</span></label>
                                         <br>
                                         <select name="rentalhousermsize" class="adminselect2 form-control text-white bg-dark" style="width:100%;" required>
@@ -1369,15 +1526,19 @@
                                                 $addedhousesizes=Rentalhousesize::where('rentalhse_id',$rentaldata->id)->get();
                                             ?>
                                             @foreach($addedhousesizes as $housesize)
-                                                <option value="{{ $housesize->room_size }}">
+                                                <option value="{{ $housesize->id }}">
                                                     {{ $housesize->room_size }}</option>
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div class="form-group inputdetails col-sm-6">
+                                    <div class="form-group inputdetails col-sm-4">
+                                        <label>Room Size Price<span class="text-danger inputrequired">*</span></label>
+                                        <input type="number" class="form-control text-white bg-dark" required required name="roomsize_price" id="roomsize_price" placeholder="Write The Room Size Price here">
+                                    </div>
+                                    <div class="form-group inputdetails col-sm-4">
                                         <label>Room Name/Number<span class="text-danger inputrequired">*</span></label>
                                         <input type="text" class="form-control text-white bg-dark" required required name="room_numbername" id="room_name" placeholder="Write The Room name here">
-                                </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1391,6 +1552,7 @@
                                     <th>Id</th>
                                     <th>Name</th>
                                     <th>Room Size</th>
+                                    <th>Room Size Price</th>
                                     <th>Status</th>
                                     <th>Delete</th>
                                 </tr>
@@ -1431,7 +1593,7 @@
                                                                     <div>
                                                                         <input id="house_id" type="hidden" name="rentalhouseid" value="{{ $rentaldata->id }}"/>
                                                                         <input id="rentalroom_size" type="text"  name="room_size[]" placeholder="Room size" style="width:150px"/>
-                                                                        <input id="rentalroomsize_price" type="number" name="roomsize_price[]" placeholder="Room Size Price" style="width:150px"/>
+                                                                        {{-- <input id="rentalroomsize_price" type="number" name="roomsize_price[]" placeholder="Room Size Price" style="width:150px"/> --}}
                                                                         <input id="totalrooms" type="number" name="total_rooms[]" placeholder="Total Rooms" style="width:150px"/>
                             
                                                                         <a href="javascript:void(0);" class="add_button" title="Add field">Add</a>
@@ -1442,15 +1604,15 @@
                                                         </div>
                                                         <button type="submit" id="uploadroomsizesbtn" class="btn btn-success">Upload the House Sizes</button>
                                                         <ul class="alert alert-warning d-none" id="update_housesizelist"></ul>
-                                                </form>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="tab-pane fade show" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                                             <p style="font-size:15px; font-weight:700; color:rgb(147, 15, 165)">The room sizes for this house are 
-                                                <span>@foreach ($rentaldata->housetags as $rntalhsetags)
-                                                    {{ $rntalhsetags->rentaltag_title }}</span>,
-                                                @endforeach</p>
+                                            <span>@foreach ($rentaldata->housetags as $rntalhsetags)
+                                                {{ $rntalhsetags->rentaltag_title }}</span>,
+                                            @endforeach</p>
                                             <form action="javascript:void(0)" id="addaroomname" class="form-horizontal" role="form" method="POST" style="margin: 5px;">
                                                 @csrf
                                                 <input type="hidden" name="rentalhouseid" id="rentalhse_id" value="{{ $rentaldata->id }}" >
@@ -1459,22 +1621,34 @@
                                                     <div class="card-body">
                                                         <h5 class="card-title mb-4" style="color: black; font-size:18px;">1.Room Sizes Details for the Rental House</h5>
                                                         <div class="row section-groups">
-                                                            <div class="form-group inputdetails col-sm-6">
+                                                            <div class="form-group inputdetails col-sm-4">
                                                                 <label>Room Sizes For this House<span class="text-danger inputrequired">*</span></label>
                                                                 <br>
-                                                                <select id="selectrmsize" name="rentalhousermsize" style="width: 100%;" class="adminselect2 form-control text-white bg-dark" required>
+                                                                <select name="rentalhousermsize" id="selectrmsize" class="adminselect2 form-control text-white bg-dark" style="width:100%;" required>
+                                                                    {{-- <option value="0" disabled="true" selected="true">Choose Your Rental House</option>
+                                                                    <?php
+                                                                        $addedhousesizes=Rentalhousesize::where('rentalhse_id',$rentaldata->id)->get();
+                                                                    ?>
+                                                                    @foreach($addedhousesizes as $housesize)
+                                                                        <option value="{{ $housesize->id }}">
+                                                                            {{ $housesize->room_size }}</option>
+                                                                    @endforeach --}}
                                                                 </select>
                                                             </div>
-                                                            <div class="form-group inputdetails col-sm-6">
+                                                            <div class="form-group inputdetails col-sm-4">
+                                                                <label>Room Size Price<span class="text-danger inputrequired">*</span></label>
+                                                                <input type="number" class="form-control text-white bg-dark" required required name="roomsize_price" id="roomsize_price" placeholder="Write The Room Size Price here">
+                                                            </div>
+                                                            <div class="form-group inputdetails col-sm-4">
                                                                 <label>Room Name/Number<span class="text-danger inputrequired">*</span></label>
                                                                 <input type="text" class="form-control text-white bg-dark" required required name="room_numbername" id="room_name" placeholder="Write The Room name here">
-                                                        </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <button type="submit"  class="btn btn-success">Create A Room Name</button>
                                             </form>
-                            
+
                                             <div class="col-md-12">
                                                 <table class="table table-striped table-bordered roomnamestable" style="width:18%; margin-top:10px;">
                                                     <thead>
@@ -1482,6 +1656,7 @@
                                                             <th>Id</th>
                                                             <th>Name</th>
                                                             <th>Room Size</th>
+                                                            <th>Room Size Price</th>
                                                             <th>Status</th>
                                                             <th>Delete</th>
                                                         </tr>
@@ -1504,7 +1679,7 @@
                             <div class="card-body">
                                 <h5 class="card-title mb-4" style="color: black; font-size:18px;">1.Room Sizes Details for the Rental House</h5>
                                 <div class="row section-groups">
-                                    <div class="form-group inputdetails col-sm-6">
+                                    <div class="form-group inputdetails col-sm-4">
                                         <label>Room Sizes For this House<span class="text-danger inputrequired">*</span></label>
                                         <br>
                                         <select name="rentalhousermsize" class="adminselect2 form-control text-white bg-dark" style="width:100%;" required>
@@ -1513,15 +1688,19 @@
                                                 $addedhousesizes=Rentalhousesize::where('rentalhse_id',$rentaldata->id)->get();
                                             ?>
                                             @foreach($addedhousesizes as $housesize)
-                                                <option value="{{ $housesize->room_size }}">
+                                                <option value="{{ $housesize->id }}">
                                                     {{ $housesize->room_size }}</option>
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div class="form-group inputdetails col-sm-6">
+                                    <div class="form-group inputdetails col-sm-4">
+                                        <label>Room Size Price<span class="text-danger inputrequired">*</span></label>
+                                        <input type="number" class="form-control text-white bg-dark" required required name="roomsize_price" id="roomsize_price" placeholder="Write The Room Size Price here">
+                                    </div>
+                                    <div class="form-group inputdetails col-sm-4">
                                         <label>Room Name/Number<span class="text-danger inputrequired">*</span></label>
                                         <input type="text" class="form-control text-white bg-dark" required required name="room_numbername" id="room_name" placeholder="Write The Room name here">
-                                </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1535,6 +1714,7 @@
                                     <th>Id</th>
                                     <th>Name</th>
                                     <th>Room Size</th>
+                                    <th>Room Size Price</th>
                                     <th>Status</th>
                                     <th>Delete</th>
                                 </tr>
@@ -1575,7 +1755,7 @@
                                                                     <div>
                                                                         <input id="house_id" type="hidden" name="rentalhouseid" value="{{ $rentaldata->id }}"/>
                                                                         <input id="rentalroom_size" type="text"  name="room_size[]" placeholder="Room size" style="width:150px"/>
-                                                                        <input id="rentalroomsize_price" type="number" name="roomsize_price[]" placeholder="Room Size Price" style="width:150px"/>
+                                                                        {{-- <input id="rentalroomsize_price" type="number" name="roomsize_price[]" placeholder="Room Size Price" style="width:150px"/> --}}
                                                                         <input id="totalrooms" type="number" name="total_rooms[]" placeholder="Total Rooms" style="width:150px"/>
                             
                                                                         <a href="javascript:void(0);" class="add_button" title="Add field">Add</a>
@@ -1586,15 +1766,15 @@
                                                         </div>
                                                         <button type="submit" id="uploadroomsizesbtn" class="btn btn-success">Upload the House Sizes</button>
                                                         <ul class="alert alert-warning d-none" id="update_housesizelist"></ul>
-                                                </form>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="tab-pane fade show" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                                             <p style="font-size:15px; font-weight:700; color:rgb(147, 15, 165)">The room sizes for this house are 
-                                                <span>@foreach ($rentaldata->housetags as $rntalhsetags)
-                                                    {{ $rntalhsetags->rentaltag_title }}</span>,
-                                                @endforeach</p>
+                                            <span>@foreach ($rentaldata->housetags as $rntalhsetags)
+                                                {{ $rntalhsetags->rentaltag_title }}</span>,
+                                            @endforeach</p>
                                             <form action="javascript:void(0)" id="addaroomname" class="form-horizontal" role="form" method="POST" style="margin: 5px;">
                                                 @csrf
                                                 <input type="hidden" name="rentalhouseid" id="rentalhse_id" value="{{ $rentaldata->id }}" >
@@ -1603,22 +1783,34 @@
                                                     <div class="card-body">
                                                         <h5 class="card-title mb-4" style="color: black; font-size:18px;">1.Room Sizes Details for the Rental House</h5>
                                                         <div class="row section-groups">
-                                                            <div class="form-group inputdetails col-sm-6">
+                                                            <div class="form-group inputdetails col-sm-4">
                                                                 <label>Room Sizes For this House<span class="text-danger inputrequired">*</span></label>
                                                                 <br>
-                                                                <select id="selectrmsize" name="rentalhousermsize" style="width: 100%;" class="adminselect2 form-control text-white bg-dark" required>
+                                                                <select name="rentalhousermsize" id="selectrmsize" class="adminselect2 form-control text-white bg-dark" style="width:100%;" required>
+                                                                    {{-- <option value="0" disabled="true" selected="true">Choose Your Rental House</option>
+                                                                    <?php
+                                                                        $addedhousesizes=Rentalhousesize::where('rentalhse_id',$rentaldata->id)->get();
+                                                                    ?>
+                                                                    @foreach($addedhousesizes as $housesize)
+                                                                        <option value="{{ $housesize->id }}">
+                                                                            {{ $housesize->room_size }}</option>
+                                                                    @endforeach --}}
                                                                 </select>
                                                             </div>
-                                                            <div class="form-group inputdetails col-sm-6">
+                                                            <div class="form-group inputdetails col-sm-4">
+                                                                <label>Room Size Price<span class="text-danger inputrequired">*</span></label>
+                                                                <input type="number" class="form-control text-white bg-dark" required required name="roomsize_price" id="roomsize_price" placeholder="Write The Room Size Price here">
+                                                            </div>
+                                                            <div class="form-group inputdetails col-sm-4">
                                                                 <label>Room Name/Number<span class="text-danger inputrequired">*</span></label>
                                                                 <input type="text" class="form-control text-white bg-dark" required required name="room_numbername" id="room_name" placeholder="Write The Room name here">
-                                                        </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <button type="submit"  class="btn btn-success">Create A Room Name</button>
                                             </form>
-                            
+
                                             <div class="col-md-12">
                                                 <table class="table table-striped table-bordered roomnamestable" style="width:18%; margin-top:10px;">
                                                     <thead>
@@ -1626,6 +1818,7 @@
                                                             <th>Id</th>
                                                             <th>Name</th>
                                                             <th>Room Size</th>
+                                                            <th>Room Size Price</th>
                                                             <th>Status</th>
                                                             <th>Delete</th>
                                                         </tr>
@@ -1648,7 +1841,7 @@
                             <div class="card-body">
                                 <h5 class="card-title mb-4" style="color: black; font-size:18px;">1.Room Sizes Details for the Rental House</h5>
                                 <div class="row section-groups">
-                                    <div class="form-group inputdetails col-sm-6">
+                                    <div class="form-group inputdetails col-sm-4">
                                         <label>Room Sizes For this House<span class="text-danger inputrequired">*</span></label>
                                         <br>
                                         <select name="rentalhousermsize" class="adminselect2 form-control text-white bg-dark" style="width:100%;" required>
@@ -1657,15 +1850,19 @@
                                                 $addedhousesizes=Rentalhousesize::where('rentalhse_id',$rentaldata->id)->get();
                                             ?>
                                             @foreach($addedhousesizes as $housesize)
-                                                <option value="{{ $housesize->room_size }}">
+                                                <option value="{{ $housesize->id }}">
                                                     {{ $housesize->room_size }}</option>
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div class="form-group inputdetails col-sm-6">
+                                    <div class="form-group inputdetails col-sm-4">
+                                        <label>Room Size Price<span class="text-danger inputrequired">*</span></label>
+                                        <input type="number" class="form-control text-white bg-dark" required required name="roomsize_price" id="roomsize_price" placeholder="Write The Room Size Price here">
+                                    </div>
+                                    <div class="form-group inputdetails col-sm-4">
                                         <label>Room Name/Number<span class="text-danger inputrequired">*</span></label>
                                         <input type="text" class="form-control text-white bg-dark" required required name="room_numbername" id="room_name" placeholder="Write The Room name here">
-                                </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1679,6 +1876,7 @@
                                     <th>Id</th>
                                     <th>Name</th>
                                     <th>Room Size</th>
+                                    <th>Room Size Price</th>
                                     <th>Status</th>
                                     <th>Delete</th>
                                 </tr>
@@ -1719,7 +1917,7 @@
                                                                     <div>
                                                                         <input id="house_id" type="hidden" name="rentalhouseid" value="{{ $rentaldata->id }}"/>
                                                                         <input id="rentalroom_size" type="text"  name="room_size[]" placeholder="Room size" style="width:150px"/>
-                                                                        <input id="rentalroomsize_price" type="number" name="roomsize_price[]" placeholder="Room Size Price" style="width:150px"/>
+                                                                        {{-- <input id="rentalroomsize_price" type="number" name="roomsize_price[]" placeholder="Room Size Price" style="width:150px"/> --}}
                                                                         <input id="totalrooms" type="number" name="total_rooms[]" placeholder="Total Rooms" style="width:150px"/>
                             
                                                                         <a href="javascript:void(0);" class="add_button" title="Add field">Add</a>
@@ -1730,15 +1928,15 @@
                                                         </div>
                                                         <button type="submit" id="uploadroomsizesbtn" class="btn btn-success">Upload the House Sizes</button>
                                                         <ul class="alert alert-warning d-none" id="update_housesizelist"></ul>
-                                                </form>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="tab-pane fade show" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                                             <p style="font-size:15px; font-weight:700; color:rgb(147, 15, 165)">The room sizes for this house are 
-                                                <span>@foreach ($rentaldata->housetags as $rntalhsetags)
-                                                    {{ $rntalhsetags->rentaltag_title }}</span>,
-                                                @endforeach</p>
+                                            <span>@foreach ($rentaldata->housetags as $rntalhsetags)
+                                                {{ $rntalhsetags->rentaltag_title }}</span>,
+                                            @endforeach</p>
                                             <form action="javascript:void(0)" id="addaroomname" class="form-horizontal" role="form" method="POST" style="margin: 5px;">
                                                 @csrf
                                                 <input type="hidden" name="rentalhouseid" id="rentalhse_id" value="{{ $rentaldata->id }}" >
@@ -1747,22 +1945,34 @@
                                                     <div class="card-body">
                                                         <h5 class="card-title mb-4" style="color: black; font-size:18px;">1.Room Sizes Details for the Rental House</h5>
                                                         <div class="row section-groups">
-                                                            <div class="form-group inputdetails col-sm-6">
+                                                            <div class="form-group inputdetails col-sm-4">
                                                                 <label>Room Sizes For this House<span class="text-danger inputrequired">*</span></label>
                                                                 <br>
-                                                                <select id="selectrmsize" name="rentalhousermsize" style="width: 100%;" class="adminselect2 form-control text-white bg-dark" required>
+                                                                <select name="rentalhousermsize" id="selectrmsize" class="adminselect2 form-control text-white bg-dark" style="width:100%;" required>
+                                                                    {{-- <option value="0" disabled="true" selected="true">Choose Your Rental House</option>
+                                                                    <?php
+                                                                        $addedhousesizes=Rentalhousesize::where('rentalhse_id',$rentaldata->id)->get();
+                                                                    ?>
+                                                                    @foreach($addedhousesizes as $housesize)
+                                                                        <option value="{{ $housesize->id }}">
+                                                                            {{ $housesize->room_size }}</option>
+                                                                    @endforeach --}}
                                                                 </select>
                                                             </div>
-                                                            <div class="form-group inputdetails col-sm-6">
+                                                            <div class="form-group inputdetails col-sm-4">
+                                                                <label>Room Size Price<span class="text-danger inputrequired">*</span></label>
+                                                                <input type="number" class="form-control text-white bg-dark" required required name="roomsize_price" id="roomsize_price" placeholder="Write The Room Size Price here">
+                                                            </div>
+                                                            <div class="form-group inputdetails col-sm-4">
                                                                 <label>Room Name/Number<span class="text-danger inputrequired">*</span></label>
                                                                 <input type="text" class="form-control text-white bg-dark" required required name="room_numbername" id="room_name" placeholder="Write The Room name here">
-                                                        </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <button type="submit"  class="btn btn-success">Create A Room Name</button>
                                             </form>
-                            
+
                                             <div class="col-md-12">
                                                 <table class="table table-striped table-bordered roomnamestable" style="width:18%; margin-top:10px;">
                                                     <thead>
@@ -1770,6 +1980,7 @@
                                                             <th>Id</th>
                                                             <th>Name</th>
                                                             <th>Room Size</th>
+                                                            <th>Room Size Price</th>
                                                             <th>Status</th>
                                                             <th>Delete</th>
                                                         </tr>
@@ -1792,7 +2003,7 @@
                             <div class="card-body">
                                 <h5 class="card-title mb-4" style="color: black; font-size:18px;">1.Room Sizes Details for the Rental House</h5>
                                 <div class="row section-groups">
-                                    <div class="form-group inputdetails col-sm-6">
+                                    <div class="form-group inputdetails col-sm-4">
                                         <label>Room Sizes For this House<span class="text-danger inputrequired">*</span></label>
                                         <br>
                                         <select name="rentalhousermsize" class="adminselect2 form-control text-white bg-dark" style="width:100%;" required>
@@ -1801,15 +2012,19 @@
                                                 $addedhousesizes=Rentalhousesize::where('rentalhse_id',$rentaldata->id)->get();
                                             ?>
                                             @foreach($addedhousesizes as $housesize)
-                                                <option value="{{ $housesize->room_size }}">
+                                                <option value="{{ $housesize->id }}">
                                                     {{ $housesize->room_size }}</option>
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div class="form-group inputdetails col-sm-6">
+                                    <div class="form-group inputdetails col-sm-4">
+                                        <label>Room Size Price<span class="text-danger inputrequired">*</span></label>
+                                        <input type="number" class="form-control text-white bg-dark" required required name="roomsize_price" id="roomsize_price" placeholder="Write The Room Size Price here">
+                                    </div>
+                                    <div class="form-group inputdetails col-sm-4">
                                         <label>Room Name/Number<span class="text-danger inputrequired">*</span></label>
                                         <input type="text" class="form-control text-white bg-dark" required required name="room_numbername" id="room_name" placeholder="Write The Room name here">
-                                </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1823,8 +2038,9 @@
                                     <th>Id</th>
                                     <th>Name</th>
                                     <th>Room Size</th>
+                                    <th>Room Size Price</th>
                                     <th>Status</th>
-                                    <th>Delete</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody></tbody>
@@ -1836,28 +2052,34 @@
                 <form action="javascript:void(0)" id="addaroomname" class="form-horizontal" role="form" method="POST" style="margin: 5px;">
                     @csrf
                     <input type="hidden" name="rentalhouseid" id="rentalhse_id" value="{{ $rentaldata->id }}" >
-                    <div class="form-group">
-                        <label for="room_number" style="font-size: 1.5rem margin-top:5px;" class="control-label">Room Name/No.</label>
-                        
-                        <input type="hidden" name="rentalhousermsize" value="no_room_size">
-                        
-                        <div class="bg-dark" style="margin-top: 5px;">
-                            <input type="text" style="font-size: 1.3rem" class="form-control text-dark" required name="room_numbername" id="room_name" placeholder="Write The Room name here">
-                        </div> 
+                    
+                    <div class="card padding-card product-card">
+                        <div class="card-body">
+                            <h5 class="card-title mb-4" style="color: black; font-size:18px;">1.Room Sizes Details for the Rental House</h5>
+                            <input type="hidden" name="rentalhousermsize" value="0">
+                            <input type="hidden" name="roomsize_price" value="0">
+
+                            <div class="row section-groups">
+                                <div class="form-group inputdetails col-sm-12">
+                                    <label>Room Name/Number<span class="text-danger inputrequired">*</span></label>
+                                    <input type="text" class="form-control text-white bg-dark" required name="room_numbername" id="room_name" placeholder="Write The Room name here">
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <button type="submit" class="btn btn-primary">Create A Room Name</button>   
+                    <button type="submit"  class="btn btn-success">Create A Room Name</button>
                 </form>
 
-                <div class="col-md-12" style="margin-top: :20px;">
-                    <h3 class="mb-2 panel-title ms_heading text-white bg-black" style="padding:10px;">Room Names For the Room Sizes</h3>
+                <div class="col-md-12">
                     <table class="table table-striped table-bordered roomnamestable" style="width:18%; margin-top:10px;">
                         <thead>
                             <tr>
                                 <th>Id</th>
                                 <th>Name</th>
                                 <th>Room Size</th>
+                                <th>Room Size Price</th>
                                 <th>Status</th>
-                                <th>Delete</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody></tbody>
@@ -1905,9 +2127,9 @@
             var addButton = $('.add_button'); //Add button selector
             var wrapper = $('.field_wrapper'); //Input field wrapper
             var fieldHTML = 
-            '<div><div style="height:10px;"></div><input type="text" name="room_size[]" style="width:150px" placeholder="Room Size"/>&nbsp;<input type="number" name="roomsize_price[]" style="width:150px" placeholder="Room Size Price"/>&nbsp;<input id="totalrooms[]" type="number" name="total_rooms[]" placeholder="Total Rooms" style="width:150px"/>&nbsp;<a href="javascript:void(0);" class="remove_button">Remove</a></div>';
+            '<div><div style="height:10px;"></div><input type="text" name="room_size[]" style="width:150px" placeholder="Room Size"/>&nbsp;<input id="totalrooms[]" type="number" name="total_rooms[]" placeholder="Total Rooms" style="width:150px"/>&nbsp;<a href="javascript:void(0);" class="remove_button">Remove</a></div>';
                             //New input field html 
-
+                            //<input type="number" name="roomsize_price[]" style="width:150px" placeholder="Room Size Price"/>&nbsp;
             var x = 1; //Initial field counter is 1
             
             //Once add button is clicked
@@ -1982,7 +2204,7 @@
                             $.each(response.data, function(key, roomsize)
                             {
                                 console.log(roomsize);
-                                $('#selectrmsize').append('<option value="'+roomsize.room_size+'">'+roomsize.room_size+'</option>');
+                                $('#selectrmsize').append('<option value="'+roomsize.id+'">'+roomsize.room_size+'</option>');
                             });
                             
                         }
@@ -2205,7 +2427,9 @@
             columns: [
                 { data: 'id' },
                 { data: 'room_name' },
-                { data: 'house_size' },
+                { data: 'is_roomsize', name:'is_roomsize.roomhsesizes', orderable:true,searchable:true},
+                { data: 'roomsize_price', name:'roomsize_price', orderable:true,searchable:true},
+                // { data: 'roomsize_price' },
                 { data: 'status',
                     render: function ( data, type, row ) {
                         if ( type === 'display' ) {
@@ -2274,21 +2498,55 @@
                 url:'{{ url("admin/roomname",'') }}' + '/' + roomid + '/edit',
                 method:'GET',
                 success:function(response){
-                $('#admineditmodal').modal('show');
-                $('#propertycat_id').val('');
-                $('#rentaltag_id').val('');
-                $('#property_category').hide();
-                $('#rental_tagname').hide();
-                $('#location_name').hide();
-                $('#room_id').val(response.id);
+                    console.log(response);
+                    $('#admineditmodal').modal('show');
+                    $('#propertycat_id').val('');
+                    $('#rentaltag_id').val('');
+                    $('.transactiontype_id').val('');
+                    $('#room_id').val(response.room_name.id);
 
-                $('.modal-title').html('Edit Room Name');
-                $('.catlabel').html('Room Name Title');
-                $('.save_button').html('Update Room Name');
+                    $('#property_category').hide();
+                    $('#rental_tagname').hide();
+                    $('#location_name').hide();
+                    $('#transactiontype_name').hide();
 
-                $('#room_id').val(response.id);
-                $('#roomsize_name').val(response.house_size);
-                $('#room_name').val(response.room_name);
+                    $('.modal-title').html('Edit Room Name');
+                    $('.catlabel').html('Room Name Title');
+                    $('.save_button').html('Update Room Name');
+                    $('#editroom_name').val(response.room_name.room_name);
+
+                        // show and hide the dropdown for room sizes
+                    if (response.room_name.roomhsesizes.is_roomsize=='0')
+                    {
+                        $('#editchangeroomsizes').hide();
+                        $('#editselectrmsize').val('');
+                        
+                    } 
+                    else
+                    {
+                        $('#editselectrmsize').val(response.room_name.roomhsesizes.id).trigger('change');
+                        // add room sizes for a house in the room sizes editing modal
+                        $('#editselectrmsize').html('<option disabled value=" ">Select Another Room Size</option>');
+                            
+                        console.log("the data is ",response.roomsizesforahouse);
+                        response.roomsizesforahouse.forEach((rmsize)=>{
+                            console.log(rmsize);
+                            $('#editselectrmsize').append('<option value="'+rmsize.id+'">'+rmsize.room_size+'</option>');
+                        });
+                    }
+
+                        // show and hide the input for room size prices
+                    if (response.room_name.roomsize_price=='0')
+                    {
+                        $('#editchangeroomsize_price').hide();
+                        $('#editroomsize_price').val('');
+                        
+                    } 
+                    else
+                    {
+                        $('#editroomsize_price').val(response.room_name.roomsize_price).trigger('change');   
+                    }
+                
 
                 }
             })
@@ -2315,24 +2573,51 @@
                 success:function(response)
                 {
                     console.log(response);
-                    if (response.status==400)
+                    if (response.status==200)
                     {
-                        $('#admineditmodal').modal('hide');
                         alertify.set('notifier','position', 'top-right');
                         alertify.success(response.message);
+                        roomnamestable.ajax.reload();
+                        $('#editselectrmsize').val('');
+                        $('.modal-title').html('');
+                        $('.catlabel').html('');
+                        $('.save_button').html('');
+                        $('#editroom_name').val('');
+                        $('#admineditmodal').modal('hide');
                         
-                    } else if (response.status==200)
-                    {
-                        alertify.set('notifier','position', 'top-right');
-                        alertify.success(response.message);
-                        editroomnamestable.ajax.reload();
-                        $('#admineditmodal').modal('hide');
-                            
                     }
                 }
             });
         })
 
+        // Delete Rental category from the db
+        $(document).on('click','#deleteroomname',function(){
+            var deleteroomid=$(this).data('id');
+            $('.admindeletemodal').modal('show');
+            $('.modal-title').html('Delete Rental Category');
+            $('.adminmodallabel').html('Are You Sure You Want to Delete this Room?');
+            $('.roomname_id').val(deleteroomid);
+        })
+        $(document).on('click','#deletemodalbutton',function()
+        {
+            var deletermid=$('.roomname_id').val();  
+            $.ajax({
+                type:"DELETE",
+                url:'{{ url("admin/delete_roomname",'') }}' + '/' + deletermid,
+                dataType:"json",
+                success:function(response)
+                {
+                    alertify.set('notifier','position', 'top-right');
+                    alertify.success(response.message);
+                    roomnamestable.ajax.reload();
+                    $('.admindeletemodal').modal('hide');
+                    $('.modal-title').html('');
+                    $('.adminmodallabel').html('');
+                    $('.roomname_id').val('');
+                    
+                }
+            })
+        })
         
     </script>
 @stop

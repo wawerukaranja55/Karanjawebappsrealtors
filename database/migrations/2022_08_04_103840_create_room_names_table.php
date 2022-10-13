@@ -17,8 +17,9 @@ class CreateRoomNamesTable extends Migration
             $table->id();
             $table->integer('rentalhouse_id');
             $table->string('room_name');
-            $table->string('house_size')->nullable();
+            $table->integer('is_roomsize')->default(0);
             $table->integer('status')->default(1);
+            $table->integer('roomsize_price')->nullable();
             $table->integer('is_occupied')->default(0);
             $table->timestamps();
         });

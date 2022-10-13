@@ -46,8 +46,8 @@
         <div class="row">
             <div class="col-lg-8 col-md-8">
                 <h1>{{  $rentalhouse->rental_name }}</h1>
-                <h6><i class="fa fa-map-marker"></i>{{ $rentalhouse->houselocation->location_title }}
-                    {{-- 250-260 3rd St, Hoboken, NJ 07030, USA --}}
+                <h6><i class="fa fa-map-marker"></i>{{ $rentalhouse->houselocation->location_title }}<br>
+                    250-260 3rd St, Hoboken, NJ 07030, USA
                 </h6>
             </div>
             <div class="col-lg-4 col-md-4 text-right">
@@ -67,7 +67,7 @@
                     <select class="custom-select hsesizes" hsesize-id="{{ $rentalhouse['id'] }}" id="gethsesize" name="housesize">
                         <option value=" " disabled selected>Select a Room Type To See The Price </option>
                         @foreach ($rentalhouse->hseroomsizes as $roomsize )
-                            <option value="{{ $roomsize->room_size }}">{{ $roomsize->room_size }}</option>
+                            <option value="{{ $roomsize->id }}">{{ $roomsize->room_size }}</option>
                         @endforeach
                     </select>
                 @endif
@@ -82,8 +82,8 @@
             
                 <div class="owl-carousel hsedetailscarousel owl-theme">
                     @foreach ( $rentalhouse->rentalalternateimages as $hseimgs )
-                        <div class="item" style="border: 2px solid black; height:310px;">
-                            <img src="{{ asset ('imagesforthewebsite/rentalhouses/alternateimages/large/'.$hseimgs->image) }}" style="height:300px; margin-bottom:10px;">
+                        <div class="item" style="border: 2px solid black; height:500px;">
+                            <img src="{{ asset ('imagesforthewebsite/rentalhouses/alternateimages/large/'.$hseimgs->image) }}" style="height:450px; margin-bottom:10px;">
                         </div>
                     @endforeach
                 </div>
@@ -139,6 +139,7 @@
                                 <h5 class="card-title mb-3">Location</h5>
                                 <div class="row mb-3">
                                     <div class="col-lg-6 col-md-6">
+                                        <p><strong class="text-dark">Area Of Location :</strong>{{ $rentalhouse->houselocation->location_title }}</p>
                                         <p><strong class="text-dark">Address :</strong>{{ $rentalhouse->houselocation->location_title }}</p>
                                     </div>
                                 </div>

@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Rentalhousesize;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Room_name extends Model
 {
@@ -11,5 +12,13 @@ class Room_name extends Model
 
     protected $table="room_names";
 
-    protected $fillable = ['room_name','status','rentalhouse_id'];
+    protected $fillable = ['room_name','status','rentalhouse_id','roomsize_price','is_roomsize'];
+
+    function roomhsesizes(){
+        return $this->belongsTo('App\Models\Rentalhousesize','is_roomsize','id');
+    }
+
+    function housetheroombelongsto(){
+        return $this->belongsTo('App\Models\Rental_house','rentalhouse_id');
+    }
 }

@@ -26,32 +26,55 @@ class Userprofile_controller extends Controller
         {
             $userprofile=User::with('rentalhses','hserooms')->find($id);
 
-            // $userhseid=(int)$userprofile->house_id;
-            // get the house size and house pricefor the user
-            if ($userprofile->rentalhses->is_addedtags==1)
+            foreach ($userprofile->hserooms as $hserms)
             {
-                // $hseroom;
-                // foreach ($userprofile->rentalhses->hseroomsizes()->get() as $hserm)
+                $hseprices[]=$hserms->roomsize_price;
+            }
+
+            $total_rent=array_sum($hseprices);
+            // dd( $total_rent);die();
+            // total amount of rent to pay
+                // if (count($userprofile->hserooms)>1)
                 // {
-                //     $hseroom=$hserm->house_size;
+                //     if()
+                //     {
+
+                //     }
+                // } 
+                // else
+                // {
+
                 // }
 
-                foreach ($userprofile->hserooms as $hserm) {
-                    $hseroom=$hserm->house_size;
-                }
+
+            // if ($userprofile->rentalhses->is_addedtags==1)
+            // {
+            //     $total_rent=
+            // }
+            // else
+            // {
+
+            // }
+
+            // if ($userprofile->rentalhses->is_addedtags==1)
+            // {
+
+            //     foreach ($userprofile->hserooms as $hserm) {
+            //         $hseroom=$hserm->house_size;
+            //     }
                  
-                $hseroomprice = Rentalhousesize::where(['rentalhse_id'=>$userprofile->house_id,'room_size'=>$hseroom])->pluck('roomsize_price')->first();
+            //     $hseroomprice = Room_name::where(['rentalhouse_id'=>$userprofile->house_id,'house_size'=>$hseroom])->pluck('roomsize_price')->first();
                 
-            }else
-            {
-                $hseroomprice=0;
-            }
+            // }else
+            // {
+            //     $hseroomprice=0;
+            // }
 
             $activehousenames=Rental_house::select('rental_name','id')->where(['rental_status'=>1,'is_rentable'=>1])->get();
             
             $rmnames = Room_name::where(['rentalhouse_id'=>$userprofile->house_id,'status'=>1])->get();
 
-            return view('Front.Tenant.tenantprofile',compact('userprofile','hseroomprice','rmnames','activehousenames'));
+            return view('Front.Tenant.tenantprofile',compact('userprofile','total_rent','rmnames','activehousenames'));
         }
         else{
             abort(403);
@@ -103,6 +126,7 @@ class Userprofile_controller extends Controller
             $user->save();
 
             $user->hserooms()->sync(request('rentalroom_id'));
+            $user->tenantstatus()->sync(3);
             $message="Account Details have Been Updated Successfully!";
             return response()->json([
                 'status'=>200,

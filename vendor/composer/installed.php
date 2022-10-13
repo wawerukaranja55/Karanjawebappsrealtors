@@ -5,11 +5,20 @@
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '930f9fa22c21718672c40eb00da2840c8daf7a7f',
+        'reference' => 'c3b034149817bc10ee8645f97a8f1ef8207f768f',
         'name' => 'laravel/laravel',
         'dev' => true,
     ),
     'versions' => array(
+        'africastalking/africastalking' => array(
+            'pretty_version' => 'v3.0.0',
+            'version' => '3.0.0.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../africastalking/africastalking',
+            'aliases' => array(),
+            'reference' => '94e17a13eaaf782cf7697bfc7da020398a2b6f13',
+            'dev_requirement' => false,
+        ),
         'asm89/stack-cors' => array(
             'pretty_version' => 'v2.1.1',
             'version' => '2.1.1.0',
@@ -445,7 +454,7 @@
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '930f9fa22c21718672c40eb00da2840c8daf7a7f',
+            'reference' => 'c3b034149817bc10ee8645f97a8f1ef8207f768f',
             'dev_requirement' => false,
         ),
         'laravel/sail' => array(

@@ -103,16 +103,30 @@
                             </p>
                             <p class="tenantdetails"><strong>House Number :</strong>
                                 @foreach ($userprofile->hserooms as $room )
-                                    {{ $room->room_name }}
+                                    {{ $room->room_name }},
                                 @endforeach
                             </p>
                         </div>
                         <div class="col-lg-6 col-md-6">
-                            @if ($userprofile->rentalhses->is_addedtags==1)
+                            <h5>Your total Rental Payable is:</h5>
+                            @if (count($userprofile->hserooms)>1)
+                                @if ($userprofile->rentalhses->is_addedtags==0)
+                                    <p class="tenantdetails"><strong>Monthly Rent :sh.</strong>{{ $userprofile->rentalhses->monthly_rent * count($userprofile->hserooms) }}</p>
+                                @else
+                                    <p class="tenantdetails"><strong>Monthly Rent :sh.</strong>{{ $total_rent }}</p>
+                                @endif
+                            @else
+                                @if ($userprofile->rentalhses->is_addedtags==1)
+                                    <p class="tenantdetails"><strong>Monthly Rent :sh.</strong>{{ $total_rent }}</p>
+                                @else
+                                    <p class="tenantdetails"><strong>Monthly Rent :sh.</strong>{{ $userprofile->rentalhses->monthly_rent }}</p>
+                                @endif
+                            @endif
+                            {{-- @if ($userprofile->rentalhses->is_addedtags==1)
                                 <p class="tenantdetails"><strong>Monthly Rent :sh.</strong>{{ $hseroomprice }}</p>
                             @else
                                 <p class="tenantdetails"><strong>Monthly Rent :sh.</strong>{{ $userprofile->rentalhses->monthly_rent }}</p>
-                            @endif
+                            @endif --}}
                             
                         </div>
                     </div>
@@ -186,7 +200,7 @@
                                                                     <div class="col-md-12">
                                                                         <label style="font-size: 20px;">Amount Of Rent To Pay</label>
                                                                         @if ($userprofile->rentalhses->is_addedtags == 1)
-                                                                            <input type="number" class="form-control text-white bg-dark" name="rent_amount" value="{{ $hseroomprice }}">
+                                                                            <input type="number" class="form-control text-white bg-dark" name="rent_amount" value="{{ $total_rent }}">
                                                                         @else
                                                                             <input type="number" class="form-control text-white bg-dark" name="rent_amount" id="rent_amount" value="{{ $userprofile->rentalhses->monthly_rent }}">
                                                                         @endif
@@ -361,7 +375,7 @@
                                             
                                                                     <div class="form-group inputdetails col-sm-6">
                                                                         <label>Room Name/Number<span class="text-danger inputrequired">*</span></label>
-                                                                        <select name="rentalroom_id" id="rmnamenumber" class="form-control text-white bg-dark roomnamennumber" style="width: 100%;">
+                                                                        <select name="rentalroom_id[]" id="rmnamenumber" class="form-control text-white bg-dark roomnamennumber" style="width: 100%;" multiple="multiple">
                                                                             @foreach($userprofile->hserooms as $roomid)
                                                                                 @foreach($rmnames as $rmname)
                                                                                     <option value="{{ $rmname->id }}" {{$roomid->id == $rmname->id  ? 'selected' : ''}}>{{ $rmname->room_name }}

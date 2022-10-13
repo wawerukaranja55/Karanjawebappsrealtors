@@ -183,7 +183,7 @@
       @endif
       <li class="{{ $active }}">
          <a href="#">
-            <i class="fa fa-building" aria-hidden="true"></i>
+            <i class="fa fa-user-plus" aria-hidden="true"></i>
             <span class="nav-label">Manage Registered users</span>
             <span class="fa arrow"></span>
          </a>
@@ -244,6 +244,19 @@
             <a href="{{ url('admin/get_mpesapayments') }}">
                <i class="fa fa-rocket" aria-hidden="true"></i>
                <span class="nav-label">Mpesa Payments By Tenants</span>
+            </a>
+         </li>
+
+         {{-- Manage Payments made by Tenants --}}
+         @if (Session::get('page')=="all_payments")
+            <?php $active="active";?>
+         @else
+            <?php $active="";?>
+         @endif
+         <li class="{{ $active }}">
+            <a href="{{ url('admin/all_payments') }}">
+               <i class="fa-solid fa-receipt"></i>
+               <span class="nav-label">All The Payments By Tenants</span>
             </a>
          </li>
 

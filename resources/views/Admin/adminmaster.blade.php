@@ -25,15 +25,19 @@
 
       <link rel="stylesheet" href="{{ asset('cssjqueryfiles/adminpanel/bootstrap-togglemin/bootstrap-toggle.css') }}"/>
       {{-- icon for our website --}}
-      <link rel="icon" type="image/jpg" href="{{ asset('imagesforthewebsite/webicon.jpg') }}">
+      <link rel="icon" type="image/png" href="{{ asset('imagesforthewebsite/webicon.png') }}">
 
       {{-- css for datatables --}}
       <link rel="stylesheet" href="{{ asset('cssjqueryfiles/adminpanel/datatables/DataTables-1.10.25/css/jquery.dataTables.min.css') }}"/>
       {{-- <link rel="stylesheet" href="{{ asset('cssjqueryfiles/adminpanel/datatables/DataTables-1.10.25/css/dataTables.bootstrap.min.css') }}"/> --}}
       <link rel="stylesheet" href="{{ asset('cssjqueryfiles/adminpanel/datatables/FixedHeader-3.1.9/css/fixedHeader.bootstrap.min.css') }}"/>
       <link rel="stylesheet" href="{{ asset('cssjqueryfiles/adminpanel/datatables/Responsive-2.2.9/css/responsive.bootstrap.min.css') }}"/>
-
+      <link rel="stylesheet" href="{{ asset('cssjqueryfiles/adminpanel/datatables/Buttons-1.7.1/css/buttons.bootstrap4.min.css') }}"/>
       
+
+      {{-- css for jquery ui --}}
+      <link rel="stylesheet" href="{{ asset('cssjqueryfiles/adminpanel/plugins/jquery-ui/jquery-ui.css') }}"/>
+      <link rel="stylesheet" href="{{ asset('cssjqueryfiles/adminpanel/plugins/jquery-ui/themesbasejquery-ui.css') }}"/>
       
       {{-- select2 --}}
       <link rel="stylesheet" href="{{ asset('cssjqueryfiles/adminpanel/select2/select2.min.css') }}"/>
@@ -266,17 +270,38 @@
                      <input type="hidden" name="location_id" id="location_id">
                      <input type="hidden" name="roomid" id="room_id">
                      <input type="hidden" name="rolenameid" class="rolename_id">
+                     <input type="hidden" name="transactiontypeid" class="transactiontype_id">
 
                      <div class="modal-body">
-                        <div class="form-group">
-                           <label for="property_category" class="catlabel h4"></label>
-                           <input type="text" class="form-control text-white bg-dark catinput" name="property_category" id="property_category" required>
-                           <input type="text" class="form-control text-white bg-dark" name="rentaltagname" id="rental_tagname" required>
-                           <input type="text" class="form-control text-white bg-dark" name="locationname" id="location_name" required>
-                           <input type="text" class="form-control text-white bg-dark" name="roomname" id="room_name" required>
+                        
+                        <div class="row section-groups">
+                           <div class="form-group inputdetails col-sm-12">
+                              <label for="property_category" class="catlabel"></label>
+                              <input type="text" class="form-control text-white bg-dark catinput" name="property_category" id="property_category" required>
+                              <input type="text" class="form-control text-white bg-dark" name="rentaltagname" id="rental_tagname" required>
+                              <input type="text" class="form-control text-white bg-dark" name="locationname" id="location_name" required>
+                              <input type="text" class="form-control text-white bg-dark" name="roomname" id="editroom_name" readonly=''>
+                              <input type="text" class="form-control text-white bg-dark" name="transactiontypename" id="transactiontype_name" required>
+                           </div>
                         </div>
+
+                        <div class="row section-groups" id="editchangeroomsize_price">
+                           <div class="form-group inputdetails col-sm-12">
+                              <label for="editroomsize_price" id="editroomsizelabel">Room Size Price</label>
+                              <input type="number" class="form-control text-white bg-dark" name="roomsize_price" id="editroomsize_price" required>
+                           </div>
+                        </div>
+
+                        <div class="row section-groups" id="editchangeroomsizes">
+                           <div class="form-group inputdetails col-sm-12">
+                                 <label>Change Room Size<span class="text-danger inputrequired">*</span></label>
+                                 <select name="rentalhousermsize" id="editselectrmsize" class="adminselect2 form-control text-white bg-dark" style="width:100%;">
+                                </select>
+                           </div>
+                        </div>
+                        
                      </div>
-                     <input type="text" class="form-control text-white bg-dark" name="roomsizename" id="roomsize_name">
+                     
                      <ul class="alert alert-warning d-none" id="edit_list"></ul>
                      <div class="modal-footer">
                         <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
@@ -287,44 +312,6 @@
             </div>
          </div>
       </div> 
-
-            {{--edit details to the db--}}
-      {{-- <div class="modal fade adminedit" id="admineditmodal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
-         <div class="modal-dialog">
-             <div class="modal-content">
-               <div class="modal-body">
-                  <div class="modal-header">
-                     <h4 class="modal-title text-center" id="custom-width-modalLabel"></h4>
-                  </div>
-                  <form action="javascript(0)" role="form" method="POST" class="adminedit_form">
-                           @csrf
-                     <input type="hidden" name="propertycat_id" class="propertycat_id">
-                     <input type="hidden" name="rentaltag_id" class="rentaltag_id">
-                     <input type="hidden" name="location_id" class="location_id">
-                     <input type="hidden" name="roomid" class="room_id">
-                     <input type="hidden" name="rolenameid" class="rolename_id">
-
-                     <div class="modal-body">
-                        <div class="form-group">
-                           <label for="property_category" class="catlabel h4"></label>
-                           <input type="text" class="form-control text-white bg-dark catinput" name="property_category" id="property_category" required>
-                           <input type="text" class="form-control text-white bg-dark" name="rentaltagname" id="rental_tagname" required>
-                           <input type="text" class="form-control text-white bg-dark" name="locationname" id="location_name" required>
-                           <input type="text" class="form-control text-white bg-dark" name="roomname" id="room_name" required>
-                           <input type="text" class="form-control text-white bg-dark" name="rolename" id="role_name" required>
-                           <input type="text" class="form-control text-white bg-dark" name="roomsizename" id="roomsize_name">
-                        </div>
-                     </div>
-                     <ul class="alert alert-warning d-none" id="edit_list"></ul>
-                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
-                        <button type="submit" class="save_button btn btn-danger waves-effect"></button>
-                     </div>
-                  </form>
-              </div> 
-            </div>
-         </div>
-     </div>  --}}
 
          {{-- Modal For Editing the house details --}}
       <div class="modal fade editrentalhse" id="editrentalhsedetailsmodal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true" >
@@ -363,11 +350,14 @@
                                           >
                                        </div>
                                     </div>
-                                    <div class="form-group inputdetails">
-                                       <label>Rental Details<span class="text-danger inputrequired">*</span></label>
-                                       <div id="rental_details_ck" style="border:2px solid black;">
+                                    <div class="row section-groups">
+                                       <div class="form-group inputdetails col-sm-12">
+                                          <label>Rental Details<span class="text-danger inputrequired">*</span></label>
+                                          <div id="rental_details_ck" style="border:2px solid black;">
+                                          </div>
                                        </div>
                                     </div>
+                                    
 
                                     <div class="row section-groups">
                                        <div class="form-group inputdetails col-sm-6">
@@ -420,7 +410,7 @@
 
                                       <div class="form-group inputdetails col-sm-6">
                                        <label>House Owner(Landlord/Landlady)<span class="text-danger inputrequired">*</span></label>
-                                       <select name="landlord_id" class="hseownerselect form-control text-white bg-dark" style="width:100%;"> 
+                                       <select name="landlord_id" class="hseownerselect adminselect form-control text-white bg-dark" style="width:100%;"> 
                                           @foreach($alllandlords as $landlord)
                                              <option value="{{ $landlord->id }}">{{ $landlord->name }}
                                              </option>
@@ -547,7 +537,8 @@
                   <input type="hidden" name="propertyvideo_id" id="propertyvideo_id">
                   <input type="hidden" name="locationid" id="locatn_id">
                   <input type="hidden" name="propertyimageid" id="propertyimage_id">
-                  <h4>Are You Sure You Want to Delete?</h4>
+                  <input type="hidden" name="transactiontype_id" id="transactiontypid">
+                  {{-- <h4>Are You Sure You Want to Delete?</h4> --}}
                      <div class="modal-footer">
                         <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
                         <button type="submit" id="deletemodalbutton" class="btn btn-danger waves-effect remove-category">Delete This Record</button>
@@ -807,9 +798,12 @@
       <script type="text/javascript" src="{{ asset('cssjqueryfiles/adminpanel/datatables/DataTables-1.10.25/js/jquery.dataTables.min.js')}}"></script> 
       {{-- <script type="text/javascript" src="{{ asset('cssjqueryfiles/adminpanel/datatables/DataTables-1.10.25/js/dataTables.bootstrap.min.js')}}"></script> --}}
       <script type="text/javascript" src="{{ asset('cssjqueryfiles/adminpanel//datatables/Responsive-2.2.9/js/dataTables.responsive.js')}}"></script>
-      <script type="text/javascript" src="{{ asset('cssjqueryfiles/adminpanel//datatables/Responsive-2.2.9/js/responsive.bootstrap.min.js')}}"></script>
-    
-      
+      <script type="text/javascript" src="{{ asset('cssjqueryfiles/adminpanel/datatables/Buttons-1.7.1/js/dataTables.buttons.min.js')}}"></script>
+      <script type="text/javascript" src="{{ asset('cssjqueryfiles/adminpanel/datatables/jszip3.1.3/jszip.min.js')}}"></script>
+      <script type="text/javascript" src="{{ asset('cssjqueryfiles/adminpanel/datatables/pdfmake-0.1.36/pdfmake.min.js')}}"></script>
+      <script type="text/javascript" src="{{ asset('cssjqueryfiles/adminpanel/datatables/pdfmake-0.1.36/vfs_fonts.js')}}"></script>
+      <script type="text/javascript" src="{{ asset('cssjqueryfiles/adminpanel/datatables/Buttons-1.7.1/js/buttons.html5.min.js')}}"></script>
+      <script type="text/javascript" src="{{ asset('cssjqueryfiles/adminpanel/datatables/Buttons-1.7.1/js/buttons.print.min.js')}}"></script>
       
       <script src="{{ asset('cssjqueryfiles/adminpanel/js/plugins/metisMenu/jquery.metisMenu.js') }}"></script>
       <script src="{{ asset('cssjqueryfiles/adminpanel/js/plugins/slimscroll/jquery.slimscroll.min.js') }}"></script>
@@ -839,6 +833,11 @@
 
       {{-- ck editor --}}
       <script src="{{ asset('cssjqueryfiles/adminpanel/plugins/classiceditor/classicckeditor5.35.0.1.js') }}"></script>
+
+      {{-- bootsrap date picker --}}
+      <script src="{{ asset('cssjqueryfiles/adminpanel/plugins/moment/moment.min.js') }}"></script>
+      <script src="{{ asset('cssjqueryfiles/adminpanel/plugins/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js') }}"></script>
+      
 
       {{--<script src="https://cdn.ckeditor.com/ckeditor5/35.0.1/classic/ckeditor.js"></script>
        <script src="{{ asset('cssjqueryfiles/adminpanel/plugins/ckeditor/ckeditor.js') }}"></script>
@@ -895,6 +894,8 @@
       @yield('propertyimagesscript')
       @yield('companymemoscript') 
       @yield('userrolesmgmtscript')
+      @yield('alltenantspaymentscript')
+      
       @section('scripts')
       <script>
 
@@ -966,6 +967,8 @@
             //    $('#roomsize_name').html('');
             //    $('#room_name').html('');
             //    $('#role_name').html('');
+            //    $('#editroomsizelabel').html('');
+            //    $('#editroomsize_price').val('');
 
             //    $('#property_category').hide();
             //    $('#rental_tagname').hide();
@@ -996,7 +999,6 @@
                      'link', '|',
                      'outdent', 'indent', '|',
                      'bulletedList', 'numberedList', '|',
-                     'insertTable', '|',
                      'undo', 'redo'
                   ],
                   shouldNotGroupWhenFull: true
@@ -1053,6 +1055,10 @@
 
                $(".propertylocationselect").val('');
                $(".propertycategoryselect").val('');
+            });
+
+            // empty the edit modal on closing if no data has been updated
+            $("#editpropertydetailsmodal").on('hide.bs.modal', function(){
             });
          });
       </script>

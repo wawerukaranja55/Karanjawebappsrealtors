@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Models\Houseratingreview;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
+use AfricasTalking\SDK\AfricasTalking;
 use Illuminate\Support\Facades\Session;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -41,21 +42,24 @@ class Tenant_controller extends Controller
 
         if($request->tenantstatname == 1)
         {
-            $tenantstatus=Tenantstatus::where('id',$request->tenantuser_id)->first();
-            $user=User::find($id);
-            foreach ($user->hserooms()->get() as $usr) {
-                $rmid=$usr->pivot->rentalroom_id;
+            $user=User::with('hserooms')->find($id);
+            foreach ($user->hserooms as $usr) {
+                $rmid[]=$usr->id;
             }
             
+
             $user->is_approved=$request->tenantstatname;
             $user->save();
             $user->tenantstatus()->sync(request('tenantstatname'));
 
-            $rmupdate=Room_name::where(['rentalhouse_id'=>$user->house_id,'id'=>$rmid])->first();
-            
-            $rmupdate->update([
-                $rmupdate->is_occupied=1,
-            ]);
+            // $rmupdate=Room_name::where(['rentalhouse_id'=>$user->house_id,'id'=>['110','112']])->first();
+            $rmupdate = Room_name::where('rentalhouse_id', $user->house_id)
+                ->whereIn('id', $rmid)->get();
+
+            foreach($rmupdate as $updateroom){//loop through an Eloquent collection instance
+                $updateroom->is_occupied=1;//mass assign the new values
+                $updateroom->save();//save the instance
+            }
 
             $countoccupiedrms=Room_name::where(['rentalhouse_id'=>$user->house_id,'is_occupied'=>1])->count();
             $hsetotalrooms=Rental_house::where('id',$user->house_id)->pluck('total_rooms')->first();
@@ -65,7 +69,55 @@ class Tenant_controller extends Controller
             
                 Rental_house::where('id',$user->house_id)->update(['is_vacancy'=>2]);
             }
-            
+
+             // use 'sandbox' for development in the test environment
+             // use your sandbox app API key for development in the test environment
+            // $AT       = new AfricasTalking($username, $apiKey);
+
+            // // Get one of the services
+            // $sms      = $AT->sms();
+
+            // $sms->send([
+            //     'to'      => '+254702521351',
+            //     'message' => 'Welcome here'
+            // ]);
+
+            $username = 'wkaranjawebapps';
+            $apiKey   = 'fc4abd547d1bb533dd92a8ff180cc8098fa95fedaf6ce7f5ebe25cc00263706c';
+
+            // Initialize the SDK
+            $AT         = new AfricasTalking($username, $apiKey);
+
+            // Get the SMS service
+            $sms        = $AT->sms();
+
+            // Set the numbers you want to send to in international format
+            $recipients = "+254702521351,+254729822621,+254759194254";
+
+            // Set your message
+            $message    = "I'm a waweru and i love making softwares all day any day ";
+
+            // Set your shortCode or senderId
+            // $from       = "AFRICASTKNG";
+
+            try {
+                // Thats it, hit send and we'll take care of the rest
+                $result=$sms->send([
+                    'to'      => $recipients,
+                    'message' => $message,
+                    // 'from'    => $from
+                ]);
+
+                // $sms->send([
+                //     'to'      => $recipients,
+                //     'message' => $message,
+                //     'from'    => $from
+                // ]);
+            } catch (Exception $e) {
+                echo "Error: ".$e->getMessage();
+                // dd($e->getMessage());die();
+            }
+
             // send email to the user to inform them to login
             $email=$user['email'];
             $name=$user['name'];

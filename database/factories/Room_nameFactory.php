@@ -25,7 +25,7 @@ class Room_nameFactory extends Factory
             'rentalhouse_id'=>2,
             'status'=>1,
             'is_occupied'=>0,
-            'house_size'=>'no_room_size',
+            'is_roomsize'=>0,
             'room_name'=>$this->faker->numerify('landlord-##')
         ];
     }

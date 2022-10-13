@@ -168,8 +168,8 @@
                               <div class="form-group inputdetails col-sm-6">
                                  <label>Room Name/Number<span class="text-danger inputrequired">*</span></label>
                                  <br>
-                                 <select name="rentalroom_id" class="roomnamenumber form-control text-white bg-dark" required style="width: 100%;">
-                                    <option value=" " disabled="true" selected="true">Select Your Room Name/Number</option>
+                                 <select name="rentalroom_id[]" class="roomnamenumber form-control text-white bg-dark" required style="width: 100%;" multiple>
+                                    
                                  </select>
                               </div>
                           </div>
@@ -435,18 +435,19 @@
             });
          });
 
-         // register a user using a modal
-         $('body').on('click','#signup',function(){
+         // show register modal on clicking the sign up button
+         $(document).on('click','#signup',function(){
             $('#signupmodal').modal('toggle');
+         });
 
-            //   update room details
-            $('#registerusermdal').click(function(){
+         // store the user details in the db
+         $(document).on('submit','#signupform',function()
+         {
+            var usersignupurl = '{{ route("signup.modal") }}'; 
+            var form = $('#signupform')[0];
+            var formdata=new FormData(form);
 
-               var usersignupurl = '{{ route("signup.modal") }}'; 
-               var form = $('#signupform')[0];
-               var formdata=new FormData(form);
-
-               $.ajax({
+            $.ajax({
                url:usersignupurl,
                method:'POST',
                processData:false,
@@ -485,8 +486,7 @@
                   }
                }
             });
-            })
-         })
+         });
          
       </script>
    </body>

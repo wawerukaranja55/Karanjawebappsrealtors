@@ -72,7 +72,7 @@
             { data: 'rental_status',
                render: function ( data, type, row ) {
                   if ( type === 'display' ) {
-                        return '<input class="toggle-class rentalhsestatus" type="checkbox" checked data-toggle="toggle" data-id="' + row.id + '" data-on="Active" data-off="Not Active" data-onstyle="success" data-offstyle="danger">';
+                        return '<input class="toggle-class rentalhsestatus" disabled type="checkbox" checked data-toggle="toggle" data-id="' + row.id + '" data-on="Active" data-off="Not Active" data-onstyle="success" data-offstyle="danger">';
                   }
                   return data;
                }
@@ -84,8 +84,8 @@
             $('input.rentalhsestatus', row)
             .prop( 'checked', data.rental_status !== 1 )
             .bootstrapToggle();
-          }
-         });
+         }
+      });
    
 
          //  update rental house status from active to inactive
@@ -178,6 +178,8 @@
                      var tagsarray = $.map(tagsobject, function(el) { 
                         return el['id']; 
                      });
+
+                     console.log(tagsarray);
                      //pass array object value to select2
                      $(".rentaltagselect2").select2();
                      $('.rentaltagselect2').val(tagsarray).trigger('change');

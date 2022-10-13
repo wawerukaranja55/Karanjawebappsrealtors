@@ -49,7 +49,7 @@
             
         </div>
     </div>
-    @if ($hsermsizes>0)
+    {{-- @if ($hsermsizes>0)
         <div class="row">
             <div class="col-lg-8">
                 <h3 class="mb-2 panel-title ms_heading text-white bg-black" style="padding:10px;">Edit Room Sizes for Rental House {{ $rentaldata->rental_name }}</h3>
@@ -63,7 +63,6 @@
                                         <tr>
                                             <th>Rentalhouse id</th>
                                             <th>Room Size</th>
-                                            <th>Price</th>
                                             <th>Total Rooms</th>
                                         </tr>
                                     </thead>
@@ -77,7 +76,8 @@
                 </form>
             </div>
         </div>
-    @endif
+    @endif --}}
+
     <div class="row">
         <div class="col-md-5">
             <h3 class="mb-2 panel-title ms_heading text-white bg-black" style="padding:10px;">Add Extra images for {{ $rentaldata->rental_name }}</h3>
@@ -113,14 +113,15 @@
         <div class="col-md-7">
             <h3 class="mb-2 panel-title ms_heading text-white bg-black" style="padding:10px;">Room Names Management</h3>
             <div class="col-md-12">
-                <table id="editroomnamestable" class="table table-striped table-bordered addrooms" style="width:18%; margin-top:10px;">
+                <table class="table table-striped table-bordered roomnamestable" style="width:18%; margin-top:10px;">
                     <thead>
                         <tr>
                             <th>Id</th>
                             <th>Name</th>
                             <th>Room Size</th>
+                            <th>Room Size Price</th>
                             <th>Status</th>
-                            <th>Delete</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -193,12 +194,11 @@
             })
         })
 
-        
-        // show all house sizes for a house in a datatable
+        // show all rooms of the house in a datatable
         var roomhseid=$('.editroomimageid').val();
-        var url = '{{ route("get_roomsizes", ":id") }}';
+        var url = '{{ route("get_roomnames", ":id") }}';
         url = url.replace(':id', roomhseid);
-        var editroomhsesizestable = $('#editrentalhsesizes').DataTable({
+        var roomnamestable = $('.roomnamestable').DataTable({
             processing:true,
             serverside:true,
             reponsive:true,
@@ -213,33 +213,147 @@
                 },
             },
             columns: [
-                { data: 'rentalhse_id',
+                { data: 'id' },
+                { data: 'room_name' },
+                { data: 'is_roomsize', name:'is_roomsize.roomhsesizes', orderable:true,searchable:true},
+                { data: 'roomsize_price', name:'roomsize_price', orderable:true,searchable:true},
+                { data: 'status',
                     render: function ( data, type, row ) {
                         if ( type === 'display' ) {
-                            return '<input readonly=" " name="rentalhse_id[]" style="width:150px" value="' + row.rentalhse_id + '">';
-                        }
-                        return data;
-                    },
-                },
-                { data: 'room_size' },
-                { data: 'roomsize_price',
-                    render: function ( data, type, row ) {
-                        if ( type === 'display' ) {
-                        return '<input type="number" name="roomsize_price[]" style="width:150px" value="' + row.roomsize_price + '">';
+                            return '<input class="toggle-demo" type="checkbox" checked data-toggle="toggle" data-id="' + row.id + '" data-on="Active" data-off="Not Active" data-onstyle="success" data-offstyle="danger">';
                         }
                         return data;
                     }
                 },
-                { data: 'total_rooms',
-                    render: function ( data, type, row ) {
-                        if ( type === 'display' ) {
-                        return '<input type="number" name="total_rooms[]" style="width:150px" value="' + row.total_rooms + '">';
-                        }
-                        return data;
-                    }
-                },
+                // { data: 'status',
+                //     render: function ( data, type, full, meta, row) {
+                //     return '<input class="toggle-demo" type="checkbox" checked data-toggle="toggle" data-id="#" data-on="Active" data-off="Not Active" data-onstyle="success" data-offstyle="danger">';
+                //     }
+                // },
+                { data: 'action',name:'action',orderable:false,searchable:false },
             ],
+
+            rowCallback: function ( row, data ) {
+                $('input.toggle-demo', row)
+                .prop( 'checked', data.status == 1 )
+                .bootstrapToggle();
+            }
         });
+
+        // edit room details
+        $(document).on('click','.editroomname',function(e){
+            e.preventDefault();
+            var roomid=$(this).data('id');
+
+            $.ajax({
+                url:'{{ url("admin/roomname",'') }}' + '/' + roomid + '/edit',
+                method:'GET',
+                success:function(response){
+                    console.log(response);
+                    $('#admineditmodal').modal('show');
+                    $('#propertycat_id').val('');
+                    $('#rentaltag_id').val('');
+                    $('#property_category').hide();
+                    $('#rental_tagname').hide();
+                    $('#location_name').hide();
+                    $('#room_id').val(response.room_name.id);
+
+                    $('.modal-title').html('Edit Room Name');
+                    $('.catlabel').html('Room Name Title');
+                    $('.save_button').html('Update Room Name');
+
+                    $('#editroom_name').val(response.room_name.room_name);
+
+                        // show and hide the dropdown for room sizes
+                    if (response.room_name.roomhsesizes.is_roomsize=='0')
+                    {
+                        $('#editchangeroomsizes').hide();
+                        $('#editselectrmsize').val('');
+                        
+                    } 
+                    else
+                    {
+                        // var roomsizesobject = response.roomhsesizes;
+                        // var rmsizesarr = $.map(roomsizesobject, function(el) { 
+                        //     return el['id']; 
+                        // });
+                        // //pass array object value to select2
+                        // console.log(rmsizesarr);
+                        $('#editselectrmsize').val(response.room_name.roomhsesizes.id).trigger('change');
+                        // add room sizes for a house in the room sizes editing modal
+                        console.log(response.roomsizesforahouse);
+                        $('#editselectrmsize').html('<option disabled value=" ">Select Another Room Size</option>');
+                            
+                        console.log("the data is ",response.roomsizesforahouse);
+                        response.roomsizesforahouse.forEach((rmsize)=>{
+                            console.log(rmsize);
+                            $('#editselectrmsize').append('<option value="'+rmsize.id+'">'+rmsize.room_size+'</option>');
+                        });
+                    }
+
+                        // show and hide the input for room size prices
+                    if (response.room_name.roomsize_price=='0')
+                    {
+                        $('#editchangeroomsize_price').hide();
+                        $('#editroomsize_price').val('');
+                        
+                    } 
+                    else
+                    {
+                        $('#editroomsize_price').val(response.room_name.roomsize_price).trigger('change');   
+                    }
+                
+
+                }
+            })
+        });
+        
+        // show all house sizes for a house in a datatable
+            // var roomhseid=$('.editroomimageid').val();
+            // var url = '{{ route("get_roomsizes", ":id") }}';
+            // url = url.replace(':id', roomhseid);
+            // var editroomhsesizestable = $('#editrentalhsesizes').DataTable({
+            //     processing:true,
+            //     serverside:true,
+            //     reponsive:true,
+
+            //     ajax:
+            //     {
+            //         url:url,
+            //         type: 'get',
+            //         dataType: 'json',
+            //         data:{
+            //             'id':roomhseid
+            //         },
+            //     },
+            //     columns: [
+            //         { data: 'rentalhse_id',
+            //             render: function ( data, type, row ) {
+            //                 if ( type === 'display' ) {
+            //                     return '<input readonly=" " name="rentalhse_id[]" style="width:150px" value="' + row.rentalhse_id + '">';
+            //                 }
+            //                 return data;
+            //             },
+            //         },
+            //         { data: 'room_size' },
+            //         // { data: 'roomsize_price',
+            //         //     render: function ( data, type, row ) {
+            //         //         if ( type === 'display' ) {
+            //         //         return '<input type="number" name="roomsize_price[]" style="width:150px" value="' + row.roomsize_price + '">';
+            //         //         }
+            //         //         return data;
+            //         //     }
+            //         // },
+            //         { data: 'total_rooms',
+            //             render: function ( data, type, row ) {
+            //                 if ( type === 'display' ) {
+            //                 return '<input type="number" name="total_rooms[]" style="width:150px" value="' + row.total_rooms + '">';
+            //                 }
+            //                 return data;
+            //             }
+            //         },
+            //     ],
+            // });
 
         //   update room size details for a house
         $(document).on('submit','#updateroomsizesform',function()

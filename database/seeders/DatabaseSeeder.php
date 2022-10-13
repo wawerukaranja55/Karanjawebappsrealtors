@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call(RentalCategorySeeder::class);
+        $this->call(PaymentTransactiontypeSeeder::class);
 
         $this->call(RoomNameSeeder::class);
         $this->call(Rentaltagseeder::class);
@@ -42,7 +43,6 @@ class DatabaseSeeder extends Seeder
         $this->call(RentalhouseSeeder::class);
 
         $this->call([
-            // TenantstatusSeeder::class,
             RoleSeeder::class,
             Userseeder::class,
         ]);

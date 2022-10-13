@@ -68,7 +68,7 @@ class Rentalextraimages_controller extends Controller
             $alternatemedium_image_path='imagesforthewebsite/rentalhouses/alternateimages/medium/'.$rental_imagesname;
             $alternatesmall_image_path='imagesforthewebsite/rentalhouses/alternateimages/small/'.$rental_imagesname;
 
-            Image::make($rental_imagestmp)->save($alternatelarge_image_path);
+            Image::make($rental_imagestmp)->resize(1040,1200)->save($alternatelarge_image_path);
             Image::make($rental_imagestmp)->resize(520,600)->save($alternatemedium_image_path);
             Image::make($rental_imagestmp)->resize(260,300)->save($alternatesmall_image_path);
 
@@ -148,96 +148,6 @@ class Rentalextraimages_controller extends Controller
                     'success'=>404,
                     'message'=>'Image Not Found'
                 ]);
-        }
-    }
-
-    // store room sizes for the house in the db
-    public function housesizes(Request $request,$id)
-    {
-        $data=$request->all();
-
-        // the the total rooms for that house
-        $totalroomsforthehse=Rental_house::where('id',$id)->pluck('total_rooms')->first();
-
-        $rules=[
-            'room_size.*'=>'required',
-            'roomsize_price.*'=>'required|numeric|min:1',
-            'total_rooms.*'=>'required|numeric|min:1',
-        ];
-
-        $custommessages=[
-            'room_size.*' => [
-                'required' => 'Enter The Room Size',
-            ],
-            'roomsize_price.*' => [
-                'required' => 'Enter The Price of the Room Size',
-            ],
-            'roomsize_price.*' => [
-                'numeric' => 'Enter a Valid price',
-            ],
-            'roomsize_price.*' => [
-                'min:1' => 'Room Size Price should not be less than 1',
-            ],
-            'total_rooms.*' => [
-                'required' => 'Enter The number of total rooms for the house size',
-            ],
-            'total_rooms.*' => [
-                'numeric' => 'Enter a Valid number',
-            ],
-            'total_rooms.*' => [
-                'min:1' => 'Total rooms should not be less than 1',
-            ]
-        ];
-
-        $validator = Validator::make( $data,$rules,$custommessages );
-        
-        if($validator->fails())
-        {
-            return response()->json([
-                'status'=>400,
-                'message'=>$validator->errors()
-            ]);
-        }
-        elseif (array_sum($request->total_rooms)>$totalroomsforthehse)
-        {
-            $message="Your Total Rooms Doesnt match with the Total rooms you provided for the house.Kindly have a look again.";
-            return response()->json([
-                'status'=>404,
-                'message'=>$message
-            ]);
-        }
-        elseif (array_sum($request->total_rooms)<$totalroomsforthehse)
-        {
-            $message="Your Total Rooms Doesnt match with the Total rooms you provided for the house.Kindly have a look again.";
-            return response()->json([
-                'status'=>500,
-                'message'=>$message
-            ]);
-        }
-        else
-        {
-
-            foreach($data['roomsize_price'] as $key=>$value){
-                if(!empty($value)){
-                    $values = new Rentalhousesize();
-                    $values->rentalhse_id = $id;
-                    $values->room_size= $data["room_size"][$key];
-                    $values->roomsize_price = $data['roomsize_price'][$key];
-                    $values->total_rooms = $data['total_rooms'][$key];
-                    $values->save();
-                }
-            }
-
-            $data=Rentalhousesize::select('id','room_size','roomsize_price')->where('rentalhse_id',$id)->get();
-
-            // update is_addedtags to 1 in the rental houses table
-            Rental_house::where('id',$id)->update(['is_addedtags'=>1]);
-
-            return response()->json([
-                'data'=>$data,
-                'status'=>200,
-                'message'=>'Room Sizes saved in the database successfully'
-            ]);
         }
     }
 }

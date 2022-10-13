@@ -306,8 +306,7 @@ class Rentalslisting_controller extends Controller
     // show the room prices for a house on the house details page
     public function getroomprices(Request $request)
     {
-
-        $roomsizespriceforahouse=Rentalhousesize::where(['rentalhse_id'=>$request->rntalhouse_id,'room_size'=>$request->housesize])->select('roomsize_price')->first();
+        $roomsizespriceforahouse=Room_name::where(['rentalhouse_id'=>$request->rntalhouse_id,'is_roomsize'=>$request->housesize])->select('roomsize_price')->first();
 
         return response()->json($roomsizespriceforahouse);
 

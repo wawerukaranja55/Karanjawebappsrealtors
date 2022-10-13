@@ -28,7 +28,7 @@ class Inactiverentals_controller extends Controller
     // show inactive rental houses
     public function get_inactiverentals(Request $request)
     {
-        $inactiverentals=Rental_house::with(['housecategory','houselocation'])->where('rental_status',0)->select('id','rental_name','monthly_rent','location_id','rentalcat_id','total_rooms','rental_image','rental_status');
+        $inactiverentals=Rental_house::with(['housecategory','houselocation'])->where(['is_extraimages'=>0])->select('id','rental_name','monthly_rent','location_id','rentalcat_id','total_rooms','rental_image','rental_status');
         // Session::put('page','inactive_rentals');
 
         if($request->ajax()){
@@ -61,6 +61,6 @@ class Inactiverentals_controller extends Controller
             return $inactiverentals;
         }
 
-        return view('Admin.Rental_houses.inactivatehouses',compact('inactiverentals'));
+        // return view('Admin.Rental_houses.inactivehouses',compact('inactiverentals'));
     }
 }

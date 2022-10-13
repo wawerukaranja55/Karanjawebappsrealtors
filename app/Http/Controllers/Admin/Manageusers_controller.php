@@ -31,7 +31,7 @@ class Manageusers_controller extends Controller
 
     public function getusersroles_assign(Request $request)
     {
-        $all_users=User::with(['roles','hserooms','rentalhses','tenantstatus'])->where(['role_id'=>0,])->select('id','name','avatar','is_approved','house_id','phone');
+        $all_users=User::with(['roles','hserooms','rentalhses','tenantstatus'])->select('id','name','avatar','is_approved','house_id','phone');
 
         if($request->ajax()){
             $all_users = DataTables::of ($all_users)
@@ -109,7 +109,7 @@ class Manageusers_controller extends Controller
     // show all registered users
     public function registered_users()
     {  
-        $registered_users=User::with(['hserooms','rentalhses','tenantstatus'])->select('id','name','phone','house_id','is_approved');
+        $registered_users=User::with(['hserooms','rentalhses','tenantstatus'])->select('id','name','phone','house_id','is_approved','is_tenant');
         $allroles=Tenantstatus::where('status',1)->get();
         Session::put('page','registered_users');
         return view('Admin.Company_users.registeredusers',compact('registered_users')
@@ -196,18 +196,21 @@ class Manageusers_controller extends Controller
 
                 $user->roles()->sync($role);
                 $user->update(['is_landlord'=>1]);
-                $user->update(['is_admin'=>0]);
+                $user->update(['is_admin'=>0]); 
+                $user->update(['is_tenant'=>0]);
             }
             elseif($role->id!==7 && $role->id!==8 && $user->is_landlord=1){
 
                 $user->roles()->sync($role);
                 $user->update(['is_landlord'=>0]);
                 $user->update(['is_admin'=>1]);
+                $user->update(['is_tenant'=>0]);
             }
             elseif($role->id==8 && $user->is_admin=1){
                 $user->roles()->sync($role);
                 $user->update(['is_admin'=>0]);
                 $user->update(['is_landlord'=>0]);
+                $user->update(['is_tenant'=>1]);
             }
             
             $user->save();

@@ -128,6 +128,7 @@ class Admindashboard_controller extends Controller
     public function sendmemotouser(Request $request)
     {
         $data=$request->all();
+
         $rules=[
             'memo_title'=>'required',
             'memo_message'=>'required',
@@ -152,7 +153,6 @@ class Admindashboard_controller extends Controller
                 $recipientemails=implode(',',$data['tenantsadmins']);
                 
             }
-
             $memodata=new Company_memo();
             $memodata->memo_title=$data['memo_title'];
             $memodata->memo_message=$data['memo_message'];

@@ -19,8 +19,8 @@ class ComposerStaticInit7f65bfd864214d3c00252063ae73f42a
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
         'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
-        'def43f6c87e4f8dfd0c9e1b1bab14fe8' => __DIR__ . '/..' . '/symfony/polyfill-iconv/bootstrap.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
+        'def43f6c87e4f8dfd0c9e1b1bab14fe8' => __DIR__ . '/..' . '/symfony/polyfill-iconv/bootstrap.php',
         '2c102faa651ef8ea5874edb585946bce' => __DIR__ . '/..' . '/swiftmailer/swiftmailer/lib/swift_required.php',
         '801c31d8ed748cfa537fa45402288c95' => __DIR__ . '/..' . '/psy/psysh/src/functions.php',
         '23c18046f52bef3eea034657bafda50f' => __DIR__ . '/..' . '/symfony/polyfill-php81/bootstrap.php',
@@ -194,6 +194,8 @@ class ComposerStaticInit7f65bfd864214d3c00252063ae73f42a
         array (
             'Asm89\\Stack\\' => 12,
             'App\\' => 4,
+            'AfricasTalking\\SDK\\Tests\\' => 25,
+            'AfricasTalking\\SDK\\' => 19,
         ),
     );
 
@@ -574,6 +576,14 @@ class ComposerStaticInit7f65bfd864214d3c00252063ae73f42a
         array (
             0 => __DIR__ . '/../..' . '/app',
         ),
+        'AfricasTalking\\SDK\\Tests\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/africastalking/africastalking/tests',
+        ),
+        'AfricasTalking\\SDK\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/africastalking/africastalking/src',
+        ),
     );
 
     public static $prefixesPsr0 = array (
@@ -587,16 +597,34 @@ class ComposerStaticInit7f65bfd864214d3c00252063ae73f42a
     );
 
     public static $classMap = array (
+        'AfricasTalking\\SDK\\AfricasTalking' => __DIR__ . '/..' . '/africastalking/africastalking/src/AfricasTalking.php',
+        'AfricasTalking\\SDK\\Airtime' => __DIR__ . '/..' . '/africastalking/africastalking/src/Airtime.php',
+        'AfricasTalking\\SDK\\Application' => __DIR__ . '/..' . '/africastalking/africastalking/src/Application.php',
+        'AfricasTalking\\SDK\\Content' => __DIR__ . '/..' . '/africastalking/africastalking/src/Content.php',
+        'AfricasTalking\\SDK\\Payments' => __DIR__ . '/..' . '/africastalking/africastalking/src/Payments.php',
+        'AfricasTalking\\SDK\\SMS' => __DIR__ . '/..' . '/africastalking/africastalking/src/SMS.php',
+        'AfricasTalking\\SDK\\Service' => __DIR__ . '/..' . '/africastalking/africastalking/src/Service.php',
+        'AfricasTalking\\SDK\\Tests\\AfricasTalkingTest' => __DIR__ . '/..' . '/africastalking/africastalking/tests/AfricasTalkingTest.php',
+        'AfricasTalking\\SDK\\Tests\\AirtimeTest' => __DIR__ . '/..' . '/africastalking/africastalking/tests/AirtimeTest.php',
+        'AfricasTalking\\SDK\\Tests\\ApplicationTest' => __DIR__ . '/..' . '/africastalking/africastalking/tests/ApplicationTest.php',
+        'AfricasTalking\\SDK\\Tests\\ContentTest' => __DIR__ . '/..' . '/africastalking/africastalking/tests/ContentTest.php',
+        'AfricasTalking\\SDK\\Tests\\PaymentsTest' => __DIR__ . '/..' . '/africastalking/africastalking/tests/PaymentsTest.php',
+        'AfricasTalking\\SDK\\Tests\\SMSTest' => __DIR__ . '/..' . '/africastalking/africastalking/tests/SMSTest.php',
+        'AfricasTalking\\SDK\\Tests\\TokenTest' => __DIR__ . '/..' . '/africastalking/africastalking/tests/TokenTest.php',
+        'AfricasTalking\\SDK\\Tests\\VoiceTest' => __DIR__ . '/..' . '/africastalking/africastalking/tests/VoiceTest.php',
+        'AfricasTalking\\SDK\\Token' => __DIR__ . '/..' . '/africastalking/africastalking/src/Token.php',
+        'AfricasTalking\\SDK\\Voice' => __DIR__ . '/..' . '/africastalking/africastalking/src/Voice.php',
+        'App\\Console\\Commands\\Deleteemptympesatransaction' => __DIR__ . '/../..' . '/app/Console/Commands/Deleteemptympesatransaction.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Http\\Controllers\\Admin\\Activerentals_controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/Activerentals_controller.php',
         'App\\Http\\Controllers\\Admin\\Admindashboard_controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/Admindashboard_controller.php',
+        'App\\Http\\Controllers\\Admin\\Alltenantspayment_Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/Alltenantspayment_Controller.php',
         'App\\Http\\Controllers\\Admin\\Inactiverentals_controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/Inactiverentals_controller.php',
         'App\\Http\\Controllers\\Admin\\Location_controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/Location_controller.php',
         'App\\Http\\Controllers\\Admin\\Manageusers_controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/Manageusers_controller.php',
         'App\\Http\\Controllers\\Admin\\Property_controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/Property_controller.php',
         'App\\Http\\Controllers\\Admin\\Propertycategory_controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/Propertycategory_controller.php',
-        'App\\Http\\Controllers\\Admin\\Rentalamenities_controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/Rentalamenities_controller.php',
         'App\\Http\\Controllers\\Admin\\Rentalcategory_controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/Rentalcategory_controller.php',
         'App\\Http\\Controllers\\Admin\\Rentalextraimages_controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/Rentalextraimages_controller.php',
         'App\\Http\\Controllers\\Admin\\Rentalhouses_controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/Rentalhouses_controller.php',
@@ -626,6 +654,7 @@ class ComposerStaticInit7f65bfd864214d3c00252063ae73f42a
         'App\\Http\\Middleware\\TrustHosts' => __DIR__ . '/../..' . '/app/Http/Middleware/TrustHosts.php',
         'App\\Http\\Middleware\\TrustProxies' => __DIR__ . '/../..' . '/app/Http/Middleware/TrustProxies.php',
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
+        'App\\Models\\AllTenantspayment' => __DIR__ . '/../..' . '/app/Models/AllTenantspayment.php',
         'App\\Models\\Alternaterental_image' => __DIR__ . '/../..' . '/app/Models/Alternaterental_image.php',
         'App\\Models\\Company_memo' => __DIR__ . '/../..' . '/app/Models/Company_memo.php',
         'App\\Models\\House_Request' => __DIR__ . '/../..' . '/app/Models/House_Request.php',
@@ -634,6 +663,7 @@ class ComposerStaticInit7f65bfd864214d3c00252063ae73f42a
         'App\\Models\\Locationtype' => __DIR__ . '/../..' . '/app/Models/Locationtype.php',
         'App\\Models\\Mpesacheckoutrequestid' => __DIR__ . '/../..' . '/app/Models/Mpesacheckoutrequestid.php',
         'App\\Models\\Mpesapayment' => __DIR__ . '/../..' . '/app/Models/Mpesapayment.php',
+        'App\\Models\\Payment_Transactiontype' => __DIR__ . '/../..' . '/app/Models/Payment_Transactiontype.php',
         'App\\Models\\Property' => __DIR__ . '/../..' . '/app/Models/Property.php',
         'App\\Models\\Property_image' => __DIR__ . '/../..' . '/app/Models/Property_image.php',
         'App\\Models\\Property_request' => __DIR__ . '/../..' . '/app/Models/Property_request.php',

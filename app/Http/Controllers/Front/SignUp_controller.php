@@ -177,11 +177,10 @@ class SignUp_controller extends Controller
 
     public function signupwithmodal(Request $request){
         $data=$request->all();
-        
         $rules=[
             'name'=>'required',
             'phone'=>'required|regex:/(07)[0-9]/|digits:10',
-            'email'=>'required',
+            'email'=>'required|unique:users|email',
             'id_number'=>'required|digits:8',
             'house_id'=>'required',
             'rentalroom_id'=>'required',
@@ -191,6 +190,8 @@ class SignUp_controller extends Controller
         $custommessages=[
             'name.required'=>'Kindly Write Your Name',
             'email.required'=>'Kindly Write Your Email',
+            'email.unique'=>'The Email Already Exists For another user',
+            'email.email'=>'The Input should be an email',
             'id_number.required'=>'Kindly Write Your National Id Number',
             'id_number.digits:8'=>'Kindly Write National Id Number',
             'house_id.required'=>'Select Your House Name',
@@ -199,7 +200,7 @@ class SignUp_controller extends Controller
             'phone.required'=>'Kindly Write Your Phone',
             'phone.regex'=>'Your Phone NUmber Should start with 07',
             'phone.digits:10'=>'The Phone NUmber Should not be less or more than 10 digits',
-            'location_id.required'=>'The Category cant be blank.Select a Location'
+            'location_id.required'=>'The Location cant be blank.Select a Location'
         ];
 
         $validator = Validator::make( $data,$rules,$custommessages );

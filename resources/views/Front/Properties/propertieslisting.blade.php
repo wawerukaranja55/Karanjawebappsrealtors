@@ -315,7 +315,7 @@
                     <div class="form-group inputdetails col-sm-6">
                         <label>Property Locations<span class="text-danger inputrequired">*</span></label>
                         <select name="propertylocationtitle" class="propertylocation form-control text-white bg-dark">
-                            <option value="">Select Your House </option>
+                            <option value="" disabled selected>Select A Location</option>
                              @foreach($propertylocations as $location)
                                 <option value="{{ $location->id }}">
                                    {{ $location->location_title }}</option>

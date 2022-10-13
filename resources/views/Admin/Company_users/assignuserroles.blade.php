@@ -7,7 +7,7 @@
   display: flex;
   justify-content: center;">
       <div class="pull-left p-10">
-          <a class="btn btn-success" href="{{ url('admin/rental_houses') }}">All Rental Houses</a>
+          <a class="btn btn-success" href="{{ url('admin/activerentals') }}">All Activated Rental Houses</a>
       </div>
   </div>
   <div class="col-lg-9">

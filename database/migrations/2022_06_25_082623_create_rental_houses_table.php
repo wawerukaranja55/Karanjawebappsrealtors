@@ -21,7 +21,7 @@ class CreateRentalHousesTable extends Migration
             $table->integer('monthly_rent');
             $table->text('rental_details');
             $table->string('rental_image');
-            $table->text('rental_video')->nullable();
+            $table->string('rental_video')->nullable();
             $table->integer('rentalcat_id');
             $table->integer('location_id');
             $table->integer('landlord_id');

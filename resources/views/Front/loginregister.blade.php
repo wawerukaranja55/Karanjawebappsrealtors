@@ -77,7 +77,7 @@
                                <div class="form-group inputdetails col-sm-6">
                                    <label>House Name<span class="text-danger inputrequired">*</span></label>
                                    <select name="house_id" id="rentalhse" class="rentalhsename form-control text-white bg-dark" required>
-                                       <option value=" " selected disabled>Select Your House </option>
+                                    <option disabled selected>Select Your Rental House </option>
                                         <?php 
                                            $activehousenames=Rental_house::select('rental_name','id')->where(['rental_status'=>1,'is_vacancy'=>1])->get();
                                         ?>
@@ -91,8 +91,8 @@
                                <div class="form-group inputdetails col-sm-6">
                                   <label>Room Name/Number<span class="text-danger inputrequired">*</span></label>
                                   <br>
-                                  <select name="rentalroom_id" class="roomnamenumber form-control text-white bg-dark" required style="width: 100%;">
-                                     <option value=" " disabled="true" selected="true">Select Your Room Name/Number</option>
+                                  <select name="rentalroom_id[]" multiple class="roomnamenumber form-control text-white bg-dark" required style="width: 100%;">
+                                     {{-- <option value=" " disabled="true" selected="true">Select Your Room Name/Number</option> --}}
                                   </select>
                                </div>
                            </div>
@@ -255,8 +255,6 @@
                   'id':hsetitle_id
                },
                success:function(data){
-                     console.log(data);
-                     $('.roomnamenumber').html('<option disabled selected value=" ">Select Your Room Name/Number</option>');
                      
                      console.log("the data is ",data);
                      data.forEach((room)=>{
@@ -267,6 +265,6 @@
                },error:function(){
                }
             });
-         });
+        });
     </script>
 @stop

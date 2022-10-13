@@ -95,13 +95,13 @@ class Rentalhouses_controller extends Controller
 
         $roomsizescount=Rentalhousesize::where('rentalhse_id',$id)->sum('total_rooms');
 
+        
         foreach($rentaldata->housetags as $hsetags)
         {
             $hsesizes[]=$hsetags->id;
         }
 
-        // dd((int)$roomsizescount);die();
-
+        // dd($hsesizes);die();
         return view('Admin.Rental_houses.edit_addimages',compact('rentaldata','roomsizescount','displayimages','hsesizes'));
     }
 
@@ -119,7 +119,7 @@ class Rentalhouses_controller extends Controller
             'rental_details'=>'required',
             'rentalcat_id'=>'required',
             'location_id'=>'required',
-            'total_rooms'=>'required|numeric',
+            'total_rooms'=>'required|numeric|min:1',
             'landlord_id'=>'required',
         ];
 
@@ -129,6 +129,7 @@ class Rentalhouses_controller extends Controller
             'location_id.required'=>'The Category cant be blank.Select a Location',
             'total_rooms.required'=>'Kindly write the total rooms for the house',
             'total_rooms.numeric'=>'The total rooms should be a number',
+            'total_rooms.min:1'=>'The total rooms should greater than 1',
             'landlord_id.required'=>'The Name Of the Landlord cannot be blank.Select the Landlord'
         ];
 
@@ -236,9 +237,7 @@ class Rentalhouses_controller extends Controller
 
             $rental_house->housetags()->attach(request('rentaltags'));
 
-            if($rental_house->tagimages_status==0){
-                return redirect()->route('inactiverentalhses')->with('success','The Rental House has been added successfuly.');
-            }
+            return redirect()->route('inactiverentalhses')->with('success','The Rental House has been added successfuly.');
         }
     }
 

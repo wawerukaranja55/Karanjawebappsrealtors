@@ -4,7 +4,8 @@ use App\Models\Rental_category;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Front\Home_controller;
-use App\Http\Controllers\Admin\Tenant_controller;
+use App\Http\Controllers\Admin\Tenant_controller; 
+use App\Http\Controllers\Admin\Alltenantspayment_Controller; 
 use App\Http\Controllers\Front\SignUp_controller;
 use App\Http\Controllers\Admin\Location_controller;
 use App\Http\Controllers\Admin\Property_controller;
@@ -140,6 +141,9 @@ Route::get('property/{property_slug}/{id}', [Propertieslisting_controller::class
 
 Route::post('sendpropertyrequest',[Propertieslisting_controller::class,'sendpropertyrequest'])->name('send.propertyrequest');
 
+// download payment receipt
+Route::get('downloadpaymentreceipt/{id}', [Alltenantspayment_Controller::class,'downloadpaymentreceipt'])->name('download.paymentreceipt');
+
 // Admin Routes
 Route::group(['prefix'=>'admin','middleware'=>(['auth','can:adminonly'])],function(){
     
@@ -188,6 +192,30 @@ Route::group(['prefix'=>'admin','middleware'=>(['auth','can:adminonly'])],functi
         Route::get('get_mpesapayments',[Admindashboard_controller::class,'get_mpesapayments'])->name('get_mpesa.payments');
 
         Route::get('/updatepaymentstatus',[Admindashboard_controller::class,'updatepaymentstatus'])->name('updatepayment.status');
+
+        // all the payments made by tenants
+        Route::get('all_payments',[Alltenantspayment_Controller::class,'allpayments'])->name('all.payments');
+
+        Route::get('get_allpayments',[Alltenantspayment_Controller::class,'get_allpayments'])->name('get_all.payments');
+
+        Route::get('get_tenantdetails', [Alltenantspayment_Controller::class,'gettenantdetails'])->name('gettenant.details');
+
+        Route::post('addtenantpayment',[Alltenantspayment_Controller::class,'addtenantpayment'])->name('addtenant.payment');
+
+        Route::get('viewpaymentreceipt/{id}', [Alltenantspayment_Controller::class,'showpaymentreciept'])->name('viewpayment.receipt');
+
+        // transaction types
+        Route::get('get_transactiontypes',[Alltenantspayment_Controller::class,'get_transactiontypes'])->name('get_transactiontypes');
+
+        Route::post('addtransactiontype',[Alltenantspayment_Controller::class,'addtransactiontype'])->name('addtransactiontype');
+
+        Route::get('transactiontype/{id}/edit',[Alltenantspayment_Controller::class,'edittransactiontype'])->name('transactiontype.edit');
+
+        Route::post('updatetransactiontype/{id}',[Alltenantspayment_Controller::class,'updatetransactiontype'])->name('updatetransactiontype');
+
+        Route::delete('delete_transactiontype/{id}',[Alltenantspayment_Controller::class,'delete_transactiontype'])->name('delete_transactiontype');
+
+        Route::get('/updatetransactiontypestatus',[Alltenantspayment_Controller::class,'updatetransactiontypestatus'])->name('updatetransactiontypestatus');
 
         // manage memos sent to tenants and admins 
         Route::get('/getusersforahouse', [Admindashboard_controller::class,'getuserforahouse'])->name('getusers.house');
@@ -322,7 +350,15 @@ Route::group(['prefix'=>'admin','middleware'=>(['auth','can:adminonly'])],functi
 
     Route::delete('delete_roomname/{id}',[Roomnames_controller::class,'delete_roomname'])->name('delete_roomname');
 
+    
 
+    // add new room sizes for a rental house
+    Route::post('roomsizes/{id}',[Roomnames_controller::class,'housesizes'])->name('housesizes.house');
+
+    Route::get('getroomsizesforahouse', [Roomnames_controller::class,'getroomsizesforahouse'])->name('getroomsizes.forahouse');
+
+
+    
     // alternaterental images for the rental house page
 
     Route::post('alternateimages/{id}',[Rentalextraimages_controller::class,'alternateimages'])->name('alternateimages');
@@ -332,9 +368,6 @@ Route::group(['prefix'=>'admin','middleware'=>(['auth','can:adminonly'])],functi
     Route::get('/updatextraimagesstatus',[Rentalextraimages_controller::class,'updatextraimagesstatus'])->name('updatextraimages.status');
 
     Route::delete('delete_xtraimage/{id}',[Rentalextraimages_controller::class,'delete_xtraimage'])->name('delete_xtraimage');
-
-    // add new room sizes for a rental house
-    Route::post('roomsizes/{id}',[Rentalextraimages_controller::class,'housesizes'])->name('housesizes.house');
 
         // properties Management
     Route::post('addpropertyvideo/{id}',[Property_controller::class,'addpropertyvideo'])->name('addpropertyvideo');
