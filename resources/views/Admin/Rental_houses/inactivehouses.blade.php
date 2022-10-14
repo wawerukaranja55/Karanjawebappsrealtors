@@ -134,6 +134,7 @@
               $('.rentalhseimage').val(response.editrentalhsedetail.rental_image);
               
               $('.rentalhsevideo').val(response.editrentalhsedetail.rental_video);
+              $('#rental_address').val(response.editrentalhsedetail.rental_address);
 
               $(".rentalselectcat").select2();
               $(".rentalselectcat").val(response.editrentalhsedetail.housecategory.id).trigger('change');
@@ -218,6 +219,7 @@
             $('.hsedetailstextarea').val('');
 
             $('#totalrooms').val('');
+            $('#rental_address').val('');
             
             $('.rentalhsevideo').val('');
 

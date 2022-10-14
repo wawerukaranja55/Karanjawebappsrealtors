@@ -16,7 +16,7 @@
    </div>
 </div>
     <div class="row" style="margin-bottom: 100px;">    
-        <div class="col-lg-8 col-md-8 mx-auto">
+        <div class="col-lg-10 col-md-10 mx-auto">
             <div class="panel-heading mt-5" style="text-align: center; font-size:18px; background-color:black;"> 
                 <h3 class="mb-2 panel-title">Add a New Property</h3> 
             </div>
@@ -44,9 +44,18 @@
                         </div>
 
                         <div class="row section-groups">
-                            <div class="form-group inputdetails col-sm-12">
+                            <div class="form-group inputdetails col-sm-6">
                                 <label>Property Name Slug<span class="text-danger inputrequired">*</span></label>
                                 <input type="text" class="form-control text-white bg-dark" required name="property_slug" id="property_slug" placeholder="Write a slug for the Property Name">
+                            </div>
+                            <div class="form-group inputdetails col-sm-6">
+                                <label>Property Category<span class="text-danger inputrequired">*</span></label><br>
+                                <select name="propertycategory" class="rentaltagselect2 form-control text-white bg-dark" required style="width:100%;">
+                                    <option disabled selected>Choose a Property Category</option>
+                                    @foreach($allpropertycategories as $propertycat)
+                                        <option value="{{ $propertycat->id }}">{{ $propertycat->propertycat_title }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
     
@@ -59,7 +68,7 @@
                             <div class="form-group inputdetails col-sm-6">
                                 <label>Property Location<span class="text-danger inputrequired">*</span></label><br>
                                 <select name="propertyhouselocation" class="rentaltagselect2 form-control text-white bg-dark" required style="width:100%;">
-                                    <option disabled class="active">Choose the Location of the Property</option>
+                                    <option disabled selected>Choose the Location of the Property</option>
                                     @foreach($alllocations as $propertylocation)
                                         <option value="{{ $propertylocation->id }}">{{ $propertylocation->location_title }}</option>
                                     @endforeach
@@ -67,13 +76,8 @@
                             </div>
     
                             <div class="form-group inputdetails col-sm-6">
-                                <label>Property Category<span class="text-danger inputrequired">*</span></label><br>
-                                <select name="propertycategory" class="rentaltagselect2 form-control text-white bg-dark" required style="width:100%;">
-                                    <option disabled class="active">Choose a Property Category</option>
-                                    @foreach($allpropertycategories as $propertycat)
-                                        <option value="{{ $propertycat->id }}">{{ $propertycat->propertycat_title }}</option>
-                                    @endforeach
-                                </select>
+                                <label>Property Address<span class="text-danger inputrequired">*</span></label>
+                                <input type="text" class="form-control text-white bg-dark" required name="property_address" id="property_address" placeholder="Write an address for the Property in the Location">
                             </div>
                         </div>
                     </div>

@@ -279,7 +279,9 @@
                 <div class="paymethod_grandtotal_wrap">
                     <div class="paymethod_sec">
                         <p class="bold">Our Payment Methods</p>
-                        <p>payments methods we can pay with</p>
+                        @foreach ($paymenttypes as $type)
+                            <p>{{ $type->name }}:{{ $type->number }}</p>
+                        @endforeach
                     </div>
                     <div class="grandtotal_sec">
                         <p class="bold">
@@ -294,10 +296,10 @@
                 </div>
             </div>
             <div class="footer">
-                <p>Thank you and Best Wishes</p>
+                <p>Thank you For Paying your Rent</p>
                 <div class="terms">
                     <p class="tc bold">Terms & Coditions</p>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit non praesentium doloribus. Quaerat vero iure itaque odio numquam, debitis illo quasi consequuntur velit, explicabo esse nesciunt error aliquid quis eius!</p>
+                    <p>Your Rent has been paid to WKaranja Web Apps.Click <a href="/">here</a> to visit the Company website</p>
                 </div>
             </div>
         </div>

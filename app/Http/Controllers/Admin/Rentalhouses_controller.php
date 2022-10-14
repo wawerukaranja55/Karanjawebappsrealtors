@@ -121,6 +121,7 @@ class Rentalhouses_controller extends Controller
             'location_id'=>'required',
             'total_rooms'=>'required|numeric|min:1',
             'landlord_id'=>'required',
+            'rental_address'=>'required'
         ];
 
         $custommessages=[
@@ -130,6 +131,7 @@ class Rentalhouses_controller extends Controller
             'total_rooms.required'=>'Kindly write the total rooms for the house',
             'total_rooms.numeric'=>'The total rooms should be a number',
             'total_rooms.min:1'=>'The total rooms should greater than 1',
+            'rental_address.required'=>'Enter an address for the House in the Location',
             'landlord_id.required'=>'The Name Of the Landlord cannot be blank.Select the Landlord'
         ];
 
@@ -217,6 +219,7 @@ class Rentalhouses_controller extends Controller
             $rental_house->rental_name=$data['rental_name'];
             $rental_house->rental_slug=$data['rental_slug'];
             $rental_house->monthly_rent=$data['monthly_rent'];
+            $rental_house->rental_address=$data['rental_address'];
             $rental_house->rental_image=$image_name;
             // $rental_house->rental_video=$video_name;
             $rental_house->rental_details=$data['rental_details'];
@@ -249,6 +252,7 @@ class Rentalhouses_controller extends Controller
             'rental_name'=>'required',
             'monthly_rent'=>'required|numeric',
             'rental_details'=>'required',
+            'rental_address'=>'required',
             'total_rooms'=>'required|numeric',
             'landlord_id'=>'required',
             'rentalhousecategory'=>'required',
@@ -260,6 +264,7 @@ class Rentalhouses_controller extends Controller
             'total_rooms.required'=>'Enter The Merchadise Code',
             'monthly_rent.required'=>'Enter The Merchadise Price',
             'monthly_rent.numeric'=>'Enter a Valid Amount',
+            'rental_address.required'=>'Enter an address for the House in the Location',
             'rental_details.required'=>'Write Merchadise description',
             'rentalhousecategory.required'=>'The Category cant be blank.Select a category',
             'total_rooms.required'=>'Kindly write the total rooms for the house',
@@ -402,6 +407,7 @@ class Rentalhouses_controller extends Controller
             $rental_house->location_id=$data['rentalhouselocation'];
             $rental_house->total_rooms=$data['total_rooms'];
             $rental_house->landlord_id=$data['landlord_id'];
+            $rental_house->rental_address=$data['rental_address'];
             $rental_house->wifi=$wifi;
             $rental_house->is_featured=$is_featured;
             $rental_house->generator=$generator;

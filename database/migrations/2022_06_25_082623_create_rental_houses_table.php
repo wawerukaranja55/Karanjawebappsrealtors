@@ -18,6 +18,7 @@ class CreateRentalHousesTable extends Migration
             $table->id();
             $table->string('rental_name');
             $table->string('rental_slug');
+            $table->string('rental_address');
             $table->integer('monthly_rent');
             $table->text('rental_details');
             $table->string('rental_image');

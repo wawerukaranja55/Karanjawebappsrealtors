@@ -20,7 +20,7 @@
         </div>
     </div
     <div class="row" style="margin-bottom: 100px;">    
-        <div class="col-lg-8 col-md-8 mx-auto">
+        <div class="col-lg-10 col-md-10 mx-auto">
             <div class="panel-heading mt-5" style="text-align: center; font-size:18px; background-color:black;"> 
                 <h3 class="mb-2 panel-title">Add a New Rental House</h3> 
             </div>
@@ -33,19 +33,31 @@
                         <div class="row section-groups">
                             <div class="form-group inputdetails col-sm-6">
                                 <label>Rental Name<span class="text-danger inputrequired">*</span></label>
-                                <input type="text" class="form-control text-white bg-dark" required name="rental_name" id="rental_name" placeholder="Write The Rental House Name">
+                                <input type="text" class="form-control text-white bg-dark" required name="rental_name" placeholder="Write The Rental House Name">
                             </div>
     
                             <div class="form-group inputdetails col-sm-6">
                                 <label>Rental Monthly Price<span class="text-danger inputrequired">*</span></label>
-                                <input type="number" class="form-control text-white bg-dark" required name="monthly_rent" id="monthly_rent" placeholder="Write The Monthly Rent Price">
+                                <input type="number" class="form-control text-white bg-dark" required name="monthly_rent" placeholder="Write The Monthly Rent Price">
                             </div>
                         </div>
 
                         <div class="row section-groups">
-                            <div class="form-group inputdetails col-sm-12">
+                            <div class="form-group inputdetails col-sm-6">
                                 <label>RentalName Slug<span class="text-danger inputrequired">*</span></label>
-                                <input type="text" class="form-control text-white bg-dark" required name="rental_slug" id="rental_slug" placeholder="Write a slug for the Rental House Name">
+                                <input type="text" class="form-control text-white bg-dark" required name="rental_slug" placeholder="Write a slug for the Rental House Name">
+                            </div>
+                            <div class="form-group inputdetails col-sm-6">
+                                <label>Rental category<span class="text-danger inputrequired">*</span></label><br>
+                                <select name="rentalcat_id" class="adminselect2 form-control text-white bg-dark" style="width: 100%;" required>
+                                    <option value=" ">Choose a Rental Category</option>
+                                    @foreach($allrentalcategories as $category)
+                                        <option value="{{ $category['id'] }}"
+                                            @if (!empty (@old('category_id')) && $category->id==@old('category_id'))
+                                                selected=""    
+                                            @endif>{{ $category->rentalcat_title }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
     
@@ -69,16 +81,8 @@
                             </div>
     
                             <div class="form-group inputdetails col-sm-6">
-                                <label>Rental category<span class="text-danger inputrequired">*</span></label><br>
-                                <select name="rentalcat_id" class="adminselect2 form-control text-white bg-dark" style="width: 100%;" required>
-                                    <option value=" ">Choose a Rental Category</option>
-                                    @foreach($allrentalcategories as $category)
-                                        <option value="{{ $category['id'] }}"
-                                            @if (!empty (@old('category_id')) && $category->id==@old('category_id'))
-                                                selected=""    
-                                            @endif>{{ $category->rentalcat_title }}</option>
-                                    @endforeach
-                                </select>
+                                <label>Rental House Address<span class="text-danger inputrequired">*</span></label>
+                                <input type="text" class="form-control text-white bg-dark" required name="rental_address" placeholder="Write an address for the house in the location">
                             </div>
                         </div>
 

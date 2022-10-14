@@ -333,21 +333,15 @@
                                     <h5 class="card-title mb-4" style="color: black; font-size:18px;">1.Rental Description</h5>
 
                                     <div class="row section-groups">
-                                       <div class="form-group inputdetails col-sm-4">
+                                       <div class="form-group inputdetails col-sm-6">
                                              <label>Rental Name<span class="text-danger inputrequired">*</span></label>
                                              <input type="text" class="form-control text-white bg-dark" required name="rental_name" id="rental_title"
                                              >
                                        </div>
 
-                                       <div class="form-group inputdetails col-sm-4">
+                                       <div class="form-group inputdetails col-sm-6">
                                              <label>Rental Monthly Price<span class="text-danger inputrequired">*</span></label>
                                              <input type="number" class="form-control text-white bg-dark" required name="monthly_rent" id="monthly_rent">
-                                       </div>
-
-                                       <div class="form-group inputdetails col-sm-4">
-                                          <label>Rental Name Slug<span class="text-danger inputrequired">*</span></label>
-                                          <input type="text" class="form-control text-white bg-dark" required name="rental_slug" id="rental_slug"
-                                          >
                                        </div>
                                     </div>
                                     <div class="row section-groups">
@@ -358,6 +352,23 @@
                                        </div>
                                     </div>
                                     
+                                    <div class="row section-groups">
+                                       <div class="form-group inputdetails col-sm-6">
+                                          <label>Rental Name Slug<span class="text-danger inputrequired">*</span></label>
+                                          <input type="text" class="form-control text-white bg-dark" required name="rental_slug" id="rental_slug"
+                                          >
+                                       </div>
+
+                                       <div class="form-group inputdetails col-sm-6">
+                                          <label>Rental category<span class="text-danger inputrequired">*</span></label>
+                                          <select name="rentalhousecategory" class="rentalselectcat form-control text-white bg-dark" style="width:100%;"> 
+                                             @foreach($allrentalcategories as $category)
+                                                <option value="{{ $category->id }}">{{ $category->rentalcat_title }}
+                                                </option>
+                                             @endforeach  
+                                          </select>
+                                       </div>
+                                    </div>
 
                                     <div class="row section-groups">
                                        <div class="form-group inputdetails col-sm-6">
@@ -371,14 +382,9 @@
                                        </div>
 
                                        <div class="form-group inputdetails col-sm-6">
-                                          <label>Rental category<span class="text-danger inputrequired">*</span></label>
-                                          <select name="rentalhousecategory" class="rentalselectcat form-control text-white bg-dark" style="width:100%;"> 
-                                             @foreach($allrentalcategories as $category)
-                                                <option value="{{ $category->id }}">{{ $category->rentalcat_title }}
-                                                </option>
-                                             @endforeach  
-                                          </select>
-                                       </div>
+                                          <label>Rental House Address<span class="text-danger inputrequired">*</span></label>
+                                          <input type="text" class="form-control text-white bg-dark" required name="rental_address" id="rental_address">
+                                      </div>
                                     </div>
 
                                     <div class="row section-groups">
@@ -1017,6 +1023,7 @@
                $('.hsedetailstextarea').val('');
 
                $('#totalrooms').val('');
+               $('#rental_address').val('');
 
                $('.rentalhsevideo').val('');
 

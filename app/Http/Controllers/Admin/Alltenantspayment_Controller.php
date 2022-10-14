@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use Carbon\Carbon;
 use App\Models\User;
+use Barryvdh\DomPDF\PDF;
 use Illuminate\Http\Request;
 use App\Models\AllTenantspayment;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use AfricasTalking\SDK\AfricasTalking;
 use App\Models\Payment_Transactiontype;
 use Illuminate\Support\Facades\Session;
 use Yajra\DataTables\Facades\DataTables;
@@ -39,7 +41,7 @@ class Alltenantspayment_Controller extends Controller
     // show all payments made by tenants
     public function get_allpayments(Request $request)
     {
-        $tenantspayments=AllTenantspayment::with(['userpaymentdetails','usersrooms'])->select('id','user_id','receipt_number','transactiontype_id','rental_name','total_rent','amount_paid','total_arrears','overpaid_amount','date_paid');
+        $tenantspayments=AllTenantspayment::with(['userpaymentdetails'])->select('id','user_id','receipt_number','transactiontype_id','rental_name','total_rent','amount_paid','total_arrears','overpaid_amount','date_paid');
 
         if($request->ajax()){
             
@@ -55,8 +57,8 @@ class Alltenantspayment_Controller extends Controller
 
             ->addColumn ('action',function($row){
                 return 
-                '<a href="/admin/viewpaymentreceipt/'.$row->id.'" target="_blank" alt="View the Payment Receipt" class="btn btn-success viewpaymentreciept" data-id="'.$row->id.'"><i class="fa fa-eye"></i></a>
-                <a href="#" id="downloadpaymentreceipt" alt="Download the Payment Receipt" class="btn btn-danger" data-id="'.$row->id.'"><i class="fa fa-download"></i></a>';
+                '<a href="/admin/viewpaymentreceipt/'.$row->id.'/'.$row->date_paid.'" target="_blank" alt="View the Payment Receipt" class="btn btn-success viewpaymentreciept" data-id="'.$row->id.'"><i class="fa fa-eye"></i></a>
+                <a href="/downloadpaymentreceipt/'.$row->id.'/'.$row->date_paid.'" id="downloadpaymentreceipt" alt="Download the Payment Receipt" class="btn btn-danger" data-id="'.$row->id.'"><i class="fa fa-download"></i></a>';
             })
             ->rawColumns(['user_id','action','transactiontype_id'])
             ->make(true);
@@ -67,21 +69,65 @@ class Alltenantspayment_Controller extends Controller
     }
 
     // view the receipt generated for the user
-    public function showpaymentreciept($id)
+    public function showpaymentreciept($id,$date_paid)
     {
+        $month = Carbon::parse($date_paid)->format('m');
+
         $paymentdetails=AllTenantspayment::where('id',$id)->first();
+        $paymenttypes=Payment_Transactiontype::where('status',1)->get();
         
         $tenantpaymentsforthemonth=DB::table('all_tenantspayments')
                 ->where('user_id',$paymentdetails['user_id'])
-                ->whereMonth('date_paid', date('m'))
+                ->whereMonth('date_paid', $month)
                 ->select('amount_paid','overpaid_amount','total_arrears','id','date_paid')
                 ->get();
 
-        $current_arrear=AllTenantspayment::where('user_id',$paymentdetails['user_id'])->orderBy('created_at', 'desc')->pluck('total_arrears')->first();
-
+        $current_arrear=AllTenantspayment::where('user_id',$paymentdetails['user_id'])
+            ->orderBy('created_at', 'desc')
+            ->whereMonth('date_paid', $month)
+            ->pluck('total_arrears')
+            ->first();
+        
         $userdetails=User::where('id', $paymentdetails['user_id'])->with(['rentalhses','hserooms'])->first();
 
-        return view('Admin.paymentreceipt',compact('paymentdetails','current_arrear','userdetails','tenantpaymentsforthemonth'));
+        return view('Admin.paymentreceipt',compact('paymenttypes','paymentdetails','current_arrear','userdetails','tenantpaymentsforthemonth'));
+    }
+
+    // generate and download pdf
+    public function downloadpaymentreceipt(Request $request,$id,$date_paid)
+    {
+        $month = Carbon::parse($date_paid)->format('m');
+
+        $paymentdetails=AllTenantspayment::where('id',$id)->first();
+
+        $paymenttypes=Payment_Transactiontype::where('status',1)->get();
+        
+        $tenantpaymentsforthemonth=DB::table('all_tenantspayments')
+                ->where('user_id',$paymentdetails['user_id'])
+                ->whereMonth('date_paid', $month)
+                ->select('amount_paid','overpaid_amount','total_arrears','id','date_paid')
+                ->get();
+
+        $current_arrear=AllTenantspayment::where('user_id',$paymentdetails['user_id'])
+            ->orderBy('created_at', 'desc')
+            ->whereMonth('date_paid', $month)
+            ->pluck('total_arrears')
+            ->first();
+        
+        $userdetails=User::where('id', $paymentdetails['user_id'])->with(['rentalhses','hserooms'])->first();
+
+        $data = [
+            'paymentdetails'=> $paymentdetails,
+            'paymenttypes' => $paymenttypes,
+            'tenantpaymentsforthemonth'=> $tenantpaymentsforthemonth,
+            'current_arrear' => $current_arrear,
+            'userdetails' => $userdetails,
+        ];
+
+        view()->share($data);
+        $tenantreceiptpdf=app()->make(PDF::class); 
+        $tenantreceiptpdf->loadView('Admin.paymentreceipt',$data); 
+        return $tenantreceiptpdf->download('Tenantreceipt.pdf');
     }
 
     // store a payment in the db 
@@ -105,7 +151,6 @@ class Alltenantspayment_Controller extends Controller
         ];
 
         $datepaid=$data['date_paid'];
-        // $date = "2022-05-17 22:55:07";
         $month = Carbon::parse($datepaid)->format('m');
 
         $validator = Validator::make( $data,$rules,$custommessages );
@@ -118,21 +163,11 @@ class Alltenantspayment_Controller extends Controller
             ]);
         }else{
 
-            // get the total current arrears for that user in that month
-                // $totalamountpaidforthatmonth=DB::table('all_tenantspayments')
-                //     ->selectRaw('MONTH($datepaid) as month, SUM(amount_paid) as amount_paid')
-                //     ->where('user_id',$data['user_id'])
-                //     ->groupBy('month')
-                //     ->pluck('amount_paid')
-                //     ->first();
             $totalamountpaidforthatmonth=DB::table('all_tenantspayments')
                 ->where('user_id',$data['user_id'])
                 ->whereMonth('date_paid', $month)
                 // ->select('amount_paid')
                 ->sum('amount_paid');
-
-            // get the overpayment and unpaid balance for that user in that month
-            // $unpaidxtrabalance=$totalamountpaidforthatmonth-$data['total_rent'];
 
             // get the current arrears 
             $current_arrear=AllTenantspayment::where('user_id',$data['user_id'])->orderBy('created_at', 'desc')->pluck('total_arrears')->first();
@@ -191,6 +226,55 @@ class Alltenantspayment_Controller extends Controller
             $payment->overpaid_amount=$unpaidxtrabalance;
             $payment->date_paid=$data['date_paid'];
             $payment->save();
+
+            $tenantpaymentsonthemonth=DB::table('all_tenantspayments')
+                ->where('user_id',$data['user_id'])
+                ->whereMonth('date_paid', $month)
+                ->sum('amount_paid');
+
+            $tenantphonenumber=User::where('id',$data['user_id'])->pluck('phone')->first();
+
+            $formattednumber=Substr($tenantphonenumber,1);
+            $code="254";
+            $phone=$code.$formattednumber;
+
+            // Send Sms to the tenant that tey havepaid ther rent
+            $username = 'wkaranjawebapps';
+            $apiKey   = 'fc4abd547d1bb533dd92a8ff180cc8098fa95fedaf6ce7f5ebe25cc00263706c';
+
+            // Initialize the SDK
+            $AT         = new AfricasTalking($username, $apiKey);
+
+            // Get the SMS service
+            $sms        = $AT->sms();
+
+            // Set the numbers you want to send to in international format
+            $recipients = $phone;
+
+            // $downloadurl="'downloadpaymentreceipt/$payment->id/$payment->date_paid'";
+            // Set your message
+            $message    = "hello there your rent has been received.Click www.wkaranjawebapps.com/downloadpaymentreceipt/$payment->id/$payment->date_paid to downoad your receipt.You have an arrear of  $current_arrear and your Over payment is $tenantpaymentsonthemonth ";
+
+            // Set your shortCode or senderId
+            // $from       = "AFRICASTKNG";
+
+            try {
+                // Thats it, hit send and we'll take care of the rest
+                $result=$sms->send([
+                    'to'      => $recipients,
+                    'message' => $message,
+                    // 'from'    => $from
+                ]);
+
+                // $sms->send([
+                //     'to'      => $recipients,
+                //     'message' => $message,
+                //     'from'    => $from
+                // ]);
+            } catch (Exception $e) {
+                echo "Error: ".$e->getMessage();
+                // dd($e->getMessage());die();
+            }
 
             $message="Payment Has Been Saved In the DB Successfully.";
             return response()->json([

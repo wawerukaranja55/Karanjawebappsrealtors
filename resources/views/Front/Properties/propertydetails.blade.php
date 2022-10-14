@@ -9,8 +9,8 @@
         <div class="row">
             <div class="col-lg-8 col-md-8">
                 <h1>{{  $property->property_name }}</h1>
-                <h6><i class="fa fa-map-marker"></i>{{ $property->propertylocation->location_title }}
-                    {{-- 250-260 3rd St, Hoboken, NJ 07030, USA --}}
+                <h6><i class="fa fa-map-marker"></i>{{ $property->propertylocation->location_title }}<br><br>
+                    <i class="fa fa-map-pin"></i>{{ $property->property_address }}
                 </h6>
             </div>
             <div class="col-lg-4 col-md-4 text-right">

@@ -155,7 +155,8 @@
                      .catch( error => {
                            console.error( error )
                      } );
-
+                     
+                     $('#rental_address').val(response.editrentalhsedetail.rental_address);
                      $('#totalrooms').val(response.editrentalhsedetail.total_rooms);
                      $('.rentalhseimage').val(response.editrentalhsedetail.rental_image);
                      
@@ -243,7 +244,8 @@
                         $('#rental_title').val('');
                         $('#rental_slug').val('');
                         $('#monthly_rent').val('');
-
+                        $('#rental_address').val('');
+                        
                         $("#rental_details_ck").children("textarea").remove();
                         $('.hsedetailstextarea').val('');
 

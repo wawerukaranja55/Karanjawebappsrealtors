@@ -46,8 +46,8 @@
         <div class="row">
             <div class="col-lg-8 col-md-8">
                 <h1>{{  $rentalhouse->rental_name }}</h1>
-                <h6><i class="fa fa-map-marker"></i>{{ $rentalhouse->houselocation->location_title }}<br>
-                    250-260 3rd St, Hoboken, NJ 07030, USA
+                <h6><i class="fa fa-map-marker"></i>{{ $rentalhouse->houselocation->location_title }}<br><br>
+                    <i class="fa fa-map-pin"></i>{{ $rentalhouse->rental_address }}
                 </h6>
             </div>
             <div class="col-lg-4 col-md-4 text-right">

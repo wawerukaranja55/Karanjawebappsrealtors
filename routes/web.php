@@ -142,7 +142,7 @@ Route::get('property/{property_slug}/{id}', [Propertieslisting_controller::class
 Route::post('sendpropertyrequest',[Propertieslisting_controller::class,'sendpropertyrequest'])->name('send.propertyrequest');
 
 // download payment receipt
-Route::get('downloadpaymentreceipt/{id}', [Alltenantspayment_Controller::class,'downloadpaymentreceipt'])->name('download.paymentreceipt');
+Route::get('downloadpaymentreceipt/{id}/{date_paid}', [Alltenantspayment_Controller::class,'downloadpaymentreceipt'])->name('download.paymentreceipt');
 
 // Admin Routes
 Route::group(['prefix'=>'admin','middleware'=>(['auth','can:adminonly'])],function(){
@@ -202,7 +202,7 @@ Route::group(['prefix'=>'admin','middleware'=>(['auth','can:adminonly'])],functi
 
         Route::post('addtenantpayment',[Alltenantspayment_Controller::class,'addtenantpayment'])->name('addtenant.payment');
 
-        Route::get('viewpaymentreceipt/{id}', [Alltenantspayment_Controller::class,'showpaymentreciept'])->name('viewpayment.receipt');
+        Route::get('viewpaymentreceipt/{id}/{date_paid}', [Alltenantspayment_Controller::class,'showpaymentreciept'])->name('viewpayment.receipt');
 
         // transaction types
         Route::get('get_transactiontypes',[Alltenantspayment_Controller::class,'get_transactiontypes'])->name('get_transactiontypes');

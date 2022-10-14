@@ -12,7 +12,7 @@ class Rental_house extends Model
 {
     use HasFactory;
     protected $table = 'rental_houses';
-    protected $fillable = ['rental_name','landlord_id','monthly_rent','rental_image','rental_video','rental_details','rentalcat_id','rental_status','location_id','total_rooms','tagimages_status','parking','cctv_cameras','servant_quarters','waterbill','electricitybill','balcony','vacancystatus','wifi'];
+    protected $fillable = ['rental_name','landlord_id','monthly_rent','rental_image','rental_video','rental_details','rentalcat_id','rental_address','rental_status','location_id','total_rooms','tagimages_status','parking','cctv_cameras','servant_quarters','waterbill','electricitybill','balcony','vacancystatus','wifi'];
 
     function housecategory(){
         return $this->belongsTo('App\Models\Rental_category','rentalcat_id','id');

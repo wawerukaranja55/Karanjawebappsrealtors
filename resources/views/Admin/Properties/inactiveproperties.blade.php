@@ -88,6 +88,7 @@
                $('#property_slug').val(response.editpropertydetails.property_slug);
                $('#propertydetails').val();
 
+               $('#property_address').val(response.editpropertydetails.property_address);
                $("#property_details_ck").html('<textarea id="propertyeditor" class="propertydetailstextarea" name="property_details">' + response.editpropertydetails.property_details + '</textarea>');
 
                   ClassicEditor
