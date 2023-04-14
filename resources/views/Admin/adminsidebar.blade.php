@@ -22,7 +22,7 @@
              </ul>
           </div>
           <div class="logo-element">
-              W.KaranjaApps+
+              W.K</br>Apps+
           </div>
        </li>
        

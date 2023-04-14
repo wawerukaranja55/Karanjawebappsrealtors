@@ -19,7 +19,7 @@
                 <div class="row no-gutters">
                     <div class="col-lg-5 col-md-5">
                         <span class="badge badge-danger">For Sale</span>
-                        <img class="card-img-top"  style="height: 200px;" src="{{ asset ('imagesforthewebsite/properties/propertyimages/medium/'.$property->property_image) }}" alt="{{ $property->property_name }}">
+                        <img class="card-img-top"  style="object-fit:cover; height: 200px;" src="{{ asset ('imagesforthewebsite/properties/propertyimages/medium/'.$property->property_image) }}" alt="{{ $property->property_name }}">
                     </div>
                     <div class="col-lg-5 col-md-5">
                         <div class="card-body">

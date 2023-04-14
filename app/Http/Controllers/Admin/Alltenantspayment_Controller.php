@@ -251,19 +251,19 @@ class Alltenantspayment_Controller extends Controller
             // Set the numbers you want to send to in international format
             $recipients = $phone;
 
-            // $downloadurl="'downloadpaymentreceipt/$payment->id/$payment->date_paid'";
+            $downloadurl="'downloadpaymentreceipt/$payment->id/$payment->date_paid'";
             // Set your message
-            $message    = "hello there your rent has been received.Click www.wkaranjawebapps.com/downloadpaymentreceipt/$payment->id/$payment->date_paid to downoad your receipt.You have an arrear of  $current_arrear and your Over payment is $tenantpaymentsonthemonth ";
+            $message    = "hello there your rent has been received.Click `<a href=$downloadurl>Here</a>` to downoad your receipt.You have an arrear of  $current_arrear and your Over payment is $tenantpaymentsonthemonth ";
 
             // Set your shortCode or senderId
-            // $from       = "AFRICASTKNG";
+            $from       = "AFRICASTKNG";
 
             try {
                 // Thats it, hit send and we'll take care of the rest
                 $result=$sms->send([
                     'to'      => $recipients,
                     'message' => $message,
-                    // 'from'    => $from
+                    'from'    => $from
                 ]);
 
                 // $sms->send([
@@ -273,7 +273,7 @@ class Alltenantspayment_Controller extends Controller
                 // ]);
             } catch (Exception $e) {
                 echo "Error: ".$e->getMessage();
-                // dd($e->getMessage());die();
+                dd($e->getMessage());
             }
 
             $message="Payment Has Been Saved In the DB Successfully.";

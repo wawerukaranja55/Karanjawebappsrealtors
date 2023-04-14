@@ -85,8 +85,9 @@ class Property_controller extends Controller
         $property->property_name=$data['property_name'];
         $property->property_slug=$data['property_slug'];
         $property->property_price=$data['property_price'];
+        $property->property_address=$data['property_address'];
         $property->property_image=$image_name;
-        // $property->property_video=$video_name;
+        // $property->property_video=$video_name; 
         $property->property_details=$data['property_details'];
         $property->propertycat_id=$data['propertycategory'];
         $property->propertylocation_id=$data['propertyhouselocation'];
@@ -295,13 +296,15 @@ class Property_controller extends Controller
             'property_name'=>'required',
             'property_slug'=>'required',
             'property_price'=>'required|numeric',
-            'property_details'=>'required'
+            'property_details'=>'required',
+            'property_address'=>'required'
         ];
 
         $custommessages=[
             'property_name.required'=>'Enter The property Name',
             'property_slug.required'=>'Enter The property Slug',
             'property_price.required'=>'Enter The Proprty Price',
+            'property_address.required'=>'Enter The Proprty Address',
             'property_price.numeric'=>'Enter a Valid Amount',
             'property_details.required'=>'Kindly Write the property details'
         ];
@@ -376,6 +379,7 @@ class Property_controller extends Controller
             // $property->property_video=$video_name;
             $property->property_details=$data['property_details'];
             $property->propertycat_id=$data['propertycategory'];
+            $property->property_address=$data['property_address'];
             $property->propertylocation_id=$data['propertyhouselocation'];
             $property->save();
 

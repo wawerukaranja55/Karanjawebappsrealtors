@@ -31,8 +31,8 @@ class Mpesapayments_controller extends Controller
     //generate access token for the transaction
     public function newaccesstoken()
     {
-        $consumer_key="kh7mRQyP8zMRLy1ucSk7h6M04P59o5HF";
-        $consumer_secret="yMAIRy6UXQ4z4dtZ";
+        $consumer_key="fz1nTUn4qcx8sEVGiC1TxC47czrTExQS";
+        $consumer_secret="VrDBcXRNA68aRUic";
         $credentials = base64_encode($consumer_key.":".$consumer_secret);
         $url ="https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials";
         $curl = curl_init();
@@ -90,7 +90,7 @@ class Mpesapayments_controller extends Controller
                 'PartyA'=>$phonenumber,
                 'PartyB'=>174379,
                 'PhoneNumber'=>$phonenumber,
-                'CallBackURL'=>'https://c637-196-202-210-53.in.ngrok.io/api/mpesa/stkpush/callbackurl',
+                'CallBackURL'=>'https://7e67-196-202-210-53.in.ngrok.io/api/mpesa/stkpush/callbackurl',
                 'AccountReference'=>'W.Karanja Web App Realtors ',
                 'TransactionDesc'=>'Paying for Your House Rent'
             ];

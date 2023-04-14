@@ -66,7 +66,7 @@
 
                 "fnDrawCallback": function( row ) {
                     $('.hsereviewstatus')
-                    .prop( 'checked', row.status !== 1 )
+                    .prop( 'checked', row.status == 1 )
                     .bootstrapToggle();
                 }
             });

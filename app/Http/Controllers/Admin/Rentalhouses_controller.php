@@ -127,7 +127,7 @@ class Rentalhouses_controller extends Controller
         $custommessages=[
             'rental_details.required'=>'Write Merchadise description',
             'rentalcat_id.required'=>'The Category cant be blank.Select a category',
-            'location_id.required'=>'The Category cant be blank.Select a Location',
+            'location_id.required'=>'The Location cant be blank.Select a Location',
             'total_rooms.required'=>'Kindly write the total rooms for the house',
             'total_rooms.numeric'=>'The total rooms should be a number',
             'total_rooms.min:1'=>'The total rooms should greater than 1',
@@ -208,7 +208,7 @@ class Rentalhouses_controller extends Controller
                     $medium_image_path='imagesforthewebsite/rentalhouses/rentalimages/medium/'.$image_name;
                     $small_image_path='imagesforthewebsite/rentalhouses/rentalimages/small/'.$image_name;
 
-                    Image::make($imagetmp)->save($large_image_path);
+                    Image::make($imagetmp)->resize(1040,1200)->save($large_image_path);
                     Image::make($imagetmp)->resize(520,600)->save($medium_image_path);
                     Image::make($imagetmp)->resize(260,300)->save($small_image_path);
 

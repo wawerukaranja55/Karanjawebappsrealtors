@@ -22,7 +22,16 @@
     <div class="row" style="margin-bottom: 100px;">    
         <div class="col-lg-10 col-md-10 mx-auto">
             <div class="panel-heading mt-5" style="text-align: center; font-size:18px; background-color:black;"> 
-                <h3 class="mb-2 panel-title">Add a New Rental House</h3> 
+                <h3 class="mb-2 panel-title">Add a New Rental House</h3>
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
             </div>
             <form action="{{ route('rental_houses.store') }}" class="form-horizontal" role="form" method="POST" enctype="multipart/form-data">
                 @csrf
@@ -177,16 +186,6 @@
                 </div>
                 
                 <button type="submit" class="btn btn-success">ADD RENTAL HOUSE</button>
-
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
             </form>
         </div>
     </div>       

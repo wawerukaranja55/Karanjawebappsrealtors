@@ -241,6 +241,7 @@
         $("#addhsepaymentform").on("submit",function(e){
             e.preventDefault();
             var url = '{{ route("addtenant.payment") }}';
+            console.log("data sent reached");
 
             $.ajax({
                 url:url,

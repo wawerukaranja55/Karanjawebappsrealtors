@@ -162,7 +162,7 @@
       <?php use App\Models\Rental_house; ?>
 
 
-      <div id="loader">
+      <div id="loader" style="width: 100vw; height:100%; display:flex; justify-content:center;">
          <img src="{{ asset ('imagesforthewebsite/icons/loader.gif') }}">
       </div>
       <div id="wrapper">
@@ -711,6 +711,11 @@
                                              <input type="hidden" name="property_image" class="sellpropertyimage"/>
                                              <span class="font-italic">Recommended size:width  1040px by height 1200px</span>
                                           </div>
+                                       </div>
+
+                                       <div class="col-md-6 inputdetails">
+                                          <label>Property Address Location<span class="text-danger inputrequired">*</span></label>
+                                          <input type="text" class="form-control text-white bg-dark" required name="property_address" id="property_address">
                                        </div>
                                     </div>
                                  </div>

@@ -199,11 +199,25 @@
                                                                 <div class="row">
                                                                     <div class="col-md-12">
                                                                         <label style="font-size: 20px;">Amount Of Rent To Pay</label>
-                                                                        @if ($userprofile->rentalhses->is_addedtags == 1)
+                                                                        @if (count($userprofile->hserooms)>1)
+                                                                            @if ($userprofile->rentalhses->is_addedtags==0)
+                                                                                <input type="number" class="form-control text-white bg-dark" name="rent_amount" value="{{ $userprofile->rentalhses->monthly_rent * count($userprofile->hserooms) }}">
+                                                                            @else
+                                                                                <input type="number" class="form-control text-white bg-dark" name="rent_amount" value="{{ $total_rent }}">
+                                                                            @endif
+                                                                        @else
+                                                                            @if ($userprofile->rentalhses->is_addedtags==1)
+                                                                                <input type="number" class="form-control text-white bg-dark" name="rent_amount" value="{{ $total_rent }}">
+                                                                            @else
+                                                                                <input type="number" class="form-control text-white bg-dark" name="rent_amount" value="{{ $userprofile->rentalhses->monthly_rent }}">
+                                                                            @endif
+                                                                        @endif
+
+                                                                        {{-- @if ($userprofile->rentalhses->is_addedtags == 1)
                                                                             <input type="number" class="form-control text-white bg-dark" name="rent_amount" value="{{ $total_rent }}">
                                                                         @else
                                                                             <input type="number" class="form-control text-white bg-dark" name="rent_amount" id="rent_amount" value="{{ $userprofile->rentalhses->monthly_rent }}">
-                                                                        @endif
+                                                                        @endif --}}
                                                                     </div>
                                                                 </div>
                                     

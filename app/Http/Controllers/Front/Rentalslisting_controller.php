@@ -29,8 +29,6 @@ class Rentalslisting_controller extends Controller
 
             $data=$request->all();
 
-            // echo "<pre>";print_r($data);
-
             $url=$data['url'];
 
             $rentalcatcount=Rental_category::where(['rentalcat_url'=>$url,'status'=>1])->count();
@@ -67,8 +65,6 @@ class Rentalslisting_controller extends Controller
                 
                 if(isset($data['startprice']) && !empty($data['startprice'])){
                     $rentalhousescategory->
-                    // whereBetween('monthly_rent', [$data['startprice'],$data['endprice']]);
-                    // echo "<pre>";print_r( $der);
                     where('monthly_rent','>=',$data['startprice'])
                     ->where('monthly_rent','<=',$data['endprice']);
                 }
@@ -125,7 +121,7 @@ class Rentalslisting_controller extends Controller
                 }
 
                 $housescategory=$rentalhousescategory->paginate(4);
-                
+                // echo "<pre>";print_r( $housescategory);die();
                 return view('Front.Rentalslisting.rentalhsesjson',compact('url','housescategory'));
             }  
             else{
@@ -155,6 +151,126 @@ class Rentalslisting_controller extends Controller
             }else{
                 abort(404);
             }
+        }
+    }
+
+
+    // get houses and show them in the pagination
+    public function get_more_houses(Request $request)
+    {
+        if($request->ajax()){
+
+            $hsedata=$request->all();
+
+            // dd($hsedata);die();
+
+            $rentalcaturl=$hsedata['url'];
+            
+            $rentalcatcount=Rental_category::where(['rentalcat_url'=>$rentalcaturl,'status'=>1])->count();
+
+            if($rentalcatcount>0){
+
+                $rentalcategorydetails=Rental_category::rentalcategorydetails($rentalcaturl);
+
+                $housescategoryQuery = Rental_house::whereIn('rentalcat_id',$rentalcategorydetails['catids'])
+                ->where(['rental_status'=>1,'is_extraimages'=>1,'is_rentable'=>1]);
+
+
+                $rentalcategories=Rental_category::withCount('rentalhses')->get();
+
+                $rentaltags=Rental_tags::with('tagshouse')->get();
+
+                $rentallocations=Location::where(['status'=>1])->get();
+
+                // check the sorting value is selected
+                if(isset($_GET['sort']) && !empty($_GET['sort'])){
+
+                    if($_GET['sort']=="latest_houses"){
+
+                        $housescategoryQuery->orderBy('id','Desc');
+                    }
+                    elseif($_GET['sort']=="low_to_high"){
+                        $housescategoryQuery->orderBy('monthly_rent','Asc');
+                    }
+                    elseif($_GET['sort']=="high_to_low"){
+                        $housescategoryQuery->orderBy('monthly_rent','Desc');
+                    }
+                    elseif($_GET['sort']=="house_name_a_z"){
+                        $housescategoryQuery->orderBy('rental_name','Asc');
+                    }
+                    elseif($_GET['sort']=="house_name_z_a"){
+                        $housescategoryQuery->orderBy('rental_name','Desc');
+                    }
+                }
+
+                    // check houses for a certain amenity
+                // balcony
+                if(isset($hsedata['filterbalcony']) && !empty($hsedata['filterbalcony'])){
+                    $housescategoryQuery->where('rental_houses.balcony',$hsedata['filterbalcony']);
+                    // echo "<pre>";print_r( $housescategoryQuery);die();
+                }
+
+                    // generator
+                if(isset($hsedata['filtergenerator']) && !empty($hsedata['filtergenerator'])){
+                    $housescategoryQuery->where('rental_houses.generator',$hsedata['filtergenerator']);
+                }
+
+                // wifi
+                if(isset($hsedata['filterwifi']) && !empty($hsedata['filterwifi'])){
+                    $housescategoryQuery->where('rental_houses.wifi',$hsedata['filterwifi']);
+                    // echo "<pre>";print_r( $housescategoryQuery);die();
+                }
+
+                // parking
+                if(isset($hsedata['filterparking']) && !empty($hsedata['filterparking'])){
+                    $housescategoryQuery->where('rental_houses.parking',$hsedata['filterparking']);
+                    // echo "<pre>";print_r( $housescategoryQuery);die();
+                }
+
+                // cctv
+                if(isset($hsedata['filtercctv']) && !empty($hsedata['filtercctv'])){
+                    $housescategoryQuery->where('rental_houses.cctv_cameras',$hsedata['filtercctv']);
+                }
+
+                // servant_quarters
+                if(isset($hsedata['filtersq']) && !empty($hsedata['filtersq'])){
+                    $housescategoryQuery->where('rental_houses.servant_quarters',$hsedata['filtersq']);
+                }
+
+
+                // search for a house loaction
+                if(isset($hsedata['rentallocations']) && !empty($hsedata['rentallocations'])){
+                    $housescategoryQuery->where('rental_houses.location_id',$hsedata['rentallocations']);
+                }
+
+                // get the rental tag results into a pagination
+
+                if(isset($hsedata['rentaltag']) && !empty($hsedata['rentaltag'])){
+
+                    $hsetag_id = $hsedata['rentaltag'];
+
+                    $housescategoryQuery
+                    ->whereIn('id', function($q) use ($hsetag_id)
+                    {
+                        $q
+                            ->select('rental_id')
+                            ->from('rentalhouse_tags')
+                            ->where('tag_id', $hsetag_id);
+                    });
+                }
+
+                // get the prices on pushing the slider
+                if(isset($hsedata['startprice']) && !empty($hsedata['startprice'])){
+                    $housescategoryQuery->
+                    where('monthly_rent','>=',$hsedata['startprice'])
+                    ->where('monthly_rent','<=',$hsedata['endprice']);
+                }
+
+                $housescategory = $housescategoryQuery->orderby('id','DESC')->paginate(4);
+
+                return view('Front.Rentalslisting.rentalhsesjson',compact('rentalcaturl','rentallocations','rentalcatcount','rentalcategorydetails','rentaltags','housescategory','rentalcategories'))->render();
+            }
+
         }
     }
 

@@ -28,7 +28,7 @@
                 <div class="owl-carousel propertydetailscarousel owl-theme">
                     @foreach ( $property->propertyimages as $propertyimgs )
                         <div class="item" style="border: 2px solid black; height:310px;">
-                            <img src="{{ asset ('imagesforthewebsite/properties/propertyxtraimages/large/'.$propertyimgs->image) }}" style="height:300px; margin-bottom:10px;">
+                            <img src="{{ asset ('imagesforthewebsite/properties/propertyxtraimages/large/'.$propertyimgs->image) }}" style="object-fit:cover; height:300px; margin-bottom:10px;">
                         </div>
                     @endforeach
                 </div>

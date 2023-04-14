@@ -109,14 +109,6 @@ Route::group(['middleware'=>['auth']],function(){
     Route::get('downloadmpesareceipt/{id}', [Mpesapayments_controller::class,'generatedownloadreceiptpdf'])->name('downloadreceipt.pdf');
 });
 
-// listing page routes
-$rentalcatsurls=Rental_category::select('rentalcat_url')->where('status',1)->get()->pluck('rentalcat_url');
-
-foreach($rentalcatsurls as $url)
-{
-    
-    Route::get('/'.$url,[Rentalslisting_controller::class,'rentalcategory_list'])->name('rentalcategory.list');
-}
 
 Route::post('autocomplete/search', [Rentalslisting_controller::class,'findhouses'])->name('find.rentalhouses');
 
@@ -127,15 +119,6 @@ Route::post('sendhserequest',[Rentalslisting_controller::class,'sendhserequest']
 Route::post('postratingnreview',[Rentalslisting_controller::class,'ratingandreview'])->name('post.ratingreview');
 
 Route::post('getroomprices', [Rentalslisting_controller::class,'getroomprices'])->name('getroom.prices');
-
-// Porperties Routes 
-$propertycatsurls=Propertycategory::select('propertycat_url')->where('status',1)->get()->pluck('propertycat_url');
-
-foreach($propertycatsurls as $propertyurl)
-{
-    
-    Route::get('/'.$propertyurl,[Propertieslisting_controller::class,'propertycategory_list'])->name('propertycategory.list');
-}
 
 Route::get('property/{property_slug}/{id}', [Propertieslisting_controller::class,'propertydetails'])->name('property.details');
 
@@ -420,3 +403,26 @@ Route::group(['prefix'=>'admin','middleware'=>(['auth','can:adminonly'])],functi
 
     
 });
+
+
+
+// listing page routes
+$rentalcatsurls=Rental_category::select('rentalcat_url')->where('status',1)->get()->pluck('rentalcat_url');
+
+foreach($rentalcatsurls as $url)
+{
+    
+    Route::get('/'.$url,[Rentalslisting_controller::class,'rentalcategory_list'])->name('rentalcategory.list');
+
+}
+
+Route::get('get_more_houses',[Rentalslisting_controller::class,'get_more_houses'])->name('rentalcategory.get-more-houses');
+
+// Porperties Routes 
+$propertycatsurls=Propertycategory::select('propertycat_url')->where('status',1)->get()->pluck('propertycat_url');
+
+foreach($propertycatsurls as $propertyurl)
+{
+    
+    Route::get('/'.$propertyurl,[Propertieslisting_controller::class,'propertycategory_list'])->name('propertycategory.list');
+}

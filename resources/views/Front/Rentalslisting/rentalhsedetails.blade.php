@@ -83,7 +83,7 @@
                 <div class="owl-carousel hsedetailscarousel owl-theme">
                     @foreach ( $rentalhouse->rentalalternateimages as $hseimgs )
                         <div class="item" style="border: 2px solid black; height:500px;">
-                            <img src="{{ asset ('imagesforthewebsite/rentalhouses/alternateimages/large/'.$hseimgs->image) }}" style="height:450px; margin-bottom:10px;">
+                            <img src="{{ asset ('imagesforthewebsite/rentalhouses/alternateimages/large/'.$hseimgs->image) }}" style="height:inherit; width:100%; margin-bottom:10px; object-fit:cover;">
                         </div>
                     @endforeach
                 </div>
@@ -124,27 +124,18 @@
                         <div class="col-lg-4 col-md-4">
                             <div class="card-body">
                                 <h5 class="card-title mb-3">Types Of Rooms</h5>
-                                <div class="row mb-">
-                                    <div class="col-lg-6 col-md-6">
-                                        @foreach ($rentalhouse->housetags as $roomtype )
-                                            <p>{{ $roomtype->rentaltag_title }}</p>
-                                        @endforeach
-                                    </div>
-                                </div>
-                                {{-- <div id="map"></div> --}}
-                            </div>
+                                <ul class="sidebar-card-list">
+                                    @foreach ($rentalhouse->housetags as $roomtype )
+                                        <li><p>{{ $roomtype->rentaltag_title }}</p></li>
+                                    @endforeach
+                                </ul>
+                            </div>    
                         </div>
                         <div class="col-lg-4 col-md-4">
                             <div class="card-body">
-                                <h5 class="card-title mb-3">Location</h5>
-                                <div class="row mb-3">
-                                    <div class="col-lg-6 col-md-6">
-                                        <p><strong class="text-dark">Area Of Location :</strong>{{ $rentalhouse->houselocation->location_title }}</p>
-                                        <p><strong class="text-dark">Address :</strong>{{ $rentalhouse->houselocation->location_title }}</p>
-                                    </div>
-                                </div>
-                                {{-- <div id="map"></div> --}}
-                            </div>
+                                <p><strong class="text-dark">Area Of Location :</strong>{{ $rentalhouse->houselocation->location_title }}</p>
+                                <p><strong class="text-dark">Address :</strong>{{ $rentalhouse->rental_address }}</p>
+                            </div>    
                         </div>
                     </div>  
                 </div>
@@ -315,7 +306,7 @@
                                             @elseif($featured->is_vacancy==1)
                                                 <span class="badge badge-secondary">Fully Booked</span>
                                             @endif
-                                            <img style="height: 180px;" class="card-img-top" src="{{ asset ('imagesforthewebsite/rentalimages/medium/'.$featured->rental_image) }}" alt="{{ $featured->rental_name }}">
+                                            <img style="height: 180px;" class="card-img-top" src="{{ asset ('imagesforthewebsite/rentalhouses/rentalimages/medium/'.$featured->rental_image) }}" alt="{{ $featured->rental_name }}">
                                             <div class="card-body">
                                                 <h5 class="card-title">{{ $featured->rental_name }}</h5>
                                                 <h6 class="card-subtitle mr-2"><i class="fa fa-map-marker"></i>{{ $featured->houselocation->location_title }}</h6>
