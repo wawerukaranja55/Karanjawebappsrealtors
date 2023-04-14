@@ -193,6 +193,9 @@
                     </div>
                 </div>
                 <div class="showrentalhouses">
+                    <div class="searchforhses d-none" style="display:flex; justify-content:center; align-items:center;height:100%;">
+                        <img src="{{ asset ('imagesforthewebsite/icons/ajax-loader.gif') }}"/>
+                    </div>
                     @include('Front.Rentalslisting.rentalhsesjson')
                 </div>
             </div>
@@ -323,6 +326,8 @@
                 // var start=$('#amount_start').val();        
                 // var end=$('#amount_end').val();
 
+                $('.searchforhses').show();
+                $('.rentalhses').hide();
                 $.ajax({
                     url:'/'.$housesurl,
                     method:"get",
@@ -347,7 +352,11 @@
                     },
                     success:function(data){
                         // console.log(data);
+                        $('.searchforhses').hide();
+                        console.log("found");
                         $('.showrentalhouses').html(data);
+
+                        $('.rentalhses').show();
                     }
                 });
             }
@@ -380,6 +389,9 @@
                         var hselocation = $('input[class^="locationtitle"]').filter(":checked").val();
 
                         var hsetag = $('input[class^="tagtitle"]').filter(":checked").val();
+
+                        $('.searchforhses').show();
+                        $('.rentalhses').hide();
                         $.ajax({
                             url:'/'.$housesurl,
                             method:"get",
@@ -402,8 +414,11 @@
                                 sort:sorthouses,
                             },
                             success:function(data){
-                                console.log(data);
+                                $('.searchforhses').hide();
+                                console.log("found");
                                 $('.showrentalhouses').html(data);
+
+                                $('.rentalhses').show();
                             }
                         });
                     }
