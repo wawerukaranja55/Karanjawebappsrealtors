@@ -66,7 +66,7 @@
                                  </div>
                               </div>
                               
-                              @can('adminsnotallowed')
+                              {{-- @can('adminsnotallowed')
                                  <div class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
                                     <i class="fas fa-comments mr-3 icon-lg text-danger"></i>
                                     <div class="d-flex flex-column justify-content-around">
@@ -81,7 +81,7 @@
                                        <h5 class="mr-2 mb-0 detailsnumber">{{ $mpesapayments }}</h5>
                                     </div>
                                  </div>
-                              @endcan
+                              @endcan --}}
                            </div>
                         </div>
                       </div>

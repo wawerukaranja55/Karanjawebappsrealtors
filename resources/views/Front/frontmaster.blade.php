@@ -72,7 +72,7 @@
 
                       <div class="control-group form-group">
                           <div class="controls">
-                              <label>Your Email <span class="text-danger">*</span></label>
+                              <label>Your Email <span class="text-danger">(Optional)</span></label>
                               <input type="text" name="email" placeholder="Enter Your Email" class="youremail form-control" required>
                           </div>
                       </div>

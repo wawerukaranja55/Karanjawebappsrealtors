@@ -154,7 +154,6 @@
                 success:function(response){
                 console.log(response);
                 $('.adminedit').modal('show');
-                    $('.adminedit').modal('show');
                     $('.propertycat_id').html('');
                     $('.location_id').html('');
                     $('.rolename_id').html('');

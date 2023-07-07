@@ -58,7 +58,7 @@
     
                                <div class="row section-groups">
                                   <div class="form-group inputdetails col-sm-6">
-                                      <label>Email<span class="text-danger inputrequired">*</span></label>
+                                      <label>Email<span class="text-danger inputrequired">(Optional)</span></label>
                                       <input type="email" class="form-control text-white bg-dark" name="email" id="email" placeholder="Write Your Email here">
                                   </div>
                                   <div class="form-group inputdetails col-sm-6">
@@ -137,8 +137,8 @@
                         <div class="card-body">
                             <div class="row section-groups">
                                 <div class="form-group inputdetails col-sm-6">
-                                <label>Email<span class="text-danger inputrequired">*</span></label>
-                                <input type="email" class="form-control text-white bg-dark" required type="email" name="email" placeholder="Write Your Email">
+                                <label>Phone Number<span class="text-danger inputrequired">*</span></label>
+                                <input type="number" class="form-control text-white bg-dark" required name="phone_number" placeholder="Write Your Phone Number">
                                 </div>
         
                                 <div class="form-group inputdetails col-sm-6">
@@ -245,16 +245,21 @@
             });
         });
 
+
+
         // show rooms for a house on dropdown
         $(document).on('change','#rentalhse',function(){
             var hsetitle_id=$( "#rentalhse" ).val();
+            var searchroomsurl = '{{ route("getrooms.house") }}'; 
             $.ajax({
                type:'get',
-               url:'getroomsforahouse',
+               url:searchroomsurl,
                data:{
                   'id':hsetitle_id
                },
                success:function(data){
+                     console.log(data);
+                     $('.roomnamenumber').html('<option disabled selected value=" ">Select Your Room Name/Number</option>');
                      
                      console.log("the data is ",data);
                      data.forEach((room)=>{
@@ -265,6 +270,28 @@
                },error:function(){
                }
             });
-        });
+         });
+
+
+        // $(document).on('change','#rentalhse',function(){
+        //     var hsetitle_id=$( "#rentalhse" ).val();
+        //     $.ajax({
+        //        type:'get',
+        //        url:'getroomsforahouse',
+        //        data:{
+        //           'id':hsetitle_id
+        //        },
+        //        success:function(data){
+                     
+        //              console.log("the data is ",data);
+        //              data.forEach((room)=>{
+        //                 console.log(room);
+        //                 $('.roomnamenumber').append('<option value="'+room.id+'">'+room.room_name+'</option>');
+        //              });
+                     
+        //        },error:function(){
+        //        }
+        //     });
+        // });
     </script>
 @stop

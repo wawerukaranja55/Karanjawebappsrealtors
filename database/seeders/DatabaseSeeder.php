@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Property;
+use App\Models\Rental_house;
 use App\Models\Role;
 use App\Models\Room_name;
 use App\Models\Tenantstatus;
@@ -48,6 +50,8 @@ class DatabaseSeeder extends Seeder
         ]);
         Tenantstatus::factory()->create();
         Role::factory()->create();
+        Rental_house::factory()->count(100)->create();
         Room_name::factory()->count(100)->create();
+        Property::factory()->count(100)->create();
     }
 }

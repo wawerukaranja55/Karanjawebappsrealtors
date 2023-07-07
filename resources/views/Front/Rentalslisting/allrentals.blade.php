@@ -192,10 +192,10 @@
                         <div id="searchedproducts"></div>
                     </div>
                 </div>
+                <div id="searchforhses" style="display:flex; justify-content:center; align-items:center;height:100vh;">
+                    <img src="{{ asset ('imagesforthewebsite/icons/ajax-loader.gif') }}"/>
+                </div>
                 <div class="showrentalhouses">
-                    <div class="searchforhses d-none" style="display:flex; justify-content:center; align-items:center;height:100%;">
-                        <img src="{{ asset ('imagesforthewebsite/icons/ajax-loader.gif') }}"/>
-                    </div>
                     @include('Front.Rentalslisting.rentalhsesjson')
                 </div>
             </div>
@@ -250,7 +250,9 @@
         })
 
 
-         $(document).ready(function(){
+        $(document).ready(function(){
+
+            $('#searchforhses').hide();
 
             // change pagination using ajax jquery
             $(document).on('click', '.pagination a', function(event) {
@@ -258,53 +260,8 @@
 
                 var page = $(this).attr('href').split('page=')[1];
 
-                getMoreHouses(page);
+                getMoreRentals(page)
             });
-
-            function getMoreHouses(page)
-            {
-                var hseurl=$("#url").val();
-
-                var paginatestart=$('#amount_start').val();        
-                var paginateend=$('#amount_end').val();
-
-                var paginatebalcony= $("#balcony").prop('checked') ? 'yes' : '';
-                var paginatewifi= $("#wifi").prop('checked') ? 'yes' : '';
-                var paginateparking= $("#parking").prop('checked') ? 'yes' : '';
-                var paginategenerator= $("#generator").prop('checked') ? 'yes' : '';
-                var paginatecctvcamera= $("#cctvcamera").prop('checked') ? 'yes' : '';
-                var paginateservantquarter= $("#servantquarter").prop('checked') ? 'yes' : '';
-
-                var paginatesorthouses=$("#sort option:selected").val();
-                var paginatehselocation = $('input[class^="locationtitle"]').filter(":checked").val();
-                var paginatehsetag = $('input[class^="tagtitle"]').filter(":checked").val();
-
-                $.ajax({
-                    type:"GET",
-                    url:'{{ route("rentalcategory.get-more-houses") }}' + "?page=" + page,
-                    data:{
-                        url:hseurl,
-                        rentaltag:paginatehsetag,
-
-                        sort:paginatesorthouses,
-                        startprice:paginatestart,
-                        endprice:paginateend,
-
-                        rentallocations:paginatehselocation,
-
-                        filterwifi:paginatewifi,
-                        filtersq:paginateservantquarter,
-                        filtercctv:paginatecctvcamera,
-                        filterparking:paginateparking,
-                        filtergenerator:paginategenerator,
-                        filterbalcony:paginatebalcony,
-                    },
-                    success:function(data)
-                    {
-                        $('.showrentalhouses').html(data);
-                    }
-                })
-            }
             
             // show the filters using select 2
             $('.sorthses').select2();
@@ -323,11 +280,11 @@
 
                 var hselocation = $('input[class^="locationtitle"]').filter(":checked").val();
                 var hsetag = $('input[class^="tagtitle"]').filter(":checked").val();
-                // var start=$('#amount_start').val();        
-                // var end=$('#amount_end').val();
+                
+                //var start=$('#amount_start').val();        
+                //var end=$('#amount_end').val();
 
-                $('.searchforhses').show();
-                $('.rentalhses').hide();
+                $('#searchforhses').show();
                 $.ajax({
                     url:'/'.$housesurl,
                     method:"get",
@@ -347,20 +304,19 @@
                         url:housesurl,
                         sort:sorthouses,
 
-                        // startprice:start,
-                        // endprice:end
+                        //startprice:start,
+                        //endprice:end
                     },
                     success:function(data){
                         // console.log(data);
-                        $('.searchforhses').hide();
-                        console.log("found");
+                        $('#searchforhses').hide();
                         $('.showrentalhouses').html(data);
 
-                        $('.rentalhses').show();
+                        //$('.rentalhses').show();
                     }
                 });
             }
-         
+            
             // slider function
             $( function() {
                 $( "#slider-range" ).slider({
@@ -390,8 +346,8 @@
 
                         var hsetag = $('input[class^="tagtitle"]').filter(":checked").val();
 
-                        $('.searchforhses').show();
-                        $('.rentalhses').hide();
+                        $('#searchforhses').show();
+                        //$('.showrentalhouses').html('#searchforhses');
                         $.ajax({
                             url:'/'.$housesurl,
                             method:"get",
@@ -414,11 +370,10 @@
                                 sort:sorthouses,
                             },
                             success:function(data){
-                                $('.searchforhses').hide();
-                                console.log("found");
+                                $('#searchforhses').hide();
                                 $('.showrentalhouses').html(data);
 
-                                $('.rentalhses').show();
+                                //$('.rentalhses').show();
                             }
                         });
                     }
@@ -497,6 +452,53 @@
             })
 
         });
+
+        function getMoreRentals(page)
+        {
+            var hseurl=$("#url").val();
+
+            var balcony= $("#balcony").prop('checked') ? 'yes' : '';
+            var wifi= $("#wifi").prop('checked') ? 'yes' : '';
+            var parking= $("#parking").prop('checked') ? 'yes' : '';
+            var generator= $("#generator").prop('checked') ? 'yes' : '';
+            var cctvcamera= $("#cctvcamera").prop('checked') ? 'yes' : '';
+            var servantquarter= $("#servantquarter").prop('checked') ? 'yes' : '';
+
+            var sorthouses=$("#sort option:selected").val();
+
+            var hselocation = $('input[class^="locationtitle"]').filter(":checked").val();
+            var hsetag = $('input[class^="tagtitle"]').filter(":checked").val();
+            var start=$('#amount_start').val();        
+            var end=$('#amount_end').val();
+
+            $.ajax({
+                type:"GET",
+                url:'{{ route("rentalcategory.get-more-houses") }}' + "?page=" + page,
+                data:{
+                    url:hseurl,
+
+                    rentallocations:hselocation,
+                    rentaltag:hsetag,
+
+                    filterwifi:wifi,
+                    filtersq:servantquarter,
+                    filtercctv:cctvcamera,
+                    filterparking:parking,
+                    filtergenerator:generator,
+                    filterbalcony:balcony,
+
+                    sort:sorthouses,
+
+                    startprice:start,
+                    endprice:end
+                },
+                success:function(data)
+                {
+                    console.log(data);
+                    $('.showrentalhouses').html(data);
+                }
+            })
+        }
 
         
         

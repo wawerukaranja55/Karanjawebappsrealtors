@@ -238,7 +238,7 @@
                   {
                         alertify.set('notifier','position', 'top-right');
                         alertify.success(response.message);
-                        activerentalhousestable.ajax.reload();
+                        activerentalhousestable.ajax.reload(null,false);
                         $('#rentalhouseid').val('');
                         $('.edit_title').html('');
                         $('#rental_title').val('');

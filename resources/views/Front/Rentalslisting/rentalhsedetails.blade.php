@@ -170,88 +170,88 @@
                     </div>
                 @endif
                 {{-- shows all reviews for this house --}}
-                <div class="card padding-card reviews-card">
-                    <div class="card-body">
-                        @if (count($activereviews)>0)
-                            <h5 class="card-title mb-4">{{ count($activereviews) }} Reviews</h5>
-                             
-                            @foreach ($activereviews as $review)
-                                <div class="media mb-4">
-                                    <img class="d-flex mr-3 rounded-circle" src="{{ asset ('imagesforthewebsite/usersimages/'.$review->userrating->avatar) }}">
-                                    <div class="media-body">
-                                        <h5 class="mt-0">{{ $review->userrating->name }} <small>{{ $review->created_at->timezone('EAT')->toDayDateTimeString() }}</small>
-                                            <div>
-                                                <?php
-                                                    $count=1;
-                                                    while($count<=$review->house_rating)
-                                                    {?><span>&#9733;</span>
-                                                        <?php 
-                                                        $count++;
-                                                    }?>
-                                            </div>
-                                        </h5>
-                                        <p>{{ $review->house_review }}</p>
-                                    </div>
-                                </div>
-                            @endforeach
-                        @else
-                        <h5 class="card-title mb-4">No Review Has Been Added For the House</h5>
-                        @endif
-                    </div>
-                </div>
-                {{-- if the user is a tenant and this room belongs to him show his div --}}
-                @if ($allowreview)
-               
-                <div class="card padding-card">
-                    @auth
-                        <div class="card-body" id="ratingdiv">
-                            <h3 class="card-title mb-4">Rate and Review The House</h3>
-                            <span class="font-weight-bold font-italic text-danger">Note:You Can Only Review and Rate Your The House Once</span>
-                            <form id="rateandreviewhseform" method="POST" class="form-horizontal" action="javascript:void(0);">
-                                @csrf
-                                <input type="hidden" name="houseid" value="{{ $rentalhouse->id }}">
-                                <input type="hidden" name="userid" value="{{ Auth::user()->id }}">
-
-                                <div class="form-group" style="margin-top: 5px;">
+                        {{-- <div class="card padding-card reviews-card">
+                            <div class="card-body">
+                                @if (count($activereviews)>0)
+                                    <h5 class="card-title mb-4">{{ count($activereviews) }} Reviews</h5>
                                     
-                                    <div class="row">
-                                        <div class="col-lg-8 col-md-8">
-                                            <label style="font-size: 15px;">Give a Star Rating for the House<span class="text-danger">*</span></label>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-8 col-md-8">
-                                            <div class="rate">
-                                                <input type="radio" id="star5" name="rate" value="5" />
-                                                <label for="star5" title="text">5 stars</label>
-                                                <input type="radio" id="star4" name="rate" value="4" />
-                                                <label for="star4" title="text">4 stars</label>
-                                                <input type="radio" id="star3" name="rate" value="3" />
-                                                <label for="star3" title="text">3 stars</label>
-                                                <input type="radio" id="star2" name="rate" value="2" />
-                                                <label for="star2" title="text">2 stars</label>
-                                                <input type="radio" id="star1" name="rate" value="1" />
-                                                <label for="star1" title="text">1 star</label>
+                                    @foreach ($activereviews as $review)
+                                        <div class="media mb-4">
+                                            <img class="d-flex mr-3 rounded-circle" src="{{ asset ('imagesforthewebsite/usersimages/'.$review->userrating->avatar) }}">
+                                            <div class="media-body">
+                                                <h5 class="mt-0">{{ $review->userrating->name }} <small>{{ $review->created_at->timezone('EAT')->toDayDateTimeString() }}</small>
+                                                    <div>
+                                                        <?php
+                                                            $count=1;
+                                                            while($count<=$review->house_rating)
+                                                            {?><span>&#9733;</span>
+                                                                <?php 
+                                                                $count++;
+                                                            }?>
+                                                    </div>
+                                                </h5>
+                                                <p>{{ $review->house_review }}</p>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <p id="msg" style="font-size: 17px;"></p>
-                                <br>
-                                <div class="control-group form-group" style="margin-top: 2px;">
-                                    <div class="controls">
-                                        <label style="font-size: 15px;">Write A Review For The House <span class="text-danger">*</span></label>
-                                        <textarea style="border:2px solid black;" name="textreview" rows="10" cols="100" class="form-control" required></textarea>
-                                    </div>
-                                </div>
-                                <button type="submit" class="btn btn-success">Submit</button>
-                            </form>
+                                    @endforeach
+                                @else
+                                <h5 class="card-title mb-4">No Review Has Been Added For the House</h5>
+                                @endif
+                            </div>
                         </div>
-                    @else
-                        <p>To Review and Rate the House Create or Log In to your Account...</p>
-                        <span href="#" data-toggle="modal" data-target="#signupmodal" class="btn btn-success btn-block">Create/Login an Account<i class="fa fa-angle-right"></i></span>
-                    @endauth
-                </div>
+                        {{-- if the user is a tenant and this room belongs to him show his div --}}
+                        @if ($allowreview)
+                    
+                        <div class="card padding-card">
+                            @auth
+                                <div class="card-body" id="ratingdiv">
+                                    <h3 class="card-title mb-4">Rate and Review The House</h3>
+                                    <span class="font-weight-bold font-italic text-danger">Note:You Can Only Review and Rate Your The House Once</span>
+                                    <form id="rateandreviewhseform" method="POST" class="form-horizontal" action="javascript:void(0);">
+                                        @csrf
+                                        <input type="hidden" name="houseid" value="{{ $rentalhouse->id }}">
+                                        <input type="hidden" name="userid" value="{{ Auth::user()->id }}">
+
+                                        <div class="form-group" style="margin-top: 5px;">
+                                            
+                                            <div class="row">
+                                                <div class="col-lg-8 col-md-8">
+                                                    <label style="font-size: 15px;">Give a Star Rating for the House<span class="text-danger">*</span></label>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-8 col-md-8">
+                                                    <div class="rate">
+                                                        <input type="radio" id="star5" name="rate" value="5" />
+                                                        <label for="star5" title="text">5 stars</label>
+                                                        <input type="radio" id="star4" name="rate" value="4" />
+                                                        <label for="star4" title="text">4 stars</label>
+                                                        <input type="radio" id="star3" name="rate" value="3" />
+                                                        <label for="star3" title="text">3 stars</label>
+                                                        <input type="radio" id="star2" name="rate" value="2" />
+                                                        <label for="star2" title="text">2 stars</label>
+                                                        <input type="radio" id="star1" name="rate" value="1" />
+                                                        <label for="star1" title="text">1 star</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p id="msg" style="font-size: 17px;"></p>
+                                        <br>
+                                        <div class="control-group form-group" style="margin-top: 2px;">
+                                            <div class="controls">
+                                                <label style="font-size: 15px;">Write A Review For The House <span class="text-danger">*</span></label>
+                                                <textarea style="border:2px solid black;" name="textreview" rows="10" cols="100" class="form-control" required></textarea>
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="btn btn-success">Submit</button>
+                                    </form>
+                                </div>
+                            @else
+                                <p>To Review and Rate the House Create or Log In to your Account...</p>
+                                <span href="#" data-toggle="modal" data-target="#signupmodal" class="btn btn-success btn-block">Create/Login an Account<i class="fa fa-angle-right"></i></span>
+                            @endauth
+                        </div> --}}
             @endif
             </div>
 

@@ -82,8 +82,12 @@ class Propertieslisting_controller extends Controller
                 $propertycategories=Propertycategory::withCount('onsaleproperties')->get();
 
                 $propertylocations=Location::where(['status'=>1])->get();
+
+                $meta_title=$propertycategory;
+                $meta_description="Rental Houses And Properties Management System For Realtors and Website";
+                $meta_keywords="Rental and Property Mangement System,Content Management System,Realtor Website";
             
-                return view('Front.Properties.propertieslisting',compact('propertycaturl','propertylocations','propertycatcount','propertycategorydetails','propertycategory','propertycategories'));
+                return view('Front.Properties.propertieslisting',compact('propertycaturl','propertylocations','propertycatcount','propertycategorydetails','propertycategory','propertycategories','meta_name','meta_description','meta_keywords'));
             }else{
                 abort(404);
             }
@@ -139,7 +143,7 @@ class Propertieslisting_controller extends Controller
             $propertytitle=$propertyname;
             $messagedata=['contactphone'=>$contactphone,'propertytitle'=>$propertytitle,'contactemail'=>$contactemail,'contactmsg'=>$contactmsg,'contactname'=>$contactname,'contactmsg'=>$contactmsg];
     
-            Mail::send('emails.propertyhsereqst', $messagedata, function ($message) use($email) {
+            Mail::send('Emails.propertyhsereqst', $messagedata, function ($message) use($email) {
                 $message->to($email)->subject('Message/Request from a User');
             });
 
@@ -157,7 +161,11 @@ class Propertieslisting_controller extends Controller
         $property=Property::with('propertyimages','propertylocation')->find($id);
 
         $relatedproperties=Property::where(['property_isactive'=>1,'property_isavailable'=>1])->where('id','!=',$id)->take(3)->get();
-    
-        return view('Front.Properties.propertydetails',compact('property','relatedproperties'));
+        
+        $meta_title=$property;
+        $meta_description="Rental Houses And Properties Management System For Realtors and Website";
+        $meta_keywords="Rental and Property Mangement System,Content Management System,Realtor Website";
+
+        return view('Front.Properties.propertydetails',compact('property','relatedproperties','meta_name','meta_description','meta_keywords'));
     }
 }

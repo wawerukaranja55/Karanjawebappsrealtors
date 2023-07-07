@@ -222,30 +222,30 @@
 
       @can('adminsnotallowed')
          {{-- Manage Rental Reviews by Tenants --}}
-         @if (Session::get('page')=="tenantratingsreviews")
-            <?php $active="active";?>
-         @else
-            <?php $active="";?>
-         @endif
-         <li class="{{ $active }}">
-            <a href="{{ url('admin/tenantreviews') }}">
-               <i class="fa fa-star"></i>
-            <span class="nav-label">Reviews by Tenants</span>
-         </a>
-         </li>
+            {{-- @if (Session::get('page')=="tenantratingsreviews")
+               <?php $active="active";?>
+            @else
+               <?php $active="";?>
+            @endif
+            <li class="{{ $active }}">
+               <a href="{{ url('admin/tenantreviews') }}">
+                  <i class="fa fa-star"></i>
+               <span class="nav-label">Reviews by Tenants</span>
+            </a>
+            </li> --}}
 
          {{-- Manage Mpesa Payments for the admins --}}
-         @if (Session::get('page')=="mpesa_payments")
-            <?php $active="active";?>
-         @else
-            <?php $active="";?>
-         @endif
-         <li class="{{ $active }}">
-            <a href="{{ url('admin/get_mpesapayments') }}">
-               <i class="fa fa-rocket" aria-hidden="true"></i>
-               <span class="nav-label">Mpesa Payments By Tenants</span>
-            </a>
-         </li>
+            {{-- @if (Session::get('page')=="mpesa_payments")
+               <?php $active="active";?>
+            @else
+               <?php $active="";?>
+            @endif
+            <li class="{{ $active }}">
+               <a href="{{ url('admin/get_mpesapayments') }}">
+                  <i class="fa fa-rocket" aria-hidden="true"></i>
+                  <span class="nav-label">Mpesa Payments By Tenants</span>
+               </a>
+            </li> --}}
 
          {{-- Manage Payments made by Tenants --}}
          @if (Session::get('page')=="all_payments")
@@ -261,17 +261,17 @@
          </li>
 
          {{-- Manage emails sent to admins and tenants --}}
-         @if (Session::get('page')=="allmemos")
-            <?php $active="active";?>
-         @else
-            <?php $active="";?>
-         @endif
-         <li class="{{ $active }}">
-            <a href="{{ url('admin/show_allmemos') }}">
-               <i class="fa fa-sticky-note" aria-hidden="true"></i>
-               <span class="nav-label">Manage Memos Sent to Admin and Tenants</span>
-            </a>
-         </li>
+            {{-- @if (Session::get('page')=="allmemos")
+               <?php $active="active";?>
+            @else
+               <?php $active="";?>
+            @endif
+            <li class="{{ $active }}">
+               <a href="{{ url('admin/show_allmemos') }}">
+                  <i class="fa fa-sticky-note" aria-hidden="true"></i>
+                  <span class="nav-label">Manage Memos Sent to Admin and Tenants</span>
+               </a>
+            </li> --}}
       @endcan
     </ul>
  </div>

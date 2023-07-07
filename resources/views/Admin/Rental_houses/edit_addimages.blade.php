@@ -162,6 +162,7 @@
                                                 <div class="card padding-card product-card">
                                                     <div class="card-body">
                                                         <h5 class="card-title mb-4" style="color: black; font-size:18px;">1.Room Sizes Details for the Rental House</h5>
+                                                        <ul class="alert alert-warning d-none" id="addroom_errorlist"></ul>
                                                         <div class="row section-groups">
                                                             <div class="form-group inputdetails col-sm-4">
                                                                 <label>Room Sizes For this House<span class="text-danger inputrequired">*</span></label>
@@ -220,6 +221,7 @@
                         <div class="card padding-card product-card">
                             <div class="card-body">
                                 <h5 class="card-title mb-4" style="color: black; font-size:18px;">1.Room Sizes Details for the Rental House</h5>
+                                <ul class="alert alert-warning d-none" id="addroom_errorlist"></ul>
                                 <div class="row section-groups">
                                     <div class="form-group inputdetails col-sm-4">
                                         <label>Room Sizes For this House<span class="text-danger inputrequired">*</span></label>
@@ -324,6 +326,7 @@
                                                 <div class="card padding-card product-card">
                                                     <div class="card-body">
                                                         <h5 class="card-title mb-4" style="color: black; font-size:18px;">1.Room Sizes Details for the Rental House</h5>
+                                                        <ul class="alert alert-warning d-none" id="addroom_errorlist"></ul>
                                                         <div class="row section-groups">
                                                             <div class="form-group inputdetails col-sm-4">
                                                                 <label>Room Sizes For this House<span class="text-danger inputrequired">*</span></label>
@@ -382,6 +385,7 @@
                         <div class="card padding-card product-card">
                             <div class="card-body">
                                 <h5 class="card-title mb-4" style="color: black; font-size:18px;">1.Room Sizes Details for the Rental House</h5>
+                                <ul class="alert alert-warning d-none" id="addroom_errorlist"></ul>
                                 <div class="row section-groups">
                                     <div class="form-group inputdetails col-sm-4">
                                         <label>Room Sizes For this House<span class="text-danger inputrequired">*</span></label>
@@ -486,6 +490,7 @@
                                                 <div class="card padding-card product-card">
                                                     <div class="card-body">
                                                         <h5 class="card-title mb-4" style="color: black; font-size:18px;">1.Room Sizes Details for the Rental House</h5>
+                                                        <ul class="alert alert-warning d-none" id="addroom_errorlist"></ul>
                                                         <div class="row section-groups">
                                                             <div class="form-group inputdetails col-sm-4">
                                                                 <label>Room Sizes For this House<span class="text-danger inputrequired">*</span></label>
@@ -544,6 +549,7 @@
                         <div class="card padding-card product-card">
                             <div class="card-body">
                                 <h5 class="card-title mb-4" style="color: black; font-size:18px;">1.Room Sizes Details for the Rental House</h5>
+                                <ul class="alert alert-warning d-none" id="addroom_errorlist"></ul>
                                 <div class="row section-groups">
                                     <div class="form-group inputdetails col-sm-4">
                                         <label>Room Sizes For this House<span class="text-danger inputrequired">*</span></label>
@@ -648,6 +654,7 @@
                                                 <div class="card padding-card product-card">
                                                     <div class="card-body">
                                                         <h5 class="card-title mb-4" style="color: black; font-size:18px;">1.Room Sizes Details for the Rental House</h5>
+                                                        <ul class="alert alert-warning d-none" id="addroom_errorlist"></ul>
                                                         <div class="row section-groups">
                                                             <div class="form-group inputdetails col-sm-4">
                                                                 <label>Room Sizes For this House<span class="text-danger inputrequired">*</span></label>
@@ -706,6 +713,7 @@
                         <div class="card padding-card product-card">
                             <div class="card-body">
                                 <h5 class="card-title mb-4" style="color: black; font-size:18px;">1.Room Sizes Details for the Rental House</h5>
+                                <ul class="alert alert-warning d-none" id="addroom_errorlist"></ul>
                                 <div class="row section-groups">
                                     <div class="form-group inputdetails col-sm-4">
                                         <label>Room Sizes For this House<span class="text-danger inputrequired">*</span></label>
@@ -810,6 +818,7 @@
                                                 <div class="card padding-card product-card">
                                                     <div class="card-body">
                                                         <h5 class="card-title mb-4" style="color: black; font-size:18px;">1.Room Sizes Details for the Rental House</h5>
+                                                        <ul class="alert alert-warning d-none" id="addroom_errorlist"></ul>
                                                         <div class="row section-groups">
                                                             <div class="form-group inputdetails col-sm-4">
                                                                 <label>Room Sizes For this House<span class="text-danger inputrequired">*</span></label>
@@ -868,6 +877,7 @@
                         <div class="card padding-card product-card">
                             <div class="card-body">
                                 <h5 class="card-title mb-4" style="color: black; font-size:18px;">1.Room Sizes Details for the Rental House</h5>
+                                <ul class="alert alert-warning d-none" id="addroom_errorlist"></ul>
                                 <div class="row section-groups">
                                     <div class="form-group inputdetails col-sm-4">
                                         <label>Room Sizes For this House<span class="text-danger inputrequired">*</span></label>
@@ -972,6 +982,7 @@
                                                 <div class="card padding-card product-card">
                                                     <div class="card-body">
                                                         <h5 class="card-title mb-4" style="color: black; font-size:18px;">1.Room Sizes Details for the Rental House</h5>
+                                                        <ul class="alert alert-warning d-none" id="addroom_errorlist"></ul>
                                                         <div class="row section-groups">
                                                             <div class="form-group inputdetails col-sm-4">
                                                                 <label>Room Sizes For this House<span class="text-danger inputrequired">*</span></label>
@@ -1030,6 +1041,7 @@
                         <div class="card padding-card product-card">
                             <div class="card-body">
                                 <h5 class="card-title mb-4" style="color: black; font-size:18px;">1.Room Sizes Details for the Rental House</h5>
+                                <ul class="alert alert-warning d-none" id="addroom_errorlist"></ul>
                                 <div class="row section-groups">
                                     <div class="form-group inputdetails col-sm-4">
                                         <label>Room Sizes For this House<span class="text-danger inputrequired">*</span></label>
@@ -1134,6 +1146,7 @@
                                                 <div class="card padding-card product-card">
                                                     <div class="card-body">
                                                         <h5 class="card-title mb-4" style="color: black; font-size:18px;">1.Room Sizes Details for the Rental House</h5>
+                                                        <ul class="alert alert-warning d-none" id="addroom_errorlist"></ul>
                                                         <div class="row section-groups">
                                                             <div class="form-group inputdetails col-sm-4">
                                                                 <label>Room Sizes For this House<span class="text-danger inputrequired">*</span></label>
@@ -1192,6 +1205,7 @@
                         <div class="card padding-card product-card">
                             <div class="card-body">
                                 <h5 class="card-title mb-4" style="color: black; font-size:18px;">1.Room Sizes Details for the Rental House</h5>
+                                <ul class="alert alert-warning d-none" id="addroom_errorlist"></ul>
                                 <div class="row section-groups">
                                     <div class="form-group inputdetails col-sm-4">
                                         <label>Room Sizes For this House<span class="text-danger inputrequired">*</span></label>
@@ -1296,6 +1310,7 @@
                                                 <div class="card padding-card product-card">
                                                     <div class="card-body">
                                                         <h5 class="card-title mb-4" style="color: black; font-size:18px;">1.Room Sizes Details for the Rental House</h5>
+                                                        <ul class="alert alert-warning d-none" id="addroom_errorlist"></ul>
                                                         <div class="row section-groups">
                                                             <div class="form-group inputdetails col-sm-4">
                                                                 <label>Room Sizes For this House<span class="text-danger inputrequired">*</span></label>
@@ -1354,6 +1369,7 @@
                         <div class="card padding-card product-card">
                             <div class="card-body">
                                 <h5 class="card-title mb-4" style="color: black; font-size:18px;">1.Room Sizes Details for the Rental House</h5>
+                                <ul class="alert alert-warning d-none" id="addroom_errorlist"></ul>
                                 <div class="row section-groups">
                                     <div class="form-group inputdetails col-sm-4">
                                         <label>Room Sizes For this House<span class="text-danger inputrequired">*</span></label>
@@ -1458,6 +1474,7 @@
                                                 <div class="card padding-card product-card">
                                                     <div class="card-body">
                                                         <h5 class="card-title mb-4" style="color: black; font-size:18px;">1.Room Sizes Details for the Rental House</h5>
+                                                        <ul class="alert alert-warning d-none" id="addroom_errorlist"></ul>
                                                         <div class="row section-groups">
                                                             <div class="form-group inputdetails col-sm-4">
                                                                 <label>Room Sizes For this House<span class="text-danger inputrequired">*</span></label>
@@ -1516,6 +1533,7 @@
                         <div class="card padding-card product-card">
                             <div class="card-body">
                                 <h5 class="card-title mb-4" style="color: black; font-size:18px;">1.Room Sizes Details for the Rental House</h5>
+                                <ul class="alert alert-warning d-none" id="addroom_errorlist"></ul>
                                 <div class="row section-groups">
                                     <div class="form-group inputdetails col-sm-4">
                                         <label>Room Sizes For this House<span class="text-danger inputrequired">*</span></label>
@@ -1620,6 +1638,7 @@
                                                 <div class="card padding-card product-card">
                                                     <div class="card-body">
                                                         <h5 class="card-title mb-4" style="color: black; font-size:18px;">1.Room Sizes Details for the Rental House</h5>
+                                                        <ul class="alert alert-warning d-none" id="addroom_errorlist"></ul>
                                                         <div class="row section-groups">
                                                             <div class="form-group inputdetails col-sm-4">
                                                                 <label>Room Sizes For this House<span class="text-danger inputrequired">*</span></label>
@@ -1782,6 +1801,7 @@
                                                 <div class="card padding-card product-card">
                                                     <div class="card-body">
                                                         <h5 class="card-title mb-4" style="color: black; font-size:18px;">1.Room Sizes Details for the Rental House</h5>
+                                                        <ul class="alert alert-warning d-none" id="addroom_errorlist"></ul>
                                                         <div class="row section-groups">
                                                             <div class="form-group inputdetails col-sm-4">
                                                                 <label>Room Sizes For this House<span class="text-danger inputrequired">*</span></label>
@@ -1840,6 +1860,7 @@
                         <div class="card padding-card product-card">
                             <div class="card-body">
                                 <h5 class="card-title mb-4" style="color: black; font-size:18px;">1.Room Sizes Details for the Rental House</h5>
+                                <ul class="alert alert-warning d-none" id="addroom_errorlist"></ul>
                                 <div class="row section-groups">
                                     <div class="form-group inputdetails col-sm-4">
                                         <label>Room Sizes For this House<span class="text-danger inputrequired">*</span></label>
@@ -1944,6 +1965,7 @@
                                                 <div class="card padding-card product-card">
                                                     <div class="card-body">
                                                         <h5 class="card-title mb-4" style="color: black; font-size:18px;">1.Room Sizes Details for the Rental House</h5>
+                                                        <ul class="alert alert-warning d-none" id="addroom_errorlist"></ul>
                                                         <div class="row section-groups">
                                                             <div class="form-group inputdetails col-sm-4">
                                                                 <label>Room Sizes For this House<span class="text-danger inputrequired">*</span></label>
@@ -2002,6 +2024,499 @@
                         <div class="card padding-card product-card">
                             <div class="card-body">
                                 <h5 class="card-title mb-4" style="color: black; font-size:18px;">1.Room Sizes Details for the Rental House</h5>
+                                <ul class="alert alert-warning d-none" id="addroom_errorlist"></ul>
+                                <div class="row section-groups">
+                                    <div class="form-group inputdetails col-sm-4">
+                                        <label>Room Sizes For this House<span class="text-danger inputrequired">*</span></label>
+                                        <br>
+                                        <select name="rentalhousermsize" class="adminselect2 form-control text-white bg-dark" style="width:100%;" required>
+                                            <option value="0" disabled="true" selected="true">Choose Your Rental House</option>
+                                            <?php
+                                                $addedhousesizes=Rentalhousesize::where('rentalhse_id',$rentaldata->id)->get();
+                                            ?>
+                                            @foreach($addedhousesizes as $housesize)
+                                                <option value="{{ $housesize->id }}">
+                                                    {{ $housesize->room_size }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group inputdetails col-sm-4">
+                                        <label>Room Size Price<span class="text-danger inputrequired">*</span></label>
+                                        <input type="number" class="form-control text-white bg-dark" required required name="roomsize_price" id="roomsize_price" placeholder="Write The Room Size Price here">
+                                    </div>
+                                    <div class="form-group inputdetails col-sm-4">
+                                        <label>Room Name/Number<span class="text-danger inputrequired">*</span></label>
+                                        <input type="text" class="form-control text-white bg-dark" required required name="room_numbername" id="room_name" placeholder="Write The Room name here">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit"  class="btn btn-success">Create A Room Name</button>
+                    </form>
+
+                    <div class="col-md-12">
+                        <table class="table table-striped table-bordered roomnamestable" style="width:18%; margin-top:10px;">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Name</th>
+                                    <th>Room Size</th>
+                                    <th>Room Size Price</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                @endif
+            @elseif($hsesizes === [7,10])
+                <h3 class="mb-2 panel-title ms_heading text-white bg-black" style="padding:10px;">House Sizes and Room Names Management</h3>
+                @if ((int)$roomsizescount !== $rentaldata->total_rooms)
+                    <section id="tabs" class="project-tab">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <nav>
+                                        <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                                            <a class="nav-item nav-link active home-tab" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">
+                                                <span class="createhsesizeform">1.</span>Add A House Size</a>
+                                            <a class="nav-item nav-link disabled" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">
+                                                <span class="createroomsform">2.</span>Add Room names and their Sizes</a>
+                                        </div>
+                                    </nav>
+                                    <div class="tab-content" id="nav-tabContent">
+                                        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <p style="font-size:15px; font-weight:700; color:rgb(147, 15, 165)">The room sizes for this house are 
+                                                        <span>@foreach ($rentaldata->housetags as $rntalhsetags)
+                                                            {{ $rntalhsetags->rentaltag_title }}</span>,
+                                                        @endforeach</p>
+                                                    <form action="javascript:void(0)" class="form-horizontal" id="uploadroomsizesform" role="form" method="POST">
+                                                        @csrf
+                                                        <div class="card product-card">
+                                                            <div class="card-body">
+                                                            <div class="form-group">
+                                                                <div class="field_wrapper">
+                                                                    <div>
+                                                                        <input id="house_id" type="hidden" name="rentalhouseid" value="{{ $rentaldata->id }}"/>
+                                                                        <input id="rentalroom_size" type="text"  name="room_size[]" placeholder="Room size" style="width:150px"/>
+                                                                        {{-- <input id="rentalroomsize_price" type="number" name="roomsize_price[]" placeholder="Room Size Price" style="width:150px"/> --}}
+                                                                        <input id="totalrooms" type="number" name="total_rooms[]" placeholder="Total Rooms" style="width:150px"/>
+                            
+                                                                        <a href="javascript:void(0);" class="add_button" title="Add field">Add</a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            </div>
+                                                        </div>
+                                                        <button type="submit" id="uploadroomsizesbtn" class="btn btn-success">Upload the House Sizes</button>
+                                                        <ul class="alert alert-warning d-none" id="update_housesizelist"></ul>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade show" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                                            <p style="font-size:15px; font-weight:700; color:rgb(147, 15, 165)">The room sizes for this house are 
+                                            <span>@foreach ($rentaldata->housetags as $rntalhsetags)
+                                                {{ $rntalhsetags->rentaltag_title }}</span>,
+                                            @endforeach</p>
+                                            <form action="javascript:void(0)" id="addaroomname" class="form-horizontal" role="form" method="POST" style="margin: 5px;">
+                                                @csrf
+                                                <input type="hidden" name="rentalhouseid" id="rentalhse_id" value="{{ $rentaldata->id }}" >
+                                                
+                                                <div class="card padding-card product-card">
+                                                    <div class="card-body">
+                                                        <h5 class="card-title mb-4" style="color: black; font-size:18px;">1.Room Sizes Details for the Rental House</h5>
+                                                        <ul class="alert alert-warning d-none" id="addroom_errorlist"></ul>
+                                                        <div class="row section-groups">
+                                                            <div class="form-group inputdetails col-sm-4">
+                                                                <label>Room Sizes For this House<span class="text-danger inputrequired">*</span></label>
+                                                                <br>
+                                                                <select name="rentalhousermsize" id="selectrmsize" class="adminselect2 form-control text-white bg-dark" style="width:100%;" required>
+                                                                    {{-- <option value="0" disabled="true" selected="true">Choose Your Rental House</option>
+                                                                    <?php
+                                                                        $addedhousesizes=Rentalhousesize::where('rentalhse_id',$rentaldata->id)->get();
+                                                                    ?>
+                                                                    @foreach($addedhousesizes as $housesize)
+                                                                        <option value="{{ $housesize->id }}">
+                                                                            {{ $housesize->room_size }}</option>
+                                                                    @endforeach --}}
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-group inputdetails col-sm-4">
+                                                                <label>Room Size Price<span class="text-danger inputrequired">*</span></label>
+                                                                <input type="number" class="form-control text-white bg-dark" name="roomsize_price" id="roomsize_price" placeholder="Write The Room Size Price here">
+                                                            </div>
+                                                            <div class="form-group inputdetails col-sm-4">
+                                                                <label>Room Name/Number<span class="text-danger inputrequired">*</span></label>
+                                                                <input type="text" class="form-control text-white bg-dark" name="room_numbername" id="room_name" placeholder="Write The Room name here">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <button type="submit"  class="btn btn-success">Create A Room Name</button>
+                                            </form>
+
+                                            <div class="col-md-12">
+                                                <table class="table table-striped table-bordered roomnamestable" style="width:18%; margin-top:10px;">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Id</th>
+                                                            <th>Name</th>
+                                                            <th>Room Size</th>
+                                                            <th>Room Size Price</th>
+                                                            <th>Status</th>
+                                                            <th>Delete</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody></tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                @else
+                    <form action="javascript:void(0)" id="addaroomname" class="form-horizontal" role="form" method="POST" style="margin: 5px;">
+                        @csrf
+                        <input type="hidden" name="rentalhouseid" id="rentalhse_id" value="{{ $rentaldata->id }}" >
+                        
+                        <div class="card padding-card product-card">
+                            <div class="card-body">
+                                <h5 class="card-title mb-4" style="color: black; font-size:18px;">1.Room Sizes Details for the Rental House</h5>
+                                <ul class="alert alert-warning d-none" id="addroom_errorlist"></ul>
+                                <div class="row section-groups">
+                                    <div class="form-group inputdetails col-sm-4">
+                                        <label>Room Sizes For this House<span class="text-danger inputrequired">*</span></label>
+                                        <br>
+                                        <select name="rentalhousermsize" class="adminselect2 form-control text-white bg-dark" style="width:100%;" required>
+                                            <option value="0" disabled="true" selected="true">Choose Your Rental House</option>
+                                            <?php
+                                                $addedhousesizes=Rentalhousesize::where('rentalhse_id',$rentaldata->id)->get();
+                                            ?>
+                                            @foreach($addedhousesizes as $housesize)
+                                                <option value="{{ $housesize->id }}">
+                                                    {{ $housesize->room_size }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group inputdetails col-sm-4">
+                                        <label>Room Size Price<span class="text-danger inputrequired">*</span></label>
+                                        <input type="number" class="form-control text-white bg-dark" required required name="roomsize_price" id="roomsize_price" placeholder="Write The Room Size Price here">
+                                    </div>
+                                    <div class="form-group inputdetails col-sm-4">
+                                        <label>Room Name/Number<span class="text-danger inputrequired">*</span></label>
+                                        <input type="text" class="form-control text-white bg-dark" required required name="room_numbername" id="room_name" placeholder="Write The Room name here">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit"  class="btn btn-success">Create A Room Name</button>
+                    </form>
+
+                    <div class="col-md-12">
+                        <table class="table table-striped table-bordered roomnamestable" style="width:18%; margin-top:10px;">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Name</th>
+                                    <th>Room Size</th>
+                                    <th>Room Size Price</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                @endif
+            @elseif($hsesizes === [1,7])
+                <h3 class="mb-2 panel-title ms_heading text-white bg-black" style="padding:10px;">House Sizes and Room Names Management</h3>
+                @if ((int)$roomsizescount !== $rentaldata->total_rooms)
+                    <section id="tabs" class="project-tab">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <nav>
+                                        <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                                            <a class="nav-item nav-link active home-tab" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">
+                                                <span class="createhsesizeform">1.</span>Add A House Size</a>
+                                            <a class="nav-item nav-link disabled" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">
+                                                <span class="createroomsform">2.</span>Add Room names and their Sizes</a>
+                                        </div>
+                                    </nav>
+                                    <div class="tab-content" id="nav-tabContent">
+                                        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <p style="font-size:15px; font-weight:700; color:rgb(147, 15, 165)">The room sizes for this house are 
+                                                        <span>@foreach ($rentaldata->housetags as $rntalhsetags)
+                                                            {{ $rntalhsetags->rentaltag_title }}</span>,
+                                                        @endforeach</p>
+                                                    <form action="javascript:void(0)" class="form-horizontal" id="uploadroomsizesform" role="form" method="POST">
+                                                        @csrf
+                                                        <div class="card product-card">
+                                                            <div class="card-body">
+                                                            <div class="form-group">
+                                                                <div class="field_wrapper">
+                                                                    <div>
+                                                                        <input id="house_id" type="hidden" name="rentalhouseid" value="{{ $rentaldata->id }}"/>
+                                                                        <input id="rentalroom_size" type="text"  name="room_size[]" placeholder="Room size" style="width:150px"/>
+                                                                        {{-- <input id="rentalroomsize_price" type="number" name="roomsize_price[]" placeholder="Room Size Price" style="width:150px"/> --}}
+                                                                        <input id="totalrooms" type="number" name="total_rooms[]" placeholder="Total Rooms" style="width:150px"/>
+                            
+                                                                        <a href="javascript:void(0);" class="add_button" title="Add field">Add</a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            </div>
+                                                        </div>
+                                                        <button type="submit" id="uploadroomsizesbtn" class="btn btn-success">Upload the House Sizes</button>
+                                                        <ul class="alert alert-warning d-none" id="update_housesizelist"></ul>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade show" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                                            <p style="font-size:15px; font-weight:700; color:rgb(147, 15, 165)">The room sizes for this house are 
+                                            <span>@foreach ($rentaldata->housetags as $rntalhsetags)
+                                                {{ $rntalhsetags->rentaltag_title }}</span>,
+                                            @endforeach</p>
+                                            <form action="javascript:void(0)" id="addaroomname" class="form-horizontal" role="form" method="POST" style="margin: 5px;">
+                                                @csrf
+                                                <input type="hidden" name="rentalhouseid" id="rentalhse_id" value="{{ $rentaldata->id }}" >
+                                                
+                                                <div class="card padding-card product-card">
+                                                    <div class="card-body">
+                                                        <h5 class="card-title mb-4" style="color: black; font-size:18px;">1.Room Sizes Details for the Rental House</h5>
+                                                        <ul class="alert alert-warning d-none" id="addroom_errorlist"></ul>
+                                                        <div class="row section-groups">
+                                                            <div class="form-group inputdetails col-sm-4">
+                                                                <label>Room Sizes For this House<span class="text-danger inputrequired">*</span></label>
+                                                                <br>
+                                                                <select name="rentalhousermsize" id="selectrmsize" class="adminselect2 form-control text-white bg-dark" style="width:100%;" required>
+                                                                    {{-- <option value="0" disabled="true" selected="true">Choose Your Rental House</option>
+                                                                    <?php
+                                                                        $addedhousesizes=Rentalhousesize::where('rentalhse_id',$rentaldata->id)->get();
+                                                                    ?>
+                                                                    @foreach($addedhousesizes as $housesize)
+                                                                        <option value="{{ $housesize->id }}">
+                                                                            {{ $housesize->room_size }}</option>
+                                                                    @endforeach --}}
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-group inputdetails col-sm-4">
+                                                                <label>Room Size Price<span class="text-danger inputrequired">*</span></label>
+                                                                <input type="number" class="form-control text-white bg-dark" name="roomsize_price" id="roomsize_price" placeholder="Write The Room Size Price here">
+                                                            </div>
+                                                            <div class="form-group inputdetails col-sm-4">
+                                                                <label>Room Name/Number<span class="text-danger inputrequired">*</span></label>
+                                                                <input type="text" class="form-control text-white bg-dark" name="room_numbername" id="room_name" placeholder="Write The Room name here">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <button type="submit"  class="btn btn-success">Create A Room Name</button>
+                                            </form>
+
+                                            <div class="col-md-12">
+                                                <table class="table table-striped table-bordered roomnamestable" style="width:18%; margin-top:10px;">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Id</th>
+                                                            <th>Name</th>
+                                                            <th>Room Size</th>
+                                                            <th>Room Size Price</th>
+                                                            <th>Status</th>
+                                                            <th>Delete</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody></tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                @else
+                    <form action="javascript:void(0)" id="addaroomname" class="form-horizontal" role="form" method="POST" style="margin: 5px;">
+                        @csrf
+                        <input type="hidden" name="rentalhouseid" id="rentalhse_id" value="{{ $rentaldata->id }}" >
+                        
+                        <div class="card padding-card product-card">
+                            <div class="card-body">
+                                <h5 class="card-title mb-4" style="color: black; font-size:18px;">1.Room Sizes Details for the Rental House</h5>
+                                <ul class="alert alert-warning d-none" id="addroom_errorlist"></ul>
+                                <div class="row section-groups">
+                                    <div class="form-group inputdetails col-sm-4">
+                                        <label>Room Sizes For this House<span class="text-danger inputrequired">*</span></label>
+                                        <br>
+                                        <select name="rentalhousermsize" class="adminselect2 form-control text-white bg-dark" style="width:100%;" required>
+                                            <option value="0" disabled="true" selected="true">Choose Your Rental House</option>
+                                            <?php
+                                                $addedhousesizes=Rentalhousesize::where('rentalhse_id',$rentaldata->id)->get();
+                                            ?>
+                                            @foreach($addedhousesizes as $housesize)
+                                                <option value="{{ $housesize->id }}">
+                                                    {{ $housesize->room_size }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group inputdetails col-sm-4">
+                                        <label>Room Size Price<span class="text-danger inputrequired">*</span></label>
+                                        <input type="number" class="form-control text-white bg-dark" required required name="roomsize_price" id="roomsize_price" placeholder="Write The Room Size Price here">
+                                    </div>
+                                    <div class="form-group inputdetails col-sm-4">
+                                        <label>Room Name/Number<span class="text-danger inputrequired">*</span></label>
+                                        <input type="text" class="form-control text-white bg-dark" required required name="room_numbername" id="room_name" placeholder="Write The Room name here">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit"  class="btn btn-success">Create A Room Name</button>
+                    </form>
+
+                    <div class="col-md-12">
+                        <table class="table table-striped table-bordered roomnamestable" style="width:18%; margin-top:10px;">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Name</th>
+                                    <th>Room Size</th>
+                                    <th>Room Size Price</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                @endif
+            @elseif($hsesizes === [1,7,10])
+                <h3 class="mb-2 panel-title ms_heading text-white bg-black" style="padding:10px;">House Sizes and Room Names Management</h3>
+                @if ((int)$roomsizescount !== $rentaldata->total_rooms)
+                    <section id="tabs" class="project-tab">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <nav>
+                                        <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                                            <a class="nav-item nav-link active home-tab" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">
+                                                <span class="createhsesizeform">1.</span>Add A House Size</a>
+                                            <a class="nav-item nav-link disabled" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">
+                                                <span class="createroomsform">2.</span>Add Room names and their Sizes</a>
+                                        </div>
+                                    </nav>
+                                    <div class="tab-content" id="nav-tabContent">
+                                        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <p style="font-size:15px; font-weight:700; color:rgb(147, 15, 165)">The room sizes for this house are 
+                                                        <span>@foreach ($rentaldata->housetags as $rntalhsetags)
+                                                            {{ $rntalhsetags->rentaltag_title }}</span>,
+                                                        @endforeach</p>
+                                                    <form action="javascript:void(0)" class="form-horizontal" id="uploadroomsizesform" role="form" method="POST">
+                                                        @csrf
+                                                        <div class="card product-card">
+                                                            <div class="card-body">
+                                                            <div class="form-group">
+                                                                <div class="field_wrapper">
+                                                                    <div>
+                                                                        <input id="house_id" type="hidden" name="rentalhouseid" value="{{ $rentaldata->id }}"/>
+                                                                        <input id="rentalroom_size" type="text"  name="room_size[]" placeholder="Room size" style="width:150px"/>
+                                                                        {{-- <input id="rentalroomsize_price" type="number" name="roomsize_price[]" placeholder="Room Size Price" style="width:150px"/> --}}
+                                                                        <input id="totalrooms" type="number" name="total_rooms[]" placeholder="Total Rooms" style="width:150px"/>
+                            
+                                                                        <a href="javascript:void(0);" class="add_button" title="Add field">Add</a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            </div>
+                                                        </div>
+                                                        <button type="submit" id="uploadroomsizesbtn" class="btn btn-success">Upload the House Sizes</button>
+                                                        <ul class="alert alert-warning d-none" id="update_housesizelist"></ul>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade show" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                                            <p style="font-size:15px; font-weight:700; color:rgb(147, 15, 165)">The room sizes for this house are 
+                                            <span>@foreach ($rentaldata->housetags as $rntalhsetags)
+                                                {{ $rntalhsetags->rentaltag_title }}</span>,
+                                            @endforeach</p>
+                                            <form action="javascript:void(0)" id="addaroomname" class="form-horizontal" role="form" method="POST" style="margin: 5px;">
+                                                @csrf
+                                                <input type="hidden" name="rentalhouseid" id="rentalhse_id" value="{{ $rentaldata->id }}" >
+                                                
+                                                <div class="card padding-card product-card">
+                                                    <div class="card-body">
+                                                        <h5 class="card-title mb-4" style="color: black; font-size:18px;">1.Room Sizes Details for the Rental House</h5>
+                                                        <ul class="alert alert-warning d-none" id="addroom_errorlist"></ul>
+                                                        <div class="row section-groups">
+                                                            <div class="form-group inputdetails col-sm-4">
+                                                                <label>Room Sizes For this House<span class="text-danger inputrequired">*</span></label>
+                                                                <br>
+                                                                <select name="rentalhousermsize" id="selectrmsize" class="adminselect2 form-control text-white bg-dark" style="width:100%;" required>
+                                                                    {{-- <option value="0" disabled="true" selected="true">Choose Your Rental House</option>
+                                                                    <?php
+                                                                        $addedhousesizes=Rentalhousesize::where('rentalhse_id',$rentaldata->id)->get();
+                                                                    ?>
+                                                                    @foreach($addedhousesizes as $housesize)
+                                                                        <option value="{{ $housesize->id }}">
+                                                                            {{ $housesize->room_size }}</option>
+                                                                    @endforeach --}}
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-group inputdetails col-sm-4">
+                                                                <label>Room Size Price<span class="text-danger inputrequired">*</span></label>
+                                                                <input type="number" class="form-control text-white bg-dark" name="roomsize_price" id="roomsize_price" placeholder="Write The Room Size Price here">
+                                                            </div>
+                                                            <div class="form-group inputdetails col-sm-4">
+                                                                <label>Room Name/Number<span class="text-danger inputrequired">*</span></label>
+                                                                <input type="text" class="form-control text-white bg-dark" name="room_numbername" id="room_name" placeholder="Write The Room name here">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <button type="submit"  class="btn btn-success">Create A Room Name</button>
+                                            </form>
+
+                                            <div class="col-md-12">
+                                                <table class="table table-striped table-bordered roomnamestable" style="width:18%; margin-top:10px;">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Id</th>
+                                                            <th>Name</th>
+                                                            <th>Room Size</th>
+                                                            <th>Room Size Price</th>
+                                                            <th>Status</th>
+                                                            <th>Delete</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody></tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                @else
+                    <form action="javascript:void(0)" id="addaroomname" class="form-horizontal" role="form" method="POST" style="margin: 5px;">
+                        @csrf
+                        <input type="hidden" name="rentalhouseid" id="rentalhse_id" value="{{ $rentaldata->id }}" >
+                        
+                        <div class="card padding-card product-card">
+                            <div class="card-body">
+                                <h5 class="card-title mb-4" style="color: black; font-size:18px;">1.Room Sizes Details for the Rental House</h5>
+                                <ul class="alert alert-warning d-none" id="addroom_errorlist"></ul>
                                 <div class="row section-groups">
                                     <div class="form-group inputdetails col-sm-4">
                                         <label>Room Sizes For this House<span class="text-danger inputrequired">*</span></label>
@@ -2062,7 +2577,7 @@
                             <div class="row section-groups">
                                 <div class="form-group inputdetails col-sm-12">
                                     <label>Room Name/Number<span class="text-danger inputrequired">*</span></label>
-                                    <input type="text" class="form-control text-white bg-dark" required name="room_numbername" id="room_name" placeholder="Write The Room name here">
+                                    <input type="text" class="form-control text-white bg-dark" name="room_numbername" id="room_name" placeholder="Write The Room name here">
                                 </div>
                             </div>
                         </div>
@@ -2123,7 +2638,7 @@
         $(document).ready(function(){
             
             // add inputs to the inputs modal
-            var maxField = 5; //Input fields increment limitation
+            var maxField = 7; //Input fields increment limitation
             var addButton = $('.add_button'); //Add button selector
             var wrapper = $('.field_wrapper'); //Input field wrapper
             var fieldHTML = 
@@ -2333,7 +2848,7 @@
                         $('#update_errorlist').html("");
                         $('#update_errorlist').removeClass('d-none');
                         $.each(response.errors,function(key,err_value){
-                        $('#update_errorlist').append('<li>'+err_value+'</li>');
+                            $('#update_errorlist').append('<li>'+err_value+'</li>');
                         })
                     } else if (response.status==404)
                     {
@@ -2469,16 +2984,27 @@
                     data:$("#addaroomname").serialize(),
                     success:function(response){
                         console.log(response)
-                        if (response.status==400)
+                        if (response.status==415)
                         {
-                            alertify.set('notifier','position', 'top-right');
-                            alertify.success(response.message);
+                                $('#addroom_errorlist').html("");
+                                $('#addroom_errorlist').removeClass('d-none');
+                                $.each(response.message,function(key,error_value){
+                                    $('#addroom_errorlist').append('<li>'+error_value+'</li>');
+                                })
+
+                            // alertify.set('notifier','position', 'top-right');
+                            // alertify.success(response.message);
                         } else if (response.status==404)
                         {
                             alertify.set('notifier','position', 'top-right');
                             alertify.success(response.message);
 
-                        } else if (response.status==200)
+                        } else if (response.status==400)
+                        {
+                            alertify.set('notifier','position', 'top-right');
+                            alertify.success(response.message);
+
+                        }else if (response.status==200)
                         {
                             roomnamestable.ajax.reload();
                             alertify.set('notifier','position', 'top-right');

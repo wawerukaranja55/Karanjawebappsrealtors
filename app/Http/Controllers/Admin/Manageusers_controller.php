@@ -8,7 +8,6 @@ use App\Models\Rental_house;
 use App\Models\Tenantstatus;
 use Illuminate\Http\Request;
 use App\Models\House_Request;
-use PhpParser\Builder\Function_;
 use App\Http\Controllers\Controller;
 use App\Models\Room_name;
 use Illuminate\Support\Facades\File;
@@ -31,7 +30,7 @@ class Manageusers_controller extends Controller
 
     public function getusersroles_assign(Request $request)
     {
-        $all_users=User::with(['roles','hserooms','rentalhses','tenantstatus'])->select('id','name','avatar','is_approved','house_id','phone');
+        $all_users=User::with(['roles','hserooms','rentalhses','tenantstatus','userPayments'])->select('id','name','avatar','is_approved','house_id','phone');
 
         if($request->ajax()){
             $all_users = DataTables::of ($all_users)
@@ -40,11 +39,17 @@ class Manageusers_controller extends Controller
                 return $user->rentalhses->rental_name;
             })
 
-            ->addColumn ('delete',function($row){
-                return '
-                <a href="#" title="Delete the User Details" id="deleteuser" class="btn btn-danger" data-id="'.$row->id.'"><i class="fa fa-trash"></i></a>';
+            ->addColumn ('action',function($row){
+                return 
+                    '<a href="getuserpayments/'.$row->id.'" target="_blank" title="View All Payments Made by the Tenant" class="btn btn-success"><i class="fa fa-eye" aria-hidden="true"></i></a>';
+                    //  <a href="downloaduserpayments/'.$row->id.'" id="Download Payment" title="Download All Payments Made by the Tenant" class="btn btn-danger"><i class="fa fa-download"></i></a>;
             })
-            ->rawColumns(['house_id','delete'])
+
+            // ->addColumn ('delete',function($row){
+            //     return '
+            //     <a href="#" title="Delete the User Details" id="deleteuser" class="btn btn-danger" data-id="'.$row->id.'"><i class="fa fa-trash"></i></a>';
+            // })
+            ->rawColumns(['house_id','action'])
             ->make(true);
 
             return $all_users;

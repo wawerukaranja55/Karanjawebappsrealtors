@@ -19,7 +19,7 @@
             <a class="btn btn-dark" href="{{ route('alllocations.index') }}">Add a New Location</a>
         </div>
     </div
-    <div class="row" style="margin-bottom: 100px;">    
+    <div class="row">    
         <div class="col-lg-10 col-md-10 mx-auto">
             <div class="panel-heading mt-5" style="text-align: center; font-size:18px; background-color:black;"> 
                 <h3 class="mb-2 panel-title">Add a New Rental House</h3>
@@ -33,7 +33,7 @@
                     </div>
                 @endif
             </div>
-            <form action="{{ route('rental_houses.store') }}" class="form-horizontal" role="form" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('rental_houses.store') }}" class="form-horizontal" role="form" method="POST" enctype="multipart/form-data"  style="margin-bottom: 100px;">
                 @csrf
                 <div class="card padding-card product-card">
                     <div class="card-body">
@@ -41,12 +41,12 @@
     
                         <div class="row section-groups">
                             <div class="form-group inputdetails col-sm-6">
-                                <label>Rental Name<span class="text-danger inputrequired">*</span></label>
+                                <label>Rental House Name<span class="text-danger inputrequired">*</span></label>
                                 <input type="text" class="form-control text-white bg-dark" required name="rental_name" placeholder="Write The Rental House Name">
                             </div>
     
                             <div class="form-group inputdetails col-sm-6">
-                                <label>Rental Monthly Price<span class="text-danger inputrequired">*</span></label>
+                                <label>Rental Monthly Price(sh)<span class="text-danger inputrequired">*</span></label>
                                 <input type="number" class="form-control text-white bg-dark" required name="monthly_rent" placeholder="Write The Monthly Rent Price">
                             </div>
                         </div>
@@ -65,6 +65,18 @@
                                             @if (!empty (@old('category_id')) && $category->id==@old('category_id'))
                                                 selected=""    
                                             @endif>{{ $category->rentalcat_title }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row section-groups">
+                            <div class="form-group inputdetails col-sm-12">
+                                <label for="rental_tags" class="control-label">Add Room Sizes for the Rental house</label><br>
+                                <select name="rentaltags[]" class="form-control text-white bg-dark rentaltagselect2" multiple="multiple" style="width:100%;" required>
+                                    {{-- <option value="">Select Tags for your Rental House</option> --}}
+                                    @foreach($allrentaltags as $rentaltag)
+                                        <option value="{{ $rentaltag->id }}">{{ $rentaltag->rentaltag_title }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -94,18 +106,6 @@
                                 <input type="text" class="form-control text-white bg-dark" required name="rental_address" placeholder="Write an address for the house in the location">
                             </div>
                         </div>
-
-                        <div class="row section-groups">
-                            <div class="form-group inputdetails col-sm-12">
-                                <label for="rental_tags" class="control-label">Add tags for the rental house</label><br>
-                                <select name="rentaltags[]" class="form-control text-white bg-dark rentaltagselect2" multiple="multiple" style="width:100%;" required>
-                                    {{-- <option value="">Select Tags for your Rental House</option> --}}
-                                    @foreach($allrentaltags as $rentaltag)
-                                        <option value="{{ $rentaltag->id }}">{{ $rentaltag->rentaltag_title }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
     
                         <div class="row section-groups">
                             <div class="form-group inputdetails col-sm-6">
@@ -116,6 +116,7 @@
                                 <div class="custom-control custom-checkbox" style="margin-top: 10px;">
                                     <input type="checkbox" class="custom-control-input" name="is_featured" value="yes" id="osahan-checkbox6">
                                     <label class="custom-control-label" for="osahan-checkbox6">Featured</label>
+                                    <span class="text-danger inputrequired">(Optional)</span>
                                 </div>
                             </div>
                         </div>
@@ -128,7 +129,7 @@
                         <div class="row section-groups">
                             <div class="col-md-6 inputdetails">
                                 <h5 class="card-title mb-4">Rental House Profile Image</h5>
-                                <input type="file" name="rental_image" accept="image/*" required>
+                                <input type="file" name="rental_image" accept="image/*" required><br>
                                 <span class="font-italic">Recommended size:width  1040px by height 1200px</span>
                             </div>
                             <div class="form-group inputdetails col-sm-6">
@@ -184,8 +185,10 @@
                         </div>
                     </div>
                 </div>
+                <div style="display: flex;justify-content:space-around;">
+                    <button type="submit" class="btn btn-success" style="width:60%;text-align:center;">ADD RENTAL HOUSE</button>
+                </div>
                 
-                <button type="submit" class="btn btn-success">ADD RENTAL HOUSE</button>
             </form>
         </div>
     </div>       

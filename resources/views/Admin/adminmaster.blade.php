@@ -179,7 +179,7 @@
             </div>
             {{-- @include('Admin.adminfooter') --}}
          </div>
-         @include('Admin.adminrightsidebar')
+         {{-- @include('Admin.adminrightsidebar') --}}
       </div>
 
       {{-- Add/edit tenant status modal--}}
@@ -319,13 +319,13 @@
             <div class="modal-content">
                <div class="modal-body">
                      {{-- Edit Property Details --}}
-                     <div class="row" id="edithousedata" style="margin: 100px 5px;">
-                        <div class="mx-auto" style="text-align: center; font-size:18px; background-color:black;
-                           display: flex;
-                           justify-content: center; padding:5px;"> 
-                           <h3 class="mb-2 panel-title text-white edit_title"></h3> 
-                        </div>
+                     <div class="row" id="edithousedata" style="display: flex;justify-content: center;
+                     align-items:center;">
+                        {{--  --}}
                         <form action="javascript:void(0)" id="updatehsesform" class="form-horizontal updaterentaldetails" role="form" method="POST" enctype="multipart/form-data">
+                           <div style="text-align: center; font-size:18px; background-color:black; padding:5px;"> 
+                              <h3 class="mb-2 panel-title text-white edit_title" style="width: 100%;"></h3> 
+                           </div>
                            @csrf
                            <input type="hidden" id="rentalhouseid">
                            <div class="card padding-card product-card">
@@ -334,7 +334,7 @@
 
                                     <div class="row section-groups">
                                        <div class="form-group inputdetails col-sm-6">
-                                             <label>Rental Name<span class="text-danger inputrequired">*</span></label>
+                                             <label>Rental House Name<span class="text-danger inputrequired">*</span></label>
                                              <input type="text" class="form-control text-white bg-dark" required name="rental_name" id="rental_title"
                                              >
                                        </div>
@@ -344,14 +344,6 @@
                                              <input type="number" class="form-control text-white bg-dark" required name="monthly_rent" id="monthly_rent">
                                        </div>
                                     </div>
-                                    <div class="row section-groups">
-                                       <div class="form-group inputdetails col-sm-12">
-                                          <label>Rental Details<span class="text-danger inputrequired">*</span></label>
-                                          <div id="rental_details_ck" style="border:2px solid black;">
-                                          </div>
-                                       </div>
-                                    </div>
-                                    
                                     <div class="row section-groups">
                                        <div class="form-group inputdetails col-sm-6">
                                           <label>Rental Name Slug<span class="text-danger inputrequired">*</span></label>
@@ -369,6 +361,28 @@
                                           </select>
                                        </div>
                                     </div>
+                                    <div class="row section-groups">
+                                       <div class="form-group inputdetails col-sm-12">
+                                             <label for="rental_tags" class="control-label">Change Room Sizes for the rental house</label>
+                                             <br>
+                                             <select name="rentaltags[]" class="form-control text-white bg-dark rentaltagselect2" multiple="multiple" style="width:100%;">
+                                                @foreach($allrentaltags as $tag)
+                                                   <option value="{{ $tag->id }}"
+                                                         {{-- {{ ($rentaldata->housetags()->pluck('rentaltag_title')->contains($tag->rentaltag_title)) ? 'selected' : '' }} --}}
+                                                   >{{  $tag->rentaltag_title }}</option>
+                                                @endforeach
+                                             </select>
+                                       </div>
+                                    </div>
+                                    <div class="row section-groups">
+                                       <div class="form-group inputdetails col-sm-12">
+                                          <label>Rental Details<span class="text-danger inputrequired">*</span></label>
+                                          <div id="rental_details_ck" style="border:2px solid black;">
+                                          </div>
+                                       </div>
+                                    </div>
+                                    
+                                    
 
                                     <div class="row section-groups">
                                        <div class="form-group inputdetails col-sm-6">
@@ -387,19 +401,7 @@
                                       </div>
                                     </div>
 
-                                    <div class="row section-groups">
-                                       <div class="form-group inputdetails col-sm-12">
-                                             <label for="rental_tags" class="control-label">Add tags for the rental house</label>
-                                             <br>
-                                             <select name="rentaltags[]" class="form-control text-white bg-dark rentaltagselect2" multiple="multiple" style="width:100%;">
-                                                @foreach($allrentaltags as $tag)
-                                                   <option value="{{ $tag->id }}"
-                                                         {{-- {{ ($rentaldata->housetags()->pluck('rentaltag_title')->contains($tag->rentaltag_title)) ? 'selected' : '' }} --}}
-                                                   >{{  $tag->rentaltag_title }}</option>
-                                                @endforeach
-                                             </select>
-                                       </div>
-                                    </div>
+                                    
 
                                     <div class="row section-groups">
                                        <div class="form-group inputdetails col-sm-3">

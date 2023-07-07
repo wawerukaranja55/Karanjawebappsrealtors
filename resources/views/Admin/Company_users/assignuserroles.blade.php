@@ -43,6 +43,7 @@
         <td>User Role</td>
         <td>Account Status</td>
         <td>User Status</td>
+        <td>Action</td>
       </tr>
     </thead>
     <tbody>
@@ -53,7 +54,7 @@
 
 @section('assignusersrolesscript')
     <script>
-        // show all users and their roles
+        // show all users and their roles,and be able to view
         var managesignedupuserstable = $('#assignusersrole').DataTable({
           processing:true,
           serverside:true,
@@ -84,7 +85,7 @@
                   $(row.roles).each(function (i, e) {
                     userroles.push(e.role_name);
                     });
-                    return '<input readonly=" " class="userrole bg-dark text-white" value="' + userroles + '" data-id="' + row.id + '"><br><button type="button" value="' + row.id + '" class="btn-primary assignrole">Assign the User A New Role</button>';
+                    return '<input readonly=" " class="userrole bg-dark text-white" style="width:100px;" value="' + userroles + '" data-id="' + row.id + '"><br><button type="button" value="' + row.id + '" class="btn-primary assignrole">Assign New Role</button>';
                 }, name: 'roles.role_name'
               },
               { data:
@@ -93,7 +94,7 @@
                   $(row.tenantstatus).each(function (i, e) {
                     tenantstatuses.push(e.tenantstatus_title);
                     });
-                  return '<input readonly=" " class="showtenantstatus bg-dark text-white" value="' + tenantstatuses + '" data-id="' + row.id + '"><br><button type="button" value="' + row.id + '" class="activatetenant">Change status</button>';
+                  return '<input readonly=" " class="showtenantstatus bg-dark text-white" style="width:100px;" value="' + tenantstatuses + '" data-id="' + row.id + '"><br><button type="button" value="' + row.id + '" class="activatetenant">Change status</button>';
                   // tenantstatuses.join(", ")
                 }, name: 'tenantstatus.tenantstatus_title'
               },
@@ -105,13 +106,14 @@
                   return data;
                 }
               },
+              { data: 'action',name:'action',orderable:false,searchable:false }
             ],
 
             rowCallback: function ( row, data ) {
                 $('input.userstatus', row)
                 .prop( 'checked', data.is_approved == 1 )
                 .bootstrapToggle();
-            }
+            },
         });
 
         // show tenant statuses ina datatable

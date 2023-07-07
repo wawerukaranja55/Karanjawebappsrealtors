@@ -66,6 +66,11 @@ class User extends Authenticatable
         // return $this->belongsToMany('App\Models\Mpesacheckoutrequestid','mpesarqstid_users','usercheckoutrqst_id','mpesacheckoutrqst_id');
     }
 
+    // relationship between user and his payments
+    function userPayments(){
+        return $this->hasMany('App\Models\AllTenantspayment'); 
+    }
+
         // a user may have many rooms
     public function hserooms(){
         return $this->belongsToMany('App\Models\Room_name','house_userrooms','userhse_id','rentalroom_id');

@@ -10,9 +10,9 @@
    <div class="col-md-3">
       <a class="btn btn-dark" href="{{ url('admin/assign_userroles') }}">All Registered Users</a>
    </div>
-   <div class="col-md-3">
+   {{-- <div class="col-md-3">
       <a class="btn btn-dark" href="{{ url('admin/tenantreviews') }}">All Rental Reviews</a>
-   </div>
+   </div> --}}
    <div class="col-md-3">
       <a class="btn btn-dark" href="{{ url('admin/activerentals') }}">Activated Rental Houses</a>
    </div>
@@ -78,7 +78,7 @@
                 </div>
             </div>
             
-            <button type="submit" class="btn btn-success">Save The Tenants Amount </button>
+            <button type="submit" id="savePayment" class="btn btn-success">Save The Tenants Amount </button>
 
             <ul class="alert alert-warning d-none update_errorlist"></ul>
         </form>
@@ -241,8 +241,7 @@
         $("#addhsepaymentform").on("submit",function(e){
             e.preventDefault();
             var url = '{{ route("addtenant.payment") }}';
-            console.log("data sent reached");
-
+            $('#savePayment').prop('disabled',true);
             $.ajax({
                 url:url,
                 type:"POST",
@@ -258,10 +257,12 @@
                         {
                             $('.update_errorlist').append('<li>' + err_value + '</li>');
                         })
+                        $('#savePayment').prop('disabled',false);
                     } else if (response.status==200)
                     {
                             alertify.set('notifier','position', 'top-right');
                             alertify.success(response.message);
+                            $('#savePayment').prop('disabled',false);
                             allpaymentstable.ajax.reload();
                     }
 

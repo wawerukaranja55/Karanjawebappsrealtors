@@ -31,8 +31,8 @@ class Mpesapayments_controller extends Controller
     //generate access token for the transaction
     public function newaccesstoken()
     {
-        $consumer_key="fz1nTUn4qcx8sEVGiC1TxC47czrTExQS";
-        $consumer_secret="VrDBcXRNA68aRUic";
+        $consumer_key="s0srY805Jf2N4TKITnGm3nBfxbZnPhDa";
+        $consumer_secret="nKEtYpzmPbFlsL0L";
         $credentials = base64_encode($consumer_key.":".$consumer_secret);
         $url ="https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials";
         $curl = curl_init();
@@ -90,7 +90,7 @@ class Mpesapayments_controller extends Controller
                 'PartyA'=>$phonenumber,
                 'PartyB'=>174379,
                 'PhoneNumber'=>$phonenumber,
-                'CallBackURL'=>'https://7e67-196-202-210-53.in.ngrok.io/api/mpesa/stkpush/callbackurl',
+                'CallBackURL'=>'https://c42c-154-159-237-64.ngrok-free.app/api/mpesa/stkpush/callbackurl',
                 'AccountReference'=>'W.Karanja Web App Realtors ',
                 'TransactionDesc'=>'Paying for Your House Rent'
             ];
@@ -131,7 +131,7 @@ class Mpesapayments_controller extends Controller
     {
         $response=json_decode($request->getContent());
         Log::info(json_encode($response));
-
+        dd($response);die();
         $responsedata=$response->Body->stkCallback->CallbackMetadata;
         $callbackurlrequest_id=$response->Body->stkCallback->CheckoutRequestID;
         // $responsecode=$response->Body->stkCallback->ResultCode;

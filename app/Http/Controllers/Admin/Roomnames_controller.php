@@ -160,84 +160,107 @@ class Roomnames_controller extends Controller
     {
         $data=$request->all();
 
-        $hsebeingaddedrms=Rental_house::where('id',$data['rentalhouseid'])->first();
+        $rules=[
+            'rentalhousermsize'=>'required',
+            'roomsize_price'=>'required|numeric',
+            'room_numbername'=>'required'
+        ];
 
-        // count the number of rooms
-        $totalroomscount=Room_name::where('rentalhouse_id',$data['rentalhouseid'])->count();
+        $custommessages=[
+            'rentalhousermsize.required'=>'Kindly Select A Room Size',
+            'roomsize_price.required'=>'Enter The Price For The Room Size',
+            'roomsize_price.numeric'=>'Enter a Valid Amount',
+            'room_numbername.required'=>'Enter The Room Number/Name'
+        ];
 
-        $totalrooms=Rental_house::where('id',$data['rentalhouseid'])->pluck('total_rooms')->first();
+        $validator = Validator::make( $data,$rules,$custommessages );
 
-            // find the house details
-        $checkifhsehasrmsizes = Rental_house::with('housetags')->find($data['rentalhouseid']);
-
-        foreach($checkifhsehasrmsizes->housetags as $hsetgs)
+        if($validator->fails())
         {
-            $totalhsesizes[]=$hsetgs->id;
-        }
-        
-        if($totalhsesizes==[1,2,3,6,7]){
-            
-            $totalroomsizecount=Room_name::where('rentalhse_id',$data['rentalhouseid'])->sum('total_rooms');
+            return response()->json([
+                'status'=>415,
+                'message'=>$validator->errors()
+            ]);
         }else{
-            $totalroomsizecount=$totalrooms;
-        }
+            $hsebeingaddedrms=Rental_house::where('id',$data['rentalhouseid'])->first();
 
-        $roomcount=Room_name::where(['room_name'=>$data['room_numbername'],'rentalhouse_id'=>$data['rentalhouseid']])->count();
+            // count the number of rooms
+            $totalroomscount=Room_name::where('rentalhouse_id',$data['rentalhouseid'])->count();
 
-        if ($roomcount>0){
-            $message="The Room name for the house already exists.";
-            return response()->json(['status'=>400,
-                                    'message'=>$message]);
-        }
-        elseif($totalroomscount==$totalrooms){
-            
-            Rental_house::where('id',$data['rentalhouseid'])->update(['rental_status'=>1]);
+            $totalrooms=Rental_house::where('id',$data['rentalhouseid'])->pluck('total_rooms')->first();
 
-            $message="No Extra Rooms can be Added for this Rental House.";
-            return response()->json([
+                // find the house details
+            $checkifhsehasrmsizes = Rental_house::with('housetags')->find($data['rentalhouseid']);
 
-                'status'=>404,
-                'message'=>$message
-            ]);
-        }
-        elseif ($totalroomscount==$totalroomsizecount )
-        {
-            
-            Rental_house::where('id',$data['rentalhouseid'])->update(['rental_status'=>1]);
-
-            $message="No Extra Rooms can be Added for this Rental House.";
-            return response()->json([
-
-                'status'=>500,
-                'message'=>$message
-            ]);
-        }
-        else
-        {
-            $addedrm=new Room_name();
-            $addedrm->room_name=$data['room_numbername'];
-            $addedrm->rentalhouse_id=$data['rentalhouseid'];
-            $addedrm->is_roomsize=$data['rentalhousermsize'];
-            $addedrm->roomsize_price=$data['roomsize_price'];
-            $addedrm->save();
-
-            $recentlyaddedrms=Room_name::where('rentalhouse_id',$data['rentalhouseid'])->count();
-
-            if($recentlyaddedrms==$totalrooms || $hsebeingaddedrms->is_extraimages==1)
+            foreach($checkifhsehasrmsizes->housetags as $hsetgs)
             {
-                Rental_house::where('id',$data['rentalhouseid'])->update(['rental_status'=>1]);
-            } 
-            elseif($recentlyaddedrms==$totalrooms || $hsebeingaddedrms->is_extraimages==0) 
-            {
-                Rental_house::where('id',$data['rentalhouseid'])->update(['rental_status'=>0]);
+                $totalhsesizes[]=$hsetgs->id;
             }
             
-            $message="Room Name Has Been Saved In the DB.";
-            return response()->json([
+            if($totalhsesizes==[1,2,3,6,7]){
+                
+                $totalroomsizecount=Room_name::where('rentalhse_id',$data['rentalhouseid'])->sum('total_rooms');
+            }else{
+                $totalroomsizecount=$totalrooms;
+            }
 
-                'status'=>200,
-                'message'=>$message
-            ]);
+            $roomcount=Room_name::where(['room_name'=>$data['room_numbername'],'rentalhouse_id'=>$data['rentalhouseid']])->count();
+
+            if ($roomcount>0){
+                $message="The Room name for the house already exists.";
+                return response()->json(['status'=>400,
+                                        'message'=>$message]);
+            }
+            elseif($totalroomscount==$totalrooms){
+                
+                Rental_house::where('id',$data['rentalhouseid'])->update(['rental_status'=>1]);
+
+                $message="No Extra Rooms can be Added for this Rental House.";
+                return response()->json([
+
+                    'status'=>404,
+                    'message'=>$message
+                ]);
+            }
+            elseif ($totalroomscount==$totalroomsizecount )
+            {
+                
+                Rental_house::where('id',$data['rentalhouseid'])->update(['rental_status'=>1]);
+
+                $message="No Extra Rooms can be Added for this Rental House.";
+                return response()->json([
+
+                    'status'=>500,
+                    'message'=>$message
+                ]);
+            }
+            else
+            {
+                $addedrm=new Room_name();
+                $addedrm->room_name=$data['room_numbername'];
+                $addedrm->rentalhouse_id=$data['rentalhouseid'];
+                $addedrm->is_roomsize=$data['rentalhousermsize'];
+                $addedrm->roomsize_price=$data['roomsize_price'];
+                $addedrm->save();
+
+                $recentlyaddedrms=Room_name::where('rentalhouse_id',$data['rentalhouseid'])->count();
+
+                if($recentlyaddedrms==$totalrooms || $hsebeingaddedrms->is_extraimages==1)
+                {
+                    Rental_house::where('id',$data['rentalhouseid'])->update(['rental_status'=>1]);
+                } 
+                elseif($recentlyaddedrms==$totalrooms || $hsebeingaddedrms->is_extraimages==0) 
+                {
+                    Rental_house::where('id',$data['rentalhouseid'])->update(['rental_status'=>0]);
+                }
+                
+                $message="Room Name Has Been Saved In the DB.";
+                return response()->json([
+
+                    'status'=>200,
+                    'message'=>$message
+                ]);
+            }
         }  
     }
 
@@ -321,7 +344,7 @@ class Roomnames_controller extends Controller
 
         $rules=[
             'room_size.*'=>'required',
-            // 
+            
             'total_rooms.*'=>'required|numeric|min:1',
         ];
 

@@ -145,6 +145,12 @@ Route::group(['prefix'=>'admin','middleware'=>(['auth','can:adminonly'])],functi
 
     Route::get('houserequests',[Manageusers_controller::class,'gethouse_requests'])->name('user.houserequests');
 
+    // get all payments made by a user
+
+    Route::get('getuserpayments/{id}', [Alltenantspayment_Controller::class,'viewuserpayments'])->name('get.userpayments');
+
+    Route::get('downloaduserpayments/{id}', [Alltenantspayment_Controller::class,'downloaduserpayments'])->name('download.userpayments');
+    
     // all registered users
     Route::get('registered_users',[Manageusers_controller::class,'registered_users'])->name('registered_users');
 

@@ -16,8 +16,6 @@ use Illuminate\Support\Facades\Validator;
 class SignUp_controller extends Controller
 {
     public function login_register(){
-
-        
         return view('Front.loginregister');
     }
 
@@ -27,7 +25,6 @@ class SignUp_controller extends Controller
         $rules=[
             'name'=>'required',
             'phone'=>'required|regex:/(07)[0-9]/|digits:10',
-            'email'=>'required',
             'id_number'=>'required|digits:8',
             'house_id'=>'required',
             'rentalroom_id'=>'required',
@@ -36,7 +33,6 @@ class SignUp_controller extends Controller
 
         $custommessages=[
             'name.required'=>'Kindly Write Your Name',
-            'email.required'=>'Kindly Write Your Email',
             'id_number.required'=>'Kindly Write Your National Id Number',
             'id_number.digits:8'=>'Kindly Write National Id Number',
             'house_id.required'=>'Select Your House Name',
@@ -61,9 +57,17 @@ class SignUp_controller extends Controller
                 Session::forget('success_message');
                 return Redirect::back();
             }else{
+                
+                if ( empty($data['email']) ) 
+                { 
+                    $useremail = NULL;
+                } else {
+                    $useremail = $data['email'];
+                }
+
                 $user=new User;
                 $user->name=$data['name'];
-                $user->email=$data['email'];
+                $user->email=$useremail;
                 $user->phone=$data['phone'];
                 $user->id_number=$data['id_number'];
                 $user->house_id=$data['house_id'];
@@ -104,11 +108,11 @@ class SignUp_controller extends Controller
         Session::forget('error_message');
         Session::forget('success_message');
 
-        if(Auth::attempt(['email'=>$data['email'],'password'=>$data['password']])){
+        if(Auth::attempt(['phone'=>$data['phone_number'],'password'=>$data['password']])){
             
             $this->validate($request,
             [
-                'email'=> 'required|max:255|email',
+                'phone_number'=> 'required',
                 'password'=> 'required',
                 
             ]);
@@ -177,10 +181,11 @@ class SignUp_controller extends Controller
 
     public function signupwithmodal(Request $request){
         $data=$request->all();
+
         $rules=[
             'name'=>'required',
             'phone'=>'required|regex:/(07)[0-9]/|digits:10',
-            'email'=>'required|unique:users|email',
+            //'email'=>'required|unique:users|email',
             'id_number'=>'required|digits:8',
             'house_id'=>'required',
             'rentalroom_id'=>'required',
@@ -189,7 +194,7 @@ class SignUp_controller extends Controller
 
         $custommessages=[
             'name.required'=>'Kindly Write Your Name',
-            'email.required'=>'Kindly Write Your Email',
+            //'email.required'=>'Kindly Write Your Email',
             'email.unique'=>'The Email Already Exists For another user',
             'email.email'=>'The Input should be an email',
             'id_number.required'=>'Kindly Write Your National Id Number',
@@ -213,15 +218,23 @@ class SignUp_controller extends Controller
         }else{
             $usercount=User::where('id_number',$data['id_number'])->count();
             if($usercount>0){
-                $message="Your Account Already Exists for Another User";
+                $message="The Account Already Exists for Another User";
                 return response()->json([
                     'status'=>404,
                     'message'=>$message
                 ]);
             }else{
+
+                if ( empty($data['email']) ) 
+                { 
+                    $useremail = NULL;
+                } else {
+                    $useremail = $data['email'];
+                }
+
                 $user=new User;
                 $user->name=$data['name'];
-                $user->email=$data['email'];
+                $user->email=$useremail;
                 $user->phone=$data['phone'];
                 $user->id_number=$data['id_number'];
                 $user->house_id=$data['house_id'];

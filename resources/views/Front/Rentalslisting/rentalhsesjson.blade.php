@@ -20,7 +20,7 @@
         @else 
     
             @foreach ($housescategory as $rentalhse)
-            <div class="col-lg-6 col-md-6">
+            <div class="col-lg-4 col-md-4">
                 <h5 class="card-title">{{ $rentalhse->id }}</h5>
                 <div class="card card-list" style="box-shadow: 0px 0px 7px 3px #d3b8b8;">
                     @if($rentalhse->vacancy_status==1)
@@ -29,9 +29,10 @@
                         <span class="badge badge-success badge-sm">Fully Booked</span>
                     @endif
                     <img class="card-img-top" src="{{ asset ('imagesforthewebsite/rentalhouses/rentalimages/medium/'.$rentalhse->rental_image) }}" alt="{{ $rentalhse->rental_name }}"
-                     style="width:inherit; height: 230px; box-shadow: 0px 0px 7px 3px #b1adad; object-fit:contain;">
+                     style="width:inherit; height: 230px; box-shadow: 0px 0px 7px 3px #b1adad; object-fit:cover;">
                     <div class="card-body">
-                        <h5 class="card-title">{{ $rentalhse->rental_name }}</h5>
+                        <h5 class="card-title" style="height: 20px; margin-bottom:10px;">
+                            {!!str_limit($rentalhse->rental_name,20)!!}</h5>
                         <h6 class="card-subtitle mb-2 text-muted">
                             <i class="fa fa-map-marker" aria-hidden="true"></i> {{ $rentalhse->houselocation->location_title }}</h6>
                         <h2 class="text-dark mb-0 mt-3">sh.{{ $rentalhse->monthly_rent }} <small>/month</small></h2>
@@ -41,7 +42,7 @@
                              @endforeach</h2>
                     </div>
                     <div class="card-footer">
-                        <section style="display: flex;
+                        <section style="display: flex; height:70px;
                         justify-content: space-between; padding:2px; margin-bottom:2px;">
                             <div class="name-icon">
                                 @if ($rentalhse->cctv_cameras == 'yes')
@@ -73,7 +74,12 @@
                         </section>
                         <div style="display: flex;
                         justify-content: space-between; margin:0px !important;">
-                            <section class="viewlink">
+                            <button class="btn btn-danger btn-sm" style="padding:3px; text:white;"><a href="#" id="requesthouse" data-id="{{ $rentalhse->id }}">Contact Admin</a></button>
+                            <button class="btn btn-warning btn-sm" style="padding:3px; text:white;"><a href="{{ url('rentalhse/'.$rentalhse->rental_slug.'/'.$rentalhse->id) }}" role="button" >
+                                View Details
+                            </a></button>
+                            
+                            {{-- <section class="viewlink">
                                 <a href="#" id="requesthouse" class="btn btn-sm btn-danger" data-id="{{ $rentalhse->id }}">Contact Admin</a>
                             </section>
                             <section class="viewlink">
@@ -81,7 +87,7 @@
                                 <a class="btn btn-sm btn-warning" href="{{ url('rentalhse/'.$rentalhse->rental_slug.'/'.$rentalhse->id) }}" role="button" >
                                     View Details
                                 </a>
-                            </section>
+                            </section> --}}
                         </div>
                     </div>
                 </div>
@@ -162,7 +168,7 @@
             @endforeach
         @endif
     </div>
-    <div class="d-flex justify-content-center pagination" style="margin-top: 200px;">
+    <div class="d-flex justify-content-center pagination" style="margin-top: 100px;">
         {{ $housescategory->links('vendor.pagination.bootstrap-4') }}
     </div>
 </div>

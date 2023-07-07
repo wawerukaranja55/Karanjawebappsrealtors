@@ -608,7 +608,7 @@
         Dropzone.autoDiscover = false;
         var dzonerentalimages = new Dropzone("#editdropzone-form",{
             maxFilesize: 2,
-            maxFiles: 5,
+            maxFiles: 3,
             acceptedFiles: ".jpeg,.jpg,.png"
         });
 

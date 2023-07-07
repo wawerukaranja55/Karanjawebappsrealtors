@@ -27,7 +27,7 @@ class AllTenantspayment extends Model
     }
 
     // all amounts paid by a tenant
-    public function totalamounts($year, $month)
+    public static function totalamounts($year, $month)
     {
         return AllTenantspayment::whereYear('created_at', $year)
             ->whereMonth('created_at', $month)

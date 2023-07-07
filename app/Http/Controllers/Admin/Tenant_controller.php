@@ -70,63 +70,54 @@ class Tenant_controller extends Controller
                 Rental_house::where('id',$user->house_id)->update(['is_vacancy'=>2]);
             }
 
-             // use 'sandbox' for development in the test environment
-             // use your sandbox app API key for development in the test environment
-            // $AT       = new AfricasTalking($username, $apiKey);
 
             // // Get one of the services
-            // $sms      = $AT->sms();
 
-            // $sms->send([
-            //     'to'      => '+254702521351',
-            //     'message' => 'Welcome here'
-            // ]);
+                    //$username = 'wkaranjawebapps';
+                    //$apiKey   = 'fc4abd547d1bb533dd92a8ff180cc8098fa95fedaf6ce7f5ebe25cc00263706c';
 
-            $username = 'wkaranjawebapps';
-            $apiKey   = 'fc4abd547d1bb533dd92a8ff180cc8098fa95fedaf6ce7f5ebe25cc00263706c';
+                // Initialize the SDK
+                //$AT         = new AfricasTalking($username, $apiKey);
 
-            // Initialize the SDK
-            $AT         = new AfricasTalking($username, $apiKey);
+                // Get the SMS service
+                //$sms        = $AT->sms();
 
-            // Get the SMS service
-            $sms        = $AT->sms();
+                // Set the numbers you want to send to in international format
+                //$recipients = "+254702521351,+254729822621,+254759194254";
 
-            // Set the numbers you want to send to in international format
-            $recipients = "+254702521351,+254729822621,+254759194254";
+                // Set your message
+                //$message    = "I'm a waweru and i love making softwares all day any day ";
 
-            // Set your message
-            $message    = "I'm a waweru and i love making softwares all day any day ";
+                // Set your shortCode or senderId
+                // $from       = "AFRICASTKNG";
 
-            // Set your shortCode or senderId
-            // $from       = "AFRICASTKNG";
+                //try {
+                    // Thats it, hit send and we'll take care of the rest
+                    // $result=$sms->send([
+                    //     'to'      => $recipients,
+                    //     'message' => $message,
+                    //     // 'from'    => $from
+                    // ]);
 
-            try {
-                // Thats it, hit send and we'll take care of the rest
-                $result=$sms->send([
-                    'to'      => $recipients,
-                    'message' => $message,
-                    // 'from'    => $from
-                ]);
-
-                // $sms->send([
-                //     'to'      => $recipients,
-                //     'message' => $message,
-                //     'from'    => $from
-                // ]);
-            } catch (Exception $e) {
-                echo "Error: ".$e->getMessage();
-                // dd($e->getMessage());die();
-            }
+                    // $sms->send([
+                    //     'to'      => $recipients,
+                    //     'message' => $message,
+                    //     'from'    => $from
+                    // ]);
+                // } catch (Exception $e) {
+                //     echo "Error: ".$e->getMessage();
+                //     // dd($e->getMessage());die();
+                // }
 
             // send email to the user to inform them to login
-            $email=$user['email'];
-            $name=$user['name'];
-            $housename=$user->rentalhses->rental_name;
-            $messagedata=['email'=>$email,'name'=>$name,'housename'=>$housename];
+            // $email=$user['email'];
+            // $name=$user['name'];
+            // $housename=$user->rentalhses->rental_name;
+            // $messagedata=['email'=>$email,'name'=>$name,'housename'=>$housename];
 
-            Mail::send('emails.signupsuccessful', $messagedata, function ($message) use($email) {
-                $message->to($email)->subject('Welcome to W.Karanja Apps');
-            });
+            // Mail::send('emails.signupsuccessful', $messagedata, function ($message) use($email) {
+            //     $message->to($email)->subject('Welcome to W.Karanja Apps');
+            // });
 
             return response()->json([
                 'user'=>$user,

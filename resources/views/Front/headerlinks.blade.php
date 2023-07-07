@@ -1,10 +1,14 @@
 <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <meta name="description" content="Karanja Web Apps">
+      
       <meta name="csrf-token" content="{{ csrf_token() }}">
-      <title>
-         @yield('title','Front Layout')
-       </title>
+      <title>@if (!empty($meta_title)){{ $meta_title }}@else Wkaranja Realtor and Property Management Web App @endif</title>
+
+      @if (!empty($meta_description))
+        <meta name="description" content="{{ $meta_description }}">
+      @else
+        <meta name="description" content="Rental Houses And Property Management System for Realtors and Tenants">
+      @endif
 
       {{-- <link rel="stylesheet" href="{{ asset('cssjqueryfiles/adminpanel/css/bootstrap.min.css') }}"/> --}}
       

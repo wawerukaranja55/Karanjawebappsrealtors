@@ -19,7 +19,8 @@
         }
 
         body{
-            background: var(--secondary);
+            background-color: red;
+            /* background: var(--secondary); */
             padding: 50px;
             color: var(--secondary);
             display: flex;
@@ -236,6 +237,29 @@
                     </div>
                 </div>
             </div>
+            <!-- CSS Code: Place this code in the document's head (between the 'head' tags) -->
+<style>
+    table.GeneratedTable {
+      width: 100%;
+      background-color: #ffffff;
+      border-collapse: collapse;
+      border-width: 2px;
+      border-color: #ffcc00;
+      border-style: solid;
+      color: #000000;
+    }
+    
+    table.GeneratedTable td, table.GeneratedTable th {
+      border-width: 2px;
+      border-color: #ffcc00;
+      border-style: solid;
+      padding: 3px;
+    }
+    
+    table.GeneratedTable thead {
+      background-color: #ffcc00;
+    }
+    </style>
             <div class="body">
                 <div class="main_table">
                     <div class="table_header">
