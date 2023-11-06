@@ -192,9 +192,6 @@
                         <div id="searchedproducts"></div>
                     </div>
                 </div>
-                <div id="searchforhses" style="display:flex; justify-content:center; align-items:center;height:100vh;">
-                    <img src="{{ asset ('imagesforthewebsite/icons/ajax-loader.gif') }}"/>
-                </div>
                 <div class="showrentalhouses">
                     @include('Front.Rentalslisting.rentalhsesjson')
                 </div>
@@ -251,9 +248,6 @@
 
 
         $(document).ready(function(){
-
-            $('#searchforhses').hide();
-
             // change pagination using ajax jquery
             $(document).on('click', '.pagination a', function(event) {
                 event.preventDefault();
@@ -261,6 +255,8 @@
                 var page = $(this).attr('href').split('page=')[1];
 
                 getMoreRentals(page)
+
+                return false;
             });
             
             // show the filters using select 2
@@ -284,7 +280,7 @@
                 //var start=$('#amount_start').val();        
                 //var end=$('#amount_end').val();
 
-                $('#searchforhses').show();
+                $('.showrentalhouses').html('<div id="searchforhses" style="display:flex; justify-content:center; align-items:center;height:100vh;"><img src="/imagesforthewebsite/icons/ajax-loader.gif"/></div>');
                 $.ajax({
                     url:'/'.$housesurl,
                     method:"get",
@@ -309,9 +305,9 @@
                     },
                     success:function(data){
                         // console.log(data);
-                        $('#searchforhses').hide();
                         $('.showrentalhouses').html(data);
 
+                        
                         //$('.rentalhses').show();
                     }
                 });
@@ -346,8 +342,7 @@
 
                         var hsetag = $('input[class^="tagtitle"]').filter(":checked").val();
 
-                        $('#searchforhses').show();
-                        //$('.showrentalhouses').html('#searchforhses');
+                         $('.showrentalhouses').html('<div id="searchforhses" style="display:flex; justify-content:center; align-items:center;height:100vh;"><img src="/imagesforthewebsite/icons/ajax-loader.gif"/></div>');
                         $.ajax({
                             url:'/'.$housesurl,
                             method:"get",
@@ -370,7 +365,6 @@
                                 sort:sorthouses,
                             },
                             success:function(data){
-                                $('#searchforhses').hide();
                                 $('.showrentalhouses').html(data);
 
                                 //$('.rentalhses').show();

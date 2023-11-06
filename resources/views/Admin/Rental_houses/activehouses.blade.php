@@ -72,7 +72,7 @@
             { data: 'rental_status',
                render: function ( data, type, row ) {
                   if ( type === 'display' ) {
-                        return '<input class="toggle-class rentalhsestatus" disabled type="checkbox" checked data-toggle="toggle" data-id="' + row.id + '" data-on="Active" data-off="Not Active" data-onstyle="success" data-offstyle="danger">';
+                        return '<input class="toggle-class rentalhsestatus" type="checkbox" disabled checked data-toggle="toggle" data-id="' + row.id + '" data-on="Active" data-off="Not Active" data-onstyle="success" data-offstyle="danger">';
                   }
                   return data;
                }
@@ -93,6 +93,7 @@
          {
             var hsestatus=$(this).prop('checked')==true? 1:0;
 
+            alert("karanja");
             var rentalhseid=$(this).data('id');
             $.ajax({
                   type:"GET",

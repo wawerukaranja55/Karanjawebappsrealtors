@@ -2929,7 +2929,6 @@
             processing:true,
             serverside:true,
             reponsive:true,
-
             ajax:
             {
                 url:url,

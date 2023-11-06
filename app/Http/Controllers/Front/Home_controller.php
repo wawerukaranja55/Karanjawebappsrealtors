@@ -25,12 +25,16 @@ class Home_controller extends Controller
         Session::put('page','homepage');
 
         $showcommercialhses=Rental_house::where(['rentalcat_id'=>2,'is_rentable'=>1])->latest()->take(4)->get();
-        $showlatestbedsitters=Rental_tags::where('id',7)->with(['tagshouse'])->latest()->limit(4)->get();
-        $showlatestproperties=Property::where('property_isactive',1)->latest()->take(4)->get();
+
+        $showlatestbedsitters = Rental_house::with(['houselocation','housecategory'])->whereHas('housetags', function($q) {
+            $q->where('tag_id', 7);
+        })->limit(4)->orderBy('id', 'DESC')->get();
+
+        $showlatestlands=Property::where(['propertycat_id'=>1,'property_isactive'=>1])->latest()->take(4)->get();
         $meta_title="Rental and Property Management System and Website In Kenya";
         $meta_description="Rental Houses And Properties Management System For Realtors and Website";
         $meta_keywords="Rental and Property Mangement System,Content Management System,Realtor Website";
-        return view('Front.homepage',compact('showcommercialhses','showlatestbedsitters','showlatestproperties','meta_title','meta_description','meta_keywords'));
+        return view('Front.homepage',compact('showcommercialhses','showlatestbedsitters','showlatestlands','meta_title','meta_description','meta_keywords'));
     }
 
     public function contactus()

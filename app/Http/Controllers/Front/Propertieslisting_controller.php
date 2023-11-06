@@ -83,11 +83,11 @@ class Propertieslisting_controller extends Controller
 
                 $propertylocations=Location::where(['status'=>1])->get();
 
-                $meta_title=$propertycategory;
+                $meta_title=$propertycaturl;
                 $meta_description="Rental Houses And Properties Management System For Realtors and Website";
                 $meta_keywords="Rental and Property Mangement System,Content Management System,Realtor Website";
             
-                return view('Front.Properties.propertieslisting',compact('propertycaturl','propertylocations','propertycatcount','propertycategorydetails','propertycategory','propertycategories','meta_name','meta_description','meta_keywords'));
+                return view('Front.Properties.propertieslisting',compact('propertycaturl','propertylocations','propertycatcount','propertycategorydetails','propertycategory','propertycategories','meta_title','meta_description','meta_keywords'));
             }else{
                 abort(404);
             }
@@ -162,10 +162,10 @@ class Propertieslisting_controller extends Controller
 
         $relatedproperties=Property::where(['property_isactive'=>1,'property_isavailable'=>1])->where('id','!=',$id)->take(3)->get();
         
-        $meta_title=$property;
+        $meta_title=$property->property_name;
         $meta_description="Rental Houses And Properties Management System For Realtors and Website";
         $meta_keywords="Rental and Property Mangement System,Content Management System,Realtor Website";
 
-        return view('Front.Properties.propertydetails',compact('property','relatedproperties','meta_name','meta_description','meta_keywords'));
+        return view('Front.Properties.propertydetails',compact('property','relatedproperties','meta_title','meta_description','meta_keywords'));
     }
 }

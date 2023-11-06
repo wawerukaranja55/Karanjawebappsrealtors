@@ -14,14 +14,16 @@
     <!-- content left -->
     <div class="row">
         @if ($housescategory->isEmpty())
-            <div class="col-lg-6">
-                No houses Found At the Moment
+            <div class="col-lg-12">
+                <div style="text-align: center; padding:80px 0px; width:100%;">
+                    <h5>No Rental Houses Found at the Moment</h5>
+                 </div> 
             </div>
         @else 
     
             @foreach ($housescategory as $rentalhse)
             <div class="col-lg-4 col-md-4">
-                <h5 class="card-title">{{ $rentalhse->id }}</h5>
+                {{-- <h5 class="card-title">{{ $rentalhse->id }}</h5> --}}
                 <div class="card card-list" style="box-shadow: 0px 0px 7px 3px #d3b8b8;">
                     @if($rentalhse->vacancy_status==1)
                        <span class="badge badge-primary badge-sm">Vacants Available</span> 
@@ -46,10 +48,9 @@
                         justify-content: space-between; padding:2px; margin-bottom:2px;">
                             <div class="name-icon">
                                 @if ($rentalhse->cctv_cameras == 'yes')
-                                    <span>CCtv Security Cameras</span>
+                                    <span>CCtv Cameras</span>
                                     <div class="icon">
                                         <i class="fa fa-camera-retro"></i>
-                                        <span>Available</span>
                                     </div>
                                 @endif
                             </div>
@@ -58,7 +59,6 @@
                                     <span>Parking</span>
                                     <div class="icon">
                                         <i class='fas fa-parking'></i>
-                                        <span>Available</span>
                                     </div>
                                 @endif
                             </div>
@@ -67,7 +67,6 @@
                                     <span>Backup Generator</span>
                                     <div class="icon">
                                         <i class="fa fa-bolt"></i>
-                                        <span>Available</span>
                                     </div>
                                 @endif
                             </div>
@@ -91,7 +90,7 @@
                         </div>
                     </div>
                 </div>
-                </div>
+            </div>
     
             {{-- <div class="col-lg-4">
                 <section class="card hsecard">
@@ -127,7 +126,6 @@
                                     <span>CCtv Security Cameras</span>
                                     <div class="icon">
                                         <i class="fa fa-camera-retro"></i>
-                                        <span>Available</span>
                                     </div>
                                 @endif
                             </div>
@@ -136,7 +134,6 @@
                                     <span>Parking</span>
                                     <div class="icon">
                                         <i class='fas fa-parking'></i>
-                                        <span>Available</span>
                                     </div>
                                 @endif
                             </div>
@@ -145,7 +142,6 @@
                                     <span>Backup Generator</span>
                                     <div class="icon">
                                         <i class="fa fa-bolt"></i>
-                                        <span>Available</span>
                                     </div>
                                 @endif
                             </div>

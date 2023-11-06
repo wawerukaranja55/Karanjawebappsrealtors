@@ -15,11 +15,11 @@ class Rental_house extends Model
     protected $fillable = ['rental_name','landlord_id','monthly_rent','rental_image','rental_video','rental_details','rentalcat_id','rental_address','rental_status','location_id','total_rooms','tagimages_status','parking','cctv_cameras','servant_quarters','waterbill','electricitybill','balcony','vacancystatus','wifi'];
 
     function housecategory(){
-        return $this->belongsTo('App\Models\Rental_category','rentalcat_id','id');
+        return $this->belongsTo('App\Models\Rental_category','rentalcat_id');
     }
 
     function houselocation(){
-        return $this->belongsTo('App\Models\Location','location_id','id');
+        return $this->belongsTo('App\Models\Location','location_id');
     }
 
     function vacancystatuses(){

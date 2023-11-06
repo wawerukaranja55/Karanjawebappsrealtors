@@ -108,11 +108,11 @@ class SignUp_controller extends Controller
         Session::forget('error_message');
         Session::forget('success_message');
 
-        if(Auth::attempt(['phone'=>$data['phone_number'],'password'=>$data['password']])){
+        if(Auth::attempt(['email'=>$data['email'],'password'=>$data['password']])){
             
             $this->validate($request,
             [
-                'phone_number'=> 'required',
+                'email'=> 'required',
                 'password'=> 'required',
                 
             ]);

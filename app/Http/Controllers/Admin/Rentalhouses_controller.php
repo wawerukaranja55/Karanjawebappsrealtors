@@ -139,7 +139,7 @@ class Rentalhouses_controller extends Controller
         
         if($validator->fails())
         {
-            return redirect()->back()->withErrors($validator);;
+            return redirect()->back()->withErrors($validator);
         }else{
 
             // show if a house has wifi amenity

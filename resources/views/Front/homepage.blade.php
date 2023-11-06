@@ -1,6 +1,7 @@
 <?php use App\Models\Rental_category; ?>
+<?php use App\Models\PropertyCategory; ?>
 @extends('Front.frontmaster')
-@section('title','Homepage')
+@section('title','WkaranjaRealtorSystem')
 @section('content')
 @section('homepagepagestyles')
     <style>
@@ -61,7 +62,6 @@
                <h2>Commercial Houses</h2>
                <?php 
                   $commercialcaturl=Rental_category::select('rentalcat_url')->where(['id'=>2,'status'=>1])->pluck('rentalcat_url')->first();
-                  // dd($commercialcaturl);die();
                ?>
                <span class="veiw_all"><a href="{{ url ('/'.$commercialcaturl) }}">View All</a></span>
            </div>
@@ -109,25 +109,23 @@
             <h5>Bedsitters Coming Soon</h5>
          </div>  
       @else
-         @foreach($showlatestbedsitters as $bedsitter)
-            @foreach($bedsitter->tagshouse as $hse)
-               <div class="col-lg-3 col-md-6">
-                  <div class="swiper-slide" style="padding: 5px;">
-                     <div class="event-feed latest" style="border: 1px solid;
-                     padding: 5px;
-                     box-shadow: 5px 5px 5px 5px #888888;">
-                           <img src="{{asset('imagesforthewebsite/rentalhouses/rentalimages/medium/'.$hse->rental_image) }}"  alt="{{ $hse->rental_name }}" style="width:100%; height:200px;">
-                           <div style="height: 140px;">
-                              <h4>{{ $hse->rental_name }}</h4>
-                           <ul style="list-style-type: none;">
-                              <li><i class=" fa fa-location-arrow"></i>{{ $hse->houselocation->location_title }}</li>
-                           </ul>
-                           <a class="btn btn-primary btn-sm" href="{{ url('rentalhse/'.$hse->rental_slug.'/'.$hse->id) }}">View</a>
-                           </div>
-                     </div><!--\\event-feed latest-->
-                  </div>
-               </div>
-            @endforeach
+         @foreach($showlatestbedsitters as $hse)
+         <div class="col-lg-3 col-md-6">
+            <div class="swiper-slide" style="padding: 5px;">
+               <div class="event-feed latest" style="border: 1px solid;
+               padding: 5px;
+               box-shadow: 5px 5px 5px 5px #888888;">
+                     <img src="{{asset('imagesforthewebsite/rentalhouses/rentalimages/medium/'.$hse->rental_image) }}"  alt="{{ $hse->rental_name }}" style="width:100%; height:200px;">
+                     <div style="height: 140px;">
+                        <h4>{{ $hse->rental_name }}</h4>
+                     <ul style="list-style-type: none;">
+                        <li><i class=" fa fa-location-arrow"></i>{{ $hse->houselocation->location_title }}</li>
+                     </ul>
+                     <a class="btn btn-primary btn-sm" href="{{ url('rentalhse/'.$hse->rental_slug.'/'.$hse->id) }}">View</a>
+                     </div>
+               </div><!--\\event-feed latest-->
+            </div>
+         </div>
          @endforeach
       @endif
    </div>
@@ -137,17 +135,21 @@
    <div class="row">
        <div class="col-lg-12">
            <div class="ms_heading">
-               <h2>On Sale Properties</h2>
+               <h2>Land on Sale on Sale</h2>
+               <?php 
+                  $propertycaturl=Propertycategory::select('propertycat_url')->where(['id'=>1,'status'=>1])->pluck('propertycat_url')->first();
+               ?>
+               <span class="veiw_all"><a href="{{ url ('/'.$propertycaturl) }}">View All</a></span>
            </div>
        </div>
    </div>
    <div class="row">
-      @if ($showlatestproperties->isEmpty())
+      @if ($showlatestlands->isEmpty())
          <div style="text-align: center; padding:50px 0px; width:100%;">
-            <h5>On Sale Properties Coming Soon</h5>
+            <h5>Land on Sale Coming Soon</h5>
          </div> 
       @else
-         @foreach($showlatestproperties as $property)
+         @foreach($showlatestlands as $property)
             <div class="col-lg-3 col-md-6">
                <div class="swiper-slide" style="padding: 5px;">
                   <div class="event-feed latest" style="border: 1px solid;

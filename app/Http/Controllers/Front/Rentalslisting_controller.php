@@ -157,7 +157,6 @@ class Rentalslisting_controller extends Controller
         }
     }
 
-
     // get houses and show them in the pagination
     public function get_more_houses(Request $request)
     {
@@ -167,7 +166,7 @@ class Rentalslisting_controller extends Controller
             $data=$request->all();
             if(
                 isset($_GET['sort']) && !empty($_GET['sort']) or 
-            $data['startprice']>1000 && $data['endprice']<50000 or 
+            $data['startprice']>=1000 && $data['endprice']<=50000 or 
             isset($data['filterbalcony']) && !empty($data['filterbalcony']) or 
             isset($data['filtergenerator']) && !empty($data['filtergenerator']) or 
             isset($data['filterwifi']) && !empty($data['filterwifi']) or 
@@ -207,7 +206,7 @@ class Rentalslisting_controller extends Controller
 
                     // show products on pushing a slider
                 
-                if($data['startprice']>1000 && $data['endprice']<50000){
+                if($data['startprice']>=1000 && $data['endprice']<=50000){
                     $rentalhousescategory->
                     where('monthly_rent','>=',$data['startprice'])
                     ->where('monthly_rent','<=',$data['endprice']);
@@ -419,8 +418,10 @@ class Rentalslisting_controller extends Controller
         $propertytitle=$rentalname;
         $messagedata=['contactphone'=>$contactphone,'propertytitle'=>$propertytitle,'contactemail'=>$contactemail,'contactmsg'=>$contactmsg,'contactname'=>$contactname,'contactmsg'=>$contactmsg];
 
-        Mail::send('Emails.propertyhsereqst', $messagedata, function ($message) use($email) {
-            $message->to($email)->subject('Message/Request from a User');
+        Mail::send('Emails.propertyhsereqst', $messagedata, function ($message) use($email) 
+        {
+            $message->to($email)
+            ->subject('Message/Request from a User');
         });
 
         return response()->json([
@@ -452,7 +453,7 @@ class Rentalslisting_controller extends Controller
             $newrating->house_rating=$request->rate;
             $newrating->save();
 
-            $message="Thank You For Your Review and Rating.It has now been Submitted and will be Submitted";
+            $message="Thank You For Your Review and Rating.It has now been Submitted and will be Posted on the website";
             return response()->json([
 
                 'status'=>200,
